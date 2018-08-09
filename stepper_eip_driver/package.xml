@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>stepper_eip_driver</name>
+  <version>0.1.0</version>
+  <description>Interface driver for Tolomatic Stepper Controller via Ethernet/IP (Industrial Protocol)</description>
+
+  <license>BSD</license>
+  <maintainer email="wmccormick@swri.org">Bill McCormick</maintainer>
+  <author email="wmccormick@swri.org">Bill McCormick</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>boost</depend>
+  <depend>diagnostic_updater</depend>
+  <depend>odva_ethernetip</depend>
+  <depend>roscpp</depend>
+
+  <test_depend>rosunit</test_depend>
+  <test_depend>roslaunch</test_depend>
+</package>

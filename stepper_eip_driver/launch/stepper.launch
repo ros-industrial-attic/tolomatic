@@ -1,0 +1,7 @@
+<launch>
+  <arg name="host" default="192.168.0.11" />
+
+  <node pkg="stepper_eip_driver" type="stepper_node" name="stepper_node" output="screen">
+    <param name="host" value="$(arg host)" />
+  </node>
+</launch>
