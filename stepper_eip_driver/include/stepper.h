@@ -9,6 +9,9 @@
 #include <vector>
 #include <boost/shared_ptr.hpp>
 
+#include "input_assembly.h"
+#include "output_assembly.h"
+
 #include "odva_ethernetip/session.h"
 #include "odva_ethernetip/socket/socket.h"
 
@@ -37,12 +40,15 @@ public:
    * @param socket Socket instance to use for communication with the lidar
    */
   STEPPER(shared_ptr<Socket> socket, shared_ptr<Socket> io_socket)
-    : Session(socket, io_socket, 1230, 967628086), connection_num_(1), mrc_sequence_num_(2)
+    : Session(socket, io_socket, 1230, 967628086), connection_num_(-1), mrc_sequence_num_(1)
   {
   }
 
+  InputAssembly getDriveData();
+  void setDriveData(OutputAssembly oa);
 
-  void startUDPIO();
+  //TODO: Debug this
+  void startUDPIO(); //for implicit data; not working
 
 private:
   // allow unit tests to access the helpers below for direct testing

@@ -26,11 +26,12 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
 #include <ros/ros.h>
 #include <boost/shared_ptr.hpp>
-//#include <diagnostic_updater/publisher.h>
+#include <stepper_eip_driver/stepper_inputs.h>
 
 #include "odva_ethernetip/socket/tcp_socket.h"
 #include "odva_ethernetip/socket/udp_socket.h"
 #include "stepper.h"
+#include "input_assembly.h"
 
 using std::cout;
 using std::endl;
@@ -40,12 +41,28 @@ using eip::socket::UDPSocket;
 using namespace stepper_eip_driver;
 //using namespace diagnostic_updater;
 
+STEPPER stepper;
+
+void stepperControl(const OutputAssembly& stepper_contol)
+{
+  OutputAssembly oa;
+
+  oa.drive_command = stepper_contol.drive_command;
+  oa.move_select = stepper_contol.move_select;
+
+  stepper.setDriveData(oa);
+}
 
 int main(int argc, char *argv[])
 {
+  //sleep(5);
+
+  ros::Rate throttle(10);
+
   ros::init(argc, argv, "stepper");
   ros::NodeHandle nh;
 
+  //ros::Time::init();
 
   // get sensor config from params
   string host, local_ip;
@@ -53,7 +70,7 @@ int main(int argc, char *argv[])
   ros::param::param<std::string>("~local_ip", local_ip, "0.0.0.0");
 
   // publisher for laserscans
-  //ros::Publisher laserscan_pub = nh.advertise<LaserScan>("scan", 1);
+  ros::Publisher stepper_pub = nh.advertise<stepper_inputs>("stepper_status", 1);
 
   // diagnostics for frequency
   //Updater updater;
@@ -62,7 +79,8 @@ int main(int argc, char *argv[])
   boost::asio::io_service io_service;
   shared_ptr<TCPSocket> socket = shared_ptr<TCPSocket>(new TCPSocket(io_service));
   shared_ptr<UDPSocket> io_socket = shared_ptr<UDPSocket>(new UDPSocket(io_service, 2222, local_ip));
-  STEPPER stepper(socket, io_socket);
+
+  stepper(socket, io_socket);
 
   ROS_INFO_STREAM("Socket created");
 
@@ -89,8 +107,9 @@ int main(int argc, char *argv[])
 
   try
   {
-    stepper.startUDPIO();
-    ROS_INFO_STREAM("UDP Started");
+    //TODO: Setup implicit messaging here
+    //stepper.startUDPIO();
+    //ROS_INFO_STREAM("UDP Started");
   }
   catch (std::logic_error ex)
   {
@@ -98,17 +117,26 @@ int main(int argc, char *argv[])
     return -1;
   }
 
+  stepper_inputs si;
+
   while (ros::ok())
   {
     try
     {
       // Collect status from controller, convert to ROS message format.
 
-      // Update diagnostics
-      //updater.update();
+      InputAssembly ia = stepper.getDriveData();
+      si.drive_status = ia.drive_status;
+      si.drive_faults = ia.drive_faults;
+      si.analog_input = ia.analog_input;
+      si.analog_output = ia.analog_output;
+      si.digital_input = ia.digital_input;
+      si.digital_output = ia.digital_output;
 
-      // Every tenth message received, send the keepalive message in response.
-      // TODO: Make this time-based instead of message-count based.
+      stepper_pub.publish(si);
+
+      ros::Subscriber sub = n.subscribe("stepper_control", 1000, stepperControl);
+
     }
     catch (std::runtime_error ex)
     {
@@ -119,7 +147,11 @@ int main(int argc, char *argv[])
       ROS_ERROR_STREAM("Problem parsing return data: " << ex.what());
     }
 
+
     ros::spinOnce();
+
+    throttle.sleep();
+
   }
 
   stepper.closeConnection(0);

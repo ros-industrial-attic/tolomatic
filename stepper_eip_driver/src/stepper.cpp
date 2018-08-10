@@ -12,6 +12,8 @@
 #include <boost/asio.hpp>
 
 #include "stepper.h"
+#include "input_assembly.h"
+#include "output_assembly.h"
 #include "odva_ethernetip/serialization/serializable_buffer.h"
 #include "odva_ethernetip/cpf_packet.h"
 #include "odva_ethernetip/cpf_item.h"
@@ -32,6 +34,20 @@ using eip::SequencedAddressItem;
 using eip::SequencedDataItem;
 
 namespace stepper_eip_driver {
+
+InputAssembly STEPPER::getDriveData()
+{
+  InputAssembly ia;
+  getSingleAttributeSerializable(0x04, 0x64, 3, ia);
+  return ia;
+}
+
+void STEPPER::setDriveData(OutputAssembly oa)
+{
+  shared_ptr<Serializable> sb = make_shared<Serializable>(oa);
+
+  setSingleAttributeSerializable(0x04, 0x70, 3, sb);
+}
 
 void STEPPER::startUDPIO()
 {

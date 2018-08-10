@@ -1,13 +1,28 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(stepper_eip_driver)
 
-find_package(catkin REQUIRED COMPONENTS diagnostic_updater odva_ethernetip roscpp)
+find_package(catkin REQUIRED COMPONENTS
+    odva_ethernetip
+    roscpp
+    std_msgs
+    message_generation
+)
 
 find_package(Boost 1.58 REQUIRED COMPONENTS system)
 
+add_message_files(
+  FILES
+  stepper_inputs.msg
+)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
+
 catkin_package(
   INCLUDE_DIRS include
-  CATKIN_DEPENDS diagnostic_updater odva_ethernetip roscpp
+  CATKIN_DEPENDS odva_ethernetip roscpp message_runtime
   LIBRARIES stepper
   DEPENDS Boost
 )
@@ -54,14 +69,5 @@ if (CATKIN_ENABLE_TESTING)
   find_package(roslaunch REQUIRED)
   roslaunch_add_file_check(launch/stepper.launch)
 
-  ##catkin_add_gtest(${PROJECT_NAME}-test
-  ##  test/measurement_report_config_test.cpp
-  ##  test/measurement_report_header_test.cpp
-  ##  test/measurement_report_test.cpp
-  ##  test/range_and_reflectance_measurement_test.cpp
-  ##  test/os32c_test.cpp
-  ##  test/test_main.cpp
-  ##)
-#target_link_libraries(${PROJECT_NAME}-test ${Boost_LIBRARIES} ${catkin_LIBRARIES} stepper)
 endif()
 
