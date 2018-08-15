@@ -1,4 +1,3 @@
-int64 a
-int64 b
+bool enable
 ---
-int64 sum
+bool success

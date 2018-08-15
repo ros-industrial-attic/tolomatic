@@ -26,70 +26,60 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 
 #include <ros/ros.h>
 #include <boost/shared_ptr.hpp>
-#include <stepper_eip_driver/stepper_inputs.h>
 
 #include "odva_ethernetip/socket/tcp_socket.h"
 #include "odva_ethernetip/socket/udp_socket.h"
+
 #include "stepper.h"
-#include "input_assembly.h"
 
 using std::cout;
 using std::endl;
 using boost::shared_ptr;
 using eip::socket::TCPSocket;
 using eip::socket::UDPSocket;
+
 using namespace stepper_eip_driver;
-//using namespace diagnostic_updater;
-
-STEPPER stepper;
-
-void stepperControl(const OutputAssembly& stepper_contol)
-{
-  OutputAssembly oa;
-
-  oa.drive_command = stepper_contol.drive_command;
-  oa.move_select = stepper_contol.move_select;
-
-  stepper.setDriveData(oa);
-}
 
 int main(int argc, char *argv[])
 {
-  //sleep(5);
+  ros::init(argc, argv, "stepper");
+
+  bool debug;
+  ros::param::param<bool>("debug", debug, false);
+  ROS_INFO_STREAM("debug is: " << debug);
+  while(debug) {
+    sleep(1);
+    ros::param::get("debug", debug);
+  }
+
+  ros::Time::init();
 
   ros::Rate throttle(10);
 
-  ros::init(argc, argv, "stepper");
   ros::NodeHandle nh;
 
-  //ros::Time::init();
 
   // get sensor config from params
   string host, local_ip;
-  ros::param::param<std::string>("~host", host, "192.168.0.11");
-  ros::param::param<std::string>("~local_ip", local_ip, "0.0.0.0");
+  ros::param::param<std::string>("~host", host, "192.168.0.1");
 
-  // publisher for laserscans
-  ros::Publisher stepper_pub = nh.advertise<stepper_inputs>("stepper_status", 1);
-
-  // diagnostics for frequency
-  //Updater updater;
-  //updater.setHardwareID(host);
+  ROS_INFO_STREAM("Host is: " << host);
+  ros::param::param<std::string>("~local_ip", local_ip, "192.168.0.104");
 
   boost::asio::io_service io_service;
   shared_ptr<TCPSocket> socket = shared_ptr<TCPSocket>(new TCPSocket(io_service));
-  shared_ptr<UDPSocket> io_socket = shared_ptr<UDPSocket>(new UDPSocket(io_service, 2222, local_ip));
+  shared_ptr<UDPSocket> io_socket = shared_ptr<UDPSocket>(new UDPSocket(io_service, 0, local_ip));
 
-  stepper(socket, io_socket);
+  STEPPER stepper(socket, io_socket);
 
   ROS_INFO_STREAM("Socket created");
 
   try
   {
     stepper.open(host);
-    ROS_INFO_STREAM("Host open");
+    ROS_INFO_STREAM("Host is open");
   }
-  catch (std::runtime_error ex)
+  catch (std::runtime_error& ex)
   {
     ROS_FATAL_STREAM("Exception caught opening session: " << ex.what());
     return -1;
@@ -99,7 +89,7 @@ int main(int argc, char *argv[])
   {
     //get status
   }
-  catch (std::invalid_argument ex)
+  catch (std::invalid_argument& ex)
   {
     ROS_FATAL_STREAM("Invalid arguments in sensor configuration: " << ex.what());
     return -1;
@@ -111,38 +101,44 @@ int main(int argc, char *argv[])
     //stepper.startUDPIO();
     //ROS_INFO_STREAM("UDP Started");
   }
-  catch (std::logic_error ex)
+  catch (std::logic_error& ex)
   {
     ROS_FATAL_STREAM("Could not start UDP IO: " << ex.what());
     return -1;
   }
 
-  stepper_inputs si;
+  // publisher for stepper status
+  ros::Publisher stepper_pub = nh.advertise<stepper_inputs>("stepper_inputs", 1);
+  ros::Publisher status_pub = nh.advertise<stepper_status>("stepper_status", 1);
+
+  ros::ServiceServer enable_service = nh.advertiseService("enable", &STEPPER::enable, &stepper);
+  ros::ServiceServer stop_service = nh.advertiseService("stop", &STEPPER::stop, &stepper);
+  ros::ServiceServer estop_service = nh.advertiseService("estop", &STEPPER::estop, &stepper);
+  ros::ServiceServer move_service = nh.advertiseService("profileMove", &STEPPER::moveProfile, &stepper);
+  ros::ServiceServer home_service = nh.advertiseService("home", &STEPPER::home, &stepper);
+  ros::ServiceServer sethome_service = nh.advertiseService("setHome", &STEPPER::setHome, &stepper);
 
   while (ros::ok())
   {
     try
     {
       // Collect status from controller, convert to ROS message format.
+      stepper.updateDriveStatus(stepper.getDriveData());
 
-      InputAssembly ia = stepper.getDriveData();
-      si.drive_status = ia.drive_status;
-      si.drive_faults = ia.drive_faults;
-      si.analog_input = ia.analog_input;
-      si.analog_output = ia.analog_output;
-      si.digital_input = ia.digital_input;
-      si.digital_output = ia.digital_output;
+      //publish stepper inputs
+      stepper_pub.publish(stepper.si);
 
-      stepper_pub.publish(si);
+      //publish stepper status
+      status_pub.publish(stepper.ss);
 
-      ros::Subscriber sub = n.subscribe("stepper_control", 1000, stepperControl);
-
+      //set outputs to stepper drive controller
+      stepper.setDriveData();
     }
-    catch (std::runtime_error ex)
+    catch (std::runtime_error& ex)
     {
       ROS_ERROR_STREAM("Exception caught requesting scan data: " << ex.what());
     }
-    catch (std::logic_error ex)
+    catch (std::logic_error& ex)
     {
       ROS_ERROR_STREAM("Problem parsing return data: " << ex.what());
     }

@@ -13,6 +13,18 @@ find_package(Boost 1.58 REQUIRED COMPONENTS system)
 add_message_files(
   FILES
   stepper_inputs.msg
+  stepper_outputs.msg
+  stepper_status.msg
+)
+
+add_service_files(
+  FILES
+  stepper_enable.srv
+  stepper_estop.srv
+  stepper_home.srv
+  stepper_moveProfile.srv
+  stepper_sethome.srv
+  stepper_stop.srv
 )
 
 generate_messages(

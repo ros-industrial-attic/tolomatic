@@ -4,18 +4,25 @@
 #ifndef EIP_DRIVER_H
 #define EIP_DRIVER_H
 
-#include <gtest/gtest_prod.h>
-#include <string>
-#include <vector>
 #include <boost/shared_ptr.hpp>
-
-#include "input_assembly.h"
-#include "output_assembly.h"
 
 #include "odva_ethernetip/session.h"
 #include "odva_ethernetip/socket/socket.h"
 
-using std::vector;
+#include "input_assembly.h"
+#include "output_assembly.h"
+
+#include <stepper_eip_driver/stepper_inputs.h>
+#include <stepper_eip_driver/stepper_outputs.h>
+#include <stepper_eip_driver/stepper_status.h>
+
+#include <stepper_eip_driver/stepper_enable.h>
+#include <stepper_eip_driver/stepper_estop.h>
+#include <stepper_eip_driver/stepper_home.h>
+#include <stepper_eip_driver/stepper_moveProfile.h>
+#include <stepper_eip_driver/stepper_sethome.h>
+#include <stepper_eip_driver/stepper_stop.h>
+
 using boost::shared_ptr;
 using eip::Session;
 using eip::socket::Socket;
@@ -28,32 +35,55 @@ namespace stepper_eip_driver {
 
 /**
  * Main interface for the Tolomatic stepper controller. 
- * Produces methods to access the
- * laser scanner from a high level, including setting parameters and getting
- * single scans.
+ * Produces methods to access the stepper controller from a high level.
  */
 class STEPPER : public Session
 {
 public:
   /**
-   * Construct a new OS32C instance.
-   * @param socket Socket instance to use for communication with the lidar
+   * Construct a new instance.
+   * @param socket Socket instance to use for communication with the stepper controller
    */
   STEPPER(shared_ptr<Socket> socket, shared_ptr<Socket> io_socket)
-    : Session(socket, io_socket, 1230, 967628086), connection_num_(-1), mrc_sequence_num_(1)
+    : Session(socket, io_socket), connection_num_(-1), mrc_sequence_num_(1)
   {
   }
 
   InputAssembly getDriveData();
-  void setDriveData(OutputAssembly oa);
+  void setDriveData();
+  void stepperControlCallback(const stepper_outputs::ConstPtr& oa);
+
+  void updateDriveStatus(InputAssembly ia);
+
+  bool enable(stepper_eip_driver::stepper_enable::Request  &req,
+              stepper_eip_driver::stepper_enable::Response &res);
+
+  bool moveProfile(stepper_eip_driver::stepper_moveProfile::Request  &req,
+                   stepper_eip_driver::stepper_moveProfile::Response &res);
+
+  bool stop(stepper_eip_driver::stepper_stop::Request &req,
+            stepper_eip_driver::stepper_stop::Response &res);
+
+  bool estop(stepper_eip_driver::stepper_estop::Request &req,
+             stepper_eip_driver::stepper_estop::Response &res);
+
+  bool home(stepper_eip_driver::stepper_home::Request &req,
+            stepper_eip_driver::stepper_home::Response &res);
+
+  bool setHome(stepper_eip_driver::stepper_sethome::Request &req,
+               stepper_eip_driver::stepper_sethome::Response &res);
 
   //TODO: Debug this
   void startUDPIO(); //for implicit data; not working
 
-private:
-  // allow unit tests to access the helpers below for direct testing
+  stepper_inputs si;
+  stepper_outputs so;
+  stepper_status ss;
+  stepper_status ss_last;
 
-  // data for sending to stepper controller to keep UDP session alive
+private:
+  // data for sending to stepper controller
+
   int connection_num_;
   EIP_UDINT mrc_sequence_num_;
 
