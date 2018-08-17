@@ -27,9 +27,6 @@ using boost::shared_ptr;
 using eip::Session;
 using eip::socket::Socket;
 
-#define DEG2RAD(a) (a * M_PI / 180)
-#define RAD2DEG(a) (a * 180 / M_PI)
-
 namespace stepper_eip_driver {
 
 

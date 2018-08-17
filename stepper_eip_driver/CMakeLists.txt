@@ -50,6 +50,12 @@ target_link_libraries(stepper
   ${catkin_LIBRARIES}
 )
 
+add_dependencies(
+    stepper
+    ${${PROJECT_NAME}_EXPORTED_TARGETS}
+    ${catkin_EXPORTED_TARGETS}
+)
+
 ## Declare a cpp executable
 add_executable(scanner_node src/scanner_node.cpp)
 target_link_libraries(scanner_node
@@ -62,6 +68,12 @@ target_link_libraries(stepper_node
   stepper
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
+)
+
+add_dependencies(
+    stepper_node
+    ${${PROJECT_NAME}_EXPORTED_TARGETS}
+    ${catkin_EXPORTED_TARGETS}
 )
 
 ## Mark executables and libraries for installation

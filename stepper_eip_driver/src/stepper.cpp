@@ -64,7 +64,6 @@ void STEPPER::updateDriveStatus(InputAssembly ia)
   ss.stopped      = (ia.drive_status & (STEPPER_STATUS)SSTOP) > 0;
   ss.current_position = ia.current_position;
 
-
   //if we just started moving and all is well
   if(ss.enabled) {
     if(!ss.stopped && ss.moving && !ss_last.moving) {

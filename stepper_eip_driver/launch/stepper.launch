@@ -1,7 +1,5 @@
 <launch>
-<include file="/opt/ros/kinetic/share/rosbridge_server/launch/rosbridge_websocket.launch"/>
 <arg name="xaxis_host" default="192.168.0.11" />
-<arg name="yaxis_host" default="192.168.0.12" />
 
 <group ns="xaxis">
     <param name="debug" type="bool" value="false" />
@@ -10,10 +8,4 @@
     </node>
 </group>
 
-<group ns="yaxis">
-    <param name="debug" type="bool" value="false" />
-    <node pkg="stepper_eip_driver" type="stepper_node" name="stepper_node" output="log">
-      <param name="host" value="$(arg yaxis_host)" />
-    </node>
-</group>
 </launch>
