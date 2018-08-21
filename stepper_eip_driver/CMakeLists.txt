@@ -20,11 +20,8 @@ add_message_files(
 add_service_files(
   FILES
   stepper_enable.srv
-  stepper_estop.srv
   stepper_home.srv
   stepper_moveProfile.srv
-  stepper_sethome.srv
-  stepper_stop.srv
 )
 
 generate_messages(

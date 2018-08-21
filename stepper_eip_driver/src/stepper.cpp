@@ -121,31 +121,6 @@ bool STEPPER::moveProfile(stepper_eip_driver::stepper_moveProfile::Request  &req
   return true;
 }
 
-bool STEPPER::stop(stepper_eip_driver::stepper_stop::Request  &req,
-                   stepper_eip_driver::stepper_stop::Response &res)
-{
-
-  if(!ss.host_control) {
-    so.drive_command = (req.stop) ? (STEPPER_DRIVE_COMMAND)STOP : so.drive_command;
-    return res.success = true;
-  } else {
-    return res.success = false;
-  }
-}
-
-bool STEPPER::estop(stepper_eip_driver::stepper_estop::Request  &req,
-                    stepper_eip_driver::stepper_estop::Response &res)
-{
-
-  if(!ss.host_control) {
-    so.drive_command = (req.e_stop) ? (STEPPER_DRIVE_COMMAND)ESTOP : so.drive_command;
-    return res.success = true;
-  } else {
-    return res.success = false;
-  }
-
-}
-
 bool STEPPER::home(stepper_eip_driver::stepper_home::Request  &req,
                    stepper_eip_driver::stepper_home::Response &res)
 {
@@ -158,32 +133,57 @@ bool STEPPER::home(stepper_eip_driver::stepper_home::Request  &req,
   }
 }
 
-
-bool STEPPER::setHome(stepper_eip_driver::stepper_sethome::Request  &req,
-                      stepper_eip_driver::stepper_sethome::Response &res)
-{
-
-  if(!ss.host_control) {
-    so.drive_command = (req.sethome) ? (STEPPER_DRIVE_COMMAND)HOME_HERE: so.drive_command;
-    return res.success = true;
-  } else {
-    return res.success = false;
-  }
-
-}
-
-
-void STEPPER::startUDPIO()
-{
-  EIP_CONNECTION_INFO_T o_to_t, t_to_o;
-  o_to_t.assembly_id = 0x70;
-  o_to_t.buffer_size = 0x0004;
-  o_to_t.rpi = 0x000186A0;
-  t_to_o.assembly_id = 0x64;
-  t_to_o.buffer_size = 0x001c;
-  t_to_o.rpi = 0x0000C350;
-
-  connection_num_ = createConnection(o_to_t, t_to_o);
-}
+//not implimented
+//bool STEPPER::stop(stepper_eip_driver::stepper_stop::Request  &req,
+//                   stepper_eip_driver::stepper_stop::Response &res)
+//{
+//
+//  if(!ss.host_control) {
+//    so.drive_command = (req.stop) ? (STEPPER_DRIVE_COMMAND)STOP : so.drive_command;
+//    return res.success = true;
+//  } else {
+//    return res.success = false;
+//  }
+//}
+//
+//bool STEPPER::estop(stepper_eip_driver::stepper_estop::Request  &req,
+//                    stepper_eip_driver::stepper_estop::Response &res)
+//{
+//
+//  if(!ss.host_control) {
+//    so.drive_command = (req.e_stop) ? (STEPPER_DRIVE_COMMAND)ESTOP : so.drive_command;
+//    return res.success = true;
+//  } else {
+//    return res.success = false;
+//  }
+//
+//}
+//
+//bool STEPPER::setHome(stepper_eip_driver::stepper_sethome::Request  &req,
+//                      stepper_eip_driver::stepper_sethome::Response &res)
+//{
+//
+//  if(!ss.host_control) {
+//    so.drive_command = (req.sethome) ? (STEPPER_DRIVE_COMMAND)HOME_HERE: so.drive_command;
+//    return res.success = true;
+//  } else {
+//    return res.success = false;
+//  }
+//
+//}
+//
+//
+//void STEPPER::startUDPIO()
+//{
+//  EIP_CONNECTION_INFO_T o_to_t, t_to_o;
+//  o_to_t.assembly_id = 0x70;
+//  o_to_t.buffer_size = 0x0004;
+//  o_to_t.rpi = 0x000186A0;
+//  t_to_o.assembly_id = 0x64;
+//  t_to_o.buffer_size = 0x001c;
+//  t_to_o.rpi = 0x0000C350;
+//
+//  connection_num_ = createConnection(o_to_t, t_to_o);
+//}
 
 } // namespace os32c

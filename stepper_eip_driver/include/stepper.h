@@ -17,11 +17,13 @@
 #include <stepper_eip_driver/stepper_status.h>
 
 #include <stepper_eip_driver/stepper_enable.h>
-#include <stepper_eip_driver/stepper_estop.h>
 #include <stepper_eip_driver/stepper_home.h>
 #include <stepper_eip_driver/stepper_moveProfile.h>
-#include <stepper_eip_driver/stepper_sethome.h>
-#include <stepper_eip_driver/stepper_stop.h>
+
+//not impliemnted
+//#include <stepper_eip_driver/stepper_estop.h>
+//#include <stepper_eip_driver/stepper_sethome.h>
+//#include <stepper_eip_driver/stepper_stop.h>
 
 using boost::shared_ptr;
 using eip::Session;
@@ -58,20 +60,21 @@ public:
   bool moveProfile(stepper_eip_driver::stepper_moveProfile::Request  &req,
                    stepper_eip_driver::stepper_moveProfile::Response &res);
 
-  bool stop(stepper_eip_driver::stepper_stop::Request &req,
-            stepper_eip_driver::stepper_stop::Response &res);
-
-  bool estop(stepper_eip_driver::stepper_estop::Request &req,
-             stepper_eip_driver::stepper_estop::Response &res);
-
   bool home(stepper_eip_driver::stepper_home::Request &req,
             stepper_eip_driver::stepper_home::Response &res);
 
-  bool setHome(stepper_eip_driver::stepper_sethome::Request &req,
-               stepper_eip_driver::stepper_sethome::Response &res);
+  //not implimented
+  //bool stop(stepper_eip_driver::stepper_stop::Request &req,
+  //          stepper_eip_driver::stepper_stop::Response &res);
+  //
+  //bool estop(stepper_eip_driver::stepper_estop::Request &req,
+  //           stepper_eip_driver::stepper_estop::Response &res);
+  //
+  //bool setHome(stepper_eip_driver::stepper_sethome::Request &req,
+  //             stepper_eip_driver::stepper_sethome::Response &res);
 
   //TODO: Debug this
-  void startUDPIO(); //for implicit data; not working
+  //void startUDPIO(); //for implicit data; not working
 
   stepper_inputs si;
   stepper_outputs so;
