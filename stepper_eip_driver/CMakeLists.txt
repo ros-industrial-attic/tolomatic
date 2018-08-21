@@ -21,6 +21,7 @@ add_service_files(
   FILES
   stepper_enable.srv
   stepper_home.srv
+  stepper_stop.srv
   stepper_moveProfile.srv
 )
 

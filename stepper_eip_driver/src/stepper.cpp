@@ -133,19 +133,19 @@ bool STEPPER::home(stepper_eip_driver::stepper_home::Request  &req,
   }
 }
 
+bool STEPPER::stop(stepper_eip_driver::stepper_stop::Request  &req,
+                   stepper_eip_driver::stepper_stop::Response &res)
+{
+
+  if(!ss.host_control) {
+    so.drive_command = (req.stop) ? (STEPPER_DRIVE_COMMAND)STOP : so.drive_command;
+    return res.success = true;
+  } else {
+    return res.success = false;
+  }
+}
+
 //not implimented
-//bool STEPPER::stop(stepper_eip_driver::stepper_stop::Request  &req,
-//                   stepper_eip_driver::stepper_stop::Response &res)
-//{
-//
-//  if(!ss.host_control) {
-//    so.drive_command = (req.stop) ? (STEPPER_DRIVE_COMMAND)STOP : so.drive_command;
-//    return res.success = true;
-//  } else {
-//    return res.success = false;
-//  }
-//}
-//
 //bool STEPPER::estop(stepper_eip_driver::stepper_estop::Request  &req,
 //                    stepper_eip_driver::stepper_estop::Response &res)
 //{

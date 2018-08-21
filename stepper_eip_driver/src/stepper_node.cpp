@@ -114,9 +114,9 @@ int main(int argc, char *argv[])
   ros::ServiceServer enable_service = nh.advertiseService("enable", &STEPPER::enable, &stepper);
   ros::ServiceServer move_service = nh.advertiseService("profileMove", &STEPPER::moveProfile, &stepper);
   ros::ServiceServer home_service = nh.advertiseService("home", &STEPPER::home, &stepper);
+  ros::ServiceServer stop_service = nh.advertiseService("stop", &STEPPER::stop, &stepper);
 
   //not implimented
-  //ros::ServiceServer stop_service = nh.advertiseService("stop", &STEPPER::stop, &stepper);
   //ros::ServiceServer estop_service = nh.advertiseService("estop", &STEPPER::estop, &stepper);
   //ros::ServiceServer sethome_service = nh.advertiseService("setHome", &STEPPER::setHome, &stepper);
 
