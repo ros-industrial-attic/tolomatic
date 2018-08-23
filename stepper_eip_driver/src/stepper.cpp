@@ -56,12 +56,12 @@ InputAssembly STEPPER::getDriveData()
 
 void STEPPER::updateDriveStatus(InputAssembly ia)
 {
-  ss.enabled      = (ia.drive_status & (STEPPER_STATUS)ENABLE) > 0;
-  ss.homed        = (ia.drive_status & (STEPPER_STATUS)HOMED) > 0;
-  ss.brake_off    = (ia.drive_status & (STEPPER_STATUS)BRAKE_OFF) > 0;
-  ss.host_control = (ia.drive_status & (STEPPER_STATUS)HOST_CTRL) > 0;
-  ss.moving       = (ia.drive_status & (STEPPER_STATUS)MOTION) > 0;
-  ss.stopped      = (ia.drive_status & (STEPPER_STATUS)SSTOP) > 0;
+  ss.enabled      = (ia.drive_status & ENABLE) > 0;
+  ss.homed        = (ia.drive_status & HOMED) > 0;
+  ss.brake_off    = (ia.drive_status & BRAKE_OFF) > 0;
+  ss.host_control = (ia.drive_status & HOST_CTRL) > 0;
+  ss.moving       = (ia.drive_status & MOTION) > 0;
+  ss.stopped      = (ia.drive_status & SSTOP) > 0;
   ss.current_position = ia.current_position;
 
   //if we just started moving and all is well
@@ -70,9 +70,9 @@ void STEPPER::updateDriveStatus(InputAssembly ia)
       //revert the drive command to a simple enable
       ss.target_position = si.analog_input;
       ss.in_position = false;
-      if(!ss.host_control) so.drive_command = (STEPPER_DRIVE_COMMAND)ENABLE;
+      if(!ss.host_control) so.drive_command = ENABLE;
     } else if (!ss.moving && ss_last.moving) {
-      if(abs(si.current_position - si.analog_output) <= 0.1) {
+      if(abs(si.current_position - si.analog_output) <= 0.25) {
         ss.in_position = true;
       }
     }
@@ -99,7 +99,7 @@ bool STEPPER::enable(stepper_eip_driver::stepper_enable::Request  &req,
 {
 
   if(!ss.host_control) {
-    so.drive_command = (req.enable) ? (STEPPER_DRIVE_COMMAND)ENABLE : (STEPPER_DRIVE_COMMAND)DISABLE;
+    so.drive_command = (req.enable) ? ENABLE : DISABLE;
     return res.success = true;
   } else {
     return res.success = false;
@@ -109,9 +109,9 @@ bool STEPPER::enable(stepper_eip_driver::stepper_enable::Request  &req,
 bool STEPPER::moveProfile(stepper_eip_driver::stepper_moveProfile::Request  &req,
                           stepper_eip_driver::stepper_moveProfile::Response &res)
 {
-
+  ROS_INFO_STREAM("Move profile:" + req.profile);
   if(!ss.host_control && req.profile > 0 && req.profile < 16) {
-    so.drive_command = (STEPPER_DRIVE_COMMAND)START;
+    so.drive_command = START;
     so.move_select = req.profile;
     return res.success = true;
   } else {
@@ -126,7 +126,7 @@ bool STEPPER::home(stepper_eip_driver::stepper_home::Request  &req,
 {
 
   if(!ss.host_control) {
-    so.drive_command = (req.home) ? (STEPPER_DRIVE_COMMAND)GOHOME: so.drive_command;
+    so.drive_command = (req.home) ? GOHOME: so.drive_command;
     return res.success = true;
   } else {
     return res.success = false;
@@ -138,7 +138,7 @@ bool STEPPER::stop(stepper_eip_driver::stepper_stop::Request  &req,
 {
 
   if(!ss.host_control) {
-    so.drive_command = (req.stop) ? (STEPPER_DRIVE_COMMAND)STOP : so.drive_command;
+    so.drive_command = (req.stop) ? STOP : so.drive_command;
     return res.success = true;
   } else {
     return res.success = false;
