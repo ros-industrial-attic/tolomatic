@@ -70,7 +70,6 @@ void STEPPER::updateDriveStatus(InputAssembly ia)
       //revert the drive command to a simple enable
       ss.target_position = si.analog_input;
       ss.in_position = false;
-      if(!ss.host_control) so.drive_command = ENABLE;
     } else if (!ss.moving && ss_last.moving) {
       if(abs(si.current_position - si.analog_output) <= 0.25) {
         ss.in_position = true;
@@ -92,6 +91,10 @@ void STEPPER::setDriveData()
   shared_ptr<OutputAssembly> sb = make_shared<OutputAssembly>(oa);
 
   setSingleAttributeSerializable(0x04, 0x70, 3, sb);
+
+  //need to make sure the START drive command changes back to START so that
+  //the next START will work
+  if(so.drive_command == START) so.drive_command = ENABLE;
 }
 
 bool STEPPER::enable(stepper_eip_driver::stepper_enable::Request  &req,
