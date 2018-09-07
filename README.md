@@ -18,14 +18,59 @@ Currently, only a stepper controller interface is currently implimented using ex
 
 ## stepper_eip_driver/stepper_node
 ### Parameters
-- host
-- local_ip
+- host: The IP address of the controller
+- local_ip: Local IP used for implicit messaging
+
 ### Published Topics
 - stepper_inputs
-- stepper_status
-### Advertised Services
-- enable
-- profileMove
-- home
-- stop
+```
+float32 current_position
+uint32 drive_status
+uint32 drive_faults
+uint32 digital_input
+uint32 digital_output
+float32 analog_input
+float32 analog_output
+```
 
+- stepper_status
+```
+bool stopped
+bool host_control
+bool homed
+bool enabled
+bool moving
+bool brake_off
+bool in_position
+float32 target_position
+float32 current_position
+```
+
+### Advertised Services
+```
+- enable
+bool enable
+---
+bool success
+```
+
+- profileMove
+```
+uint8 profile
+---
+bool success
+```
+
+- home
+```
+bool home
+---
+bool success
+```
+
+- stop
+```
+bool stop
+---
+bool success
+```
