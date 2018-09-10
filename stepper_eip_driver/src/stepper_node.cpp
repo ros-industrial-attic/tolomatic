@@ -11,6 +11,8 @@ Software License Agreement (BSD)
 #include <ros/ros.h>
 #include <boost/shared_ptr.hpp>
 
+#include <sensor_msgs/JointState.h>
+
 #include "odva_ethernetip/socket/tcp_socket.h"
 #include "odva_ethernetip/socket/udp_socket.h"
 
@@ -95,6 +97,9 @@ int main(int argc, char *argv[])
   ros::Publisher stepper_pub = nh.advertise<stepper_inputs>("stepper_inputs", 1);
   ros::Publisher status_pub = nh.advertise<stepper_status>("stepper_status", 1);
 
+  sensor_msgs::JointState joint_state;
+  ros::Publisher joint_state_pub = nh.advertise<sensor_msgs::JointState>("joint_states", 1);
+
   ros::ServiceServer enable_service = nh.advertiseService("enable", &STEPPER::enable, &stepper);
   ros::ServiceServer move_service = nh.advertiseService("profileMove", &STEPPER::moveProfile, &stepper);
   ros::ServiceServer home_service = nh.advertiseService("home", &STEPPER::home, &stepper);
@@ -110,6 +115,13 @@ int main(int argc, char *argv[])
     {
       // Collect status from controller, convert to ROS message format.
       stepper.updateDriveStatus(stepper.getDriveData());
+
+      joint_state.header.stamp = ros::Time::now();
+      joint_state.name.resize(1);
+      joint_state.position.resize(1);
+      joint_state.name[0] = "stepper_pos";
+      joint_state.position[0] = stepper.ss.current_position / 1000.0;
+      joint_state_pub.publish(joint_state);
 
       //publish stepper inputs
       stepper_pub.publish(stepper.si);
