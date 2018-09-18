@@ -46,8 +46,9 @@ int main(int argc, char *argv[])
 
 
   // get sensor config from params
-  string host, local_ip;
+  string host, local_ip, axis_name;
   ros::param::param<std::string>("~host", host, "192.168.0.1");
+  ros::param::param<std::string>("~axis_name", axis_name, "x_axis");
 
   ROS_INFO_STREAM("Host is: " << host);
   ros::param::param<std::string>("~local_ip", local_ip, "192.168.0.104");
@@ -98,7 +99,7 @@ int main(int argc, char *argv[])
   ros::Publisher status_pub = nh.advertise<stepper_status>("stepper_status", 1);
 
   sensor_msgs::JointState joint_state;
-  ros::Publisher joint_state_pub = nh.advertise<sensor_msgs::JointState>("joint_states", 1);
+  ros::Publisher joint_state_pub = nh.advertise<sensor_msgs::JointState>("/joint_states", 1);
 
   ros::ServiceServer enable_service = nh.advertiseService("enable", &STEPPER::enable, &stepper);
   ros::ServiceServer move_service = nh.advertiseService("profileMove", &STEPPER::moveProfile, &stepper);
@@ -119,7 +120,7 @@ int main(int argc, char *argv[])
       joint_state.header.stamp = ros::Time::now();
       joint_state.name.resize(1);
       joint_state.position.resize(1);
-      joint_state.name[0] = "stepper_pos";
+      joint_state.name[0] = axis_name;
       joint_state.position[0] = stepper.ss.current_position / 1000.0;
       joint_state_pub.publish(joint_state);
 
