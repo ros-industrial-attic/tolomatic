@@ -1,10 +1,12 @@
 <launch>
 <arg name="xaxis_host" default="192.168.0.11" />
+<arg name="joint_name" default="x_axis" />
 
 <group ns="xaxis">
     <param name="debug" type="bool" value="false" />
     <node pkg="stepper_eip_driver" type="stepper_node" name="stepper_node" output="log">
       <param name="host" value="$(arg xaxis_host)" />
+      <param name="joint_name" value="$(arg joint_name)" />
     </node>
 </group>
 

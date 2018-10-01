@@ -46,9 +46,9 @@ int main(int argc, char *argv[])
 
 
   // get sensor config from params
-  string host, local_ip, axis_name;
+  string host, local_ip, joint_name;
   ros::param::param<std::string>("~host", host, "192.168.0.1");
-  ros::param::param<std::string>("~axis_name", axis_name, "x_axis");
+  ros::param::param<std::string>("~joint_name", joint_name, "x_axis");
 
   ROS_INFO_STREAM("Host is: " << host);
   ros::param::param<std::string>("~local_ip", local_ip, "192.168.0.104");
@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
       joint_state.header.stamp = ros::Time::now();
       joint_state.name.resize(1);
       joint_state.position.resize(1);
-      joint_state.name[0] = axis_name;
+      joint_state.name[0] = joint_name;
       joint_state.position[0] = stepper.ss.current_position / 1000.0;
       joint_state_pub.publish(joint_state);
 
