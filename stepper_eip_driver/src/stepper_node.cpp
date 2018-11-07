@@ -46,12 +46,13 @@ int main(int argc, char *argv[])
 
 
   // get sensor config from params
-  string host, local_ip, joint_name;
-  ros::param::param<std::string>("~host", host, "192.168.0.1");
-  ros::param::param<std::string>("~joint_name", joint_name, "x_axis");
+  string host, local_ip, joint_name, joint_states_topic;
+  nh.param<std::string>("~host", host, "192.168.0.1");
+  nh.param<std::string>("~joint_name", joint_name, "x_axis");
+  nh.param<std::string>("~joint_states_topic", joint_states_topic, "/joint_states");
 
   ROS_INFO_STREAM("Host is: " << host);
-  ros::param::param<std::string>("~local_ip", local_ip, "192.168.0.104");
+  nh.param<std::string>("~local_ip", local_ip, "192.168.0.104");
 
   boost::asio::io_service io_service;
   shared_ptr<TCPSocket> socket = shared_ptr<TCPSocket>(new TCPSocket(io_service));
@@ -99,7 +100,7 @@ int main(int argc, char *argv[])
   ros::Publisher status_pub = nh.advertise<stepper_status>("stepper_status", 1);
 
   sensor_msgs::JointState joint_state;
-  ros::Publisher joint_state_pub = nh.advertise<sensor_msgs::JointState>("/joint_states", 1);
+  ros::Publisher joint_state_pub = nh.advertise<sensor_msgs::JointState>(joint_states_topic, 1);
 
   ros::ServiceServer enable_service = nh.advertiseService("enable", &STEPPER::enable, &stepper);
   ros::ServiceServer move_service = nh.advertiseService("profileMove", &STEPPER::moveProfile, &stepper);
