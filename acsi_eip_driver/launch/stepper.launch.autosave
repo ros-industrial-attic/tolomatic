@@ -1,0 +1,11 @@
+<launch>
+<arg name="drive1_host" default="192.168.0.11" />
+
+<group ns="drive1">
+    <param name="debug" type="bool" value="false" />
+    <node pkg="acsi_eip_driver" type="stepper_node" name="stepper_node" output="log">
+      <param name="host" value="$(arg xaxis_host)" />
+    </node>
+</group>
+
+</launch>

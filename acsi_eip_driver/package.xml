@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>acsi_eip_driver</name>
+  <version>0.1.0</version>
+  <description>Interface driver for Tolomatic ACSI Server via Ethernet/IP (Industrial Protocol)</description>
+
+  <license>BSD</license>
+  <maintainer email="wmccormick@swri.org">Bill McCormick</maintainer>
+  <author email="wmccormick@swri.org">Bill McCormick</author>
+
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>boost</depend>
+  <depend>odva_ethernetip</depend>
+  <depend>roscpp</depend>
+
+  <test_depend>rosunit</test_depend>
+  <test_depend>roslaunch</test_depend>
+</package>
