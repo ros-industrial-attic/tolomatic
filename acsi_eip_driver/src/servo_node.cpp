@@ -45,10 +45,10 @@ int main(int argc, char *argv[])
 
   // get sensor config from params
   string host, local_ip;
-  ros::param::param<std::string>("~host", host, "192.168.0.1");
+  ros::param::param<std::string>("~host", host, "192.168.100.10");
 
   ROS_INFO_STREAM("Host is: " << host);
-  ros::param::param<std::string>("~local_ip", local_ip, "192.168.0.104");
+  ros::param::param<std::string>("~local_ip", local_ip, "192.168.100.2");
 
   boost::asio::io_service io_service;
   shared_ptr<TCPSocket> socket = shared_ptr<TCPSocket>(new TCPSocket(io_service));
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
   ros::Publisher status_pub = nh.advertise<acsi_status>("acsi_status", 1);
 
   ros::ServiceServer enable_service = nh.advertiseService("enable", &ACSI::enable, &servo);
-  ros::ServiceServer move_service = nh.advertiseService("profileMove", &ACSI::moveProfile, &servo);
+  ros::ServiceServer move_service = nh.advertiseService("moveSelect", &ACSI::moveSelect, &servo);
   ros::ServiceServer home_service = nh.advertiseService("home", &ACSI::home, &servo);
   ros::ServiceServer stop_service = nh.advertiseService("stop", &ACSI::stop, &servo);
 

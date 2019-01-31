@@ -1,3 +1,6 @@
-uint8 profile
+float32 velocity
+float32 acceleration
+float32 deceleration
+float32 force
 ---
 bool success

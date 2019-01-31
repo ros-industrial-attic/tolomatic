@@ -1,8 +1,8 @@
 /**
 */
 
-#ifndef EIP_DRIVER_H
-#define EIP_DRIVER_H
+#ifndef ACSI_EIP_DRIVER_H
+#define ACSI_EIP_DRIVER_H
 
 #include <boost/shared_ptr.hpp>
 
@@ -18,12 +18,15 @@
 
 #include <acsi_eip_driver/acsi_enable.h>
 #include <acsi_eip_driver/acsi_home.h>
+#include <acsi_eip_driver/acsi_moveAbsolute.h>
+#include <acsi_eip_driver/acsi_moveIncremental.h>
 #include <acsi_eip_driver/acsi_moveProfile.h>
+#include <acsi_eip_driver/acsi_moveRotary.h>
+#include <acsi_eip_driver/acsi_moveSelect.h>
+#include <acsi_eip_driver/acsi_moveVelocity.h>
 #include <acsi_eip_driver/acsi_stop.h>
-
-//not impliemnted
-//#include <acsi_eip_driver/acsi_estop.h>
-//#include <acsi_eip_driver/acsi_sethome.h>
+#include <acsi_eip_driver/acsi_estop.h>
+#include <acsi_eip_driver/acsi_sethome.h>
 
 using boost::shared_ptr;
 using eip::Session;
@@ -57,8 +60,23 @@ public:
   bool enable(acsi_eip_driver::acsi_enable::Request  &req,
               acsi_eip_driver::acsi_enable::Response &res);
 
+  bool moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request  &req,
+                   acsi_eip_driver::acsi_moveAbsolute::Response &res);
+
+  bool moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request  &req,
+                   acsi_eip_driver::acsi_moveIncremental::Response &res);
+
   bool moveProfile(acsi_eip_driver::acsi_moveProfile::Request  &req,
                    acsi_eip_driver::acsi_moveProfile::Response &res);
+
+  bool moveRotary(acsi_eip_driver::acsi_moveRotary::Request  &req,
+                   acsi_eip_driver::acsi_moveRotary::Response &res);
+
+  bool moveSelect(acsi_eip_driver::acsi_moveSelect::Request  &req,
+                   acsi_eip_driver::acsi_moveSelect::Response &res);
+
+  bool moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request  &req,
+                   acsi_eip_driver::acsi_moveVelocity::Response &res);
 
   bool home(acsi_eip_driver::acsi_home::Request &req,
             acsi_eip_driver::acsi_home::Response &res);
@@ -66,12 +84,11 @@ public:
   bool stop(acsi_eip_driver::acsi_stop::Request &req,
             acsi_eip_driver::acsi_stop::Response &res);
 
-  //not implimented
-  //bool estop(acsi_stepper_driver::stepper_estop::Request &req,
-  //           acsi_stepper_driver::stepper_estop::Response &res);
-  //
-  //bool setHome(acsi_stepper_driver::stepper_sethome::Request &req,
-  //             acsi_stepper_driver::stepper_sethome::Response &res);
+  bool estop(acsi_eip_driver::acsi_estop::Request &req,
+             acsi_eip_driver::acsi_estop::Response &res);
+
+  bool setHome(acsi_eip_driver::acsi_sethome::Request &req,
+               acsi_eip_driver::acsi_sethome::Response &res);
 
   //TODO: Debug this
   //void startUDPIO(); //for implicit data; not working
@@ -89,6 +106,6 @@ private:
 
 };
 
-} // namespace eip_driver
+} // namespace acsi_eip_driver
 
-#endif  // EIP_DRIVER_H
+#endif  // ACSI_EIP_DRIVER_H

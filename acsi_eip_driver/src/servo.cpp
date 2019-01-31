@@ -117,13 +117,13 @@ bool ACSI::enable(acsi_eip_driver::acsi_enable::Request  &req,
   }
 }
 
-bool ACSI::moveProfile(acsi_eip_driver::acsi_moveProfile::Request  &req,
-                          acsi_eip_driver::acsi_moveProfile::Response &res)
+bool ACSI::moveSelect(acsi_eip_driver::acsi_moveSelect::Request  &req,
+                          acsi_eip_driver::acsi_moveSelect::Response &res)
 {
-  ROS_INFO_STREAM("Move profile:" + req.profile);
-  if(!ss.host_control && req.profile > 0 && req.profile < 16) {
+  ROS_INFO_STREAM("Move select:" + req.select);
+  if(!ss.host_control && req.select > 0 && req.select <= 16) {
     so.drive_command = START;
-    so.move_select = req.profile;
+    so.move_select = req.select;
     return res.success = true;
   } else {
     return res.success = false;

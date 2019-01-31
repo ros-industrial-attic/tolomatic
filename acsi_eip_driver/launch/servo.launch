@@ -1,10 +1,15 @@
 <launch>
-<arg name="drive1_host" default="192.168.0.11" />
+<arg name="drive1_host" default="192.168.100.10" />
+
 
 <group ns="drive1">
     <param name="debug" type="bool" value="false" />
     <node pkg="acsi_eip_driver" type="servo_node" name="servo_node" output="log">
-      <param name="host" value="$(arg xaxis_host)" />
+    <param name="host" value="$(arg drive1_host)" />
+    <param name="default_velocity" value="1" />
+    <param name="default_accel" value="1" />
+    <param name="default_decel" value="1" />
+    <param name="default_force" value="1" />
     </node>
 </group>
 

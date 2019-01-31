@@ -46,7 +46,8 @@ typedef enum
                             //If position is commanded past the maximum distance, current postion is reset
     VELOCITY_FWD    = 13,   //Starts a velocity move in positive direction at the profile velocity and acceleration. When complete, postion is cleared and un-homed.
     VELOCITY_REV    = 14    //Starts a velocity move in negative direction at the profile velocity and acceleration. When complete, postion is cleared and un-homed.
-}
+} ACSI_MOTION_TYPE;
+
 /**
  * Data structure and operators.
  */
@@ -108,13 +109,13 @@ public:
   EIP_USINT drive_command;
   EIP_USINT move_select;
   EIP_UINT reserved;
-  float target_postion;
-  float target_velocity;
-  float target_accel;
-  float target_decel;
-  float target_force;
-  EIP_UDINT target_motion_type;
-  EIP_UDINT dig_out_ctrl_reg;
+  float postion;
+  float velocity;
+  float accel;
+  float decel;
+  float force;
+  EIP_UDINT motion_type;
+  EIP_UDINT outputs;
 
   /**
    * Size of this message including all data
@@ -136,13 +137,13 @@ public:
     writer.write(drive_command);
     writer.write(move_select);
     writer.write(reserved);
-    writer.write(target_postion);
-    writer.write(target_velocity);
-    writer.write(target_accel);
-    writer.write(target_decel);
-    writer.write(target_force);
-    writer.write(target_motion_type);
-    writer.write(dig_out_ctrl_reg);
+    writer.write(postion);
+    writer.write(velocity);
+    writer.write(accel);
+    writer.write(decel);
+    writer.write(force);
+    writer.write(motion_type);
+    writer.write(outputs);
     return writer;
   }
 
@@ -166,17 +167,17 @@ public:
     reader.read(drive_command);
     reader.read(move_select);
     reader.skip(sizeof(EIP_UINT));
-    reader.read(target_postion);
-    reader.read(target_velocity);
-    reader.read(target_accel);
-    reader.read(target_decel);
-    reader.read(target_force);
-    reader.read(target_motion_type);
-    reader.read(dig_out_ctrl_reg);
+    reader.read(postion);
+    reader.read(velocity);
+    reader.read(accel);
+    reader.read(decel);
+    reader.read(force);
+    reader.read(motion_type);
+    reader.read(outputs);
     return reader;
   }
 };
 
-} // namespace omron_os32c_driver
+} // namespace acsi_eip_driver
 
 #endif  // OUTPUT_ASSEMBLY_H
