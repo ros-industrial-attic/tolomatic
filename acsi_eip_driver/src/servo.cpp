@@ -41,6 +41,10 @@ namespace acsi_eip_driver {
 InputAssembly ACSI::getDriveData()
 {
   InputAssembly ia;
+  //TODO: put Attr ID, Assmy ID, and Inst ID in header
+  //0x04 = Object ID
+  //0x64 = 100 Instance
+  //3 - Attr ID
   getSingleAttributeSerializable(0x04, 0x64, 3, ia);
 
   si.current_position = ia.current_position;
@@ -80,7 +84,7 @@ void ACSI::updateDriveStatus(InputAssembly ia)
   memcpy(&ss_last,&ss, sizeof(ss));
 }
 
-
+//TODO: make this use one of either OutputAssemblies (i.e. Full or not Full)
 void ACSI::setDriveData()
 {
   OutputAssembly oa;
@@ -90,6 +94,10 @@ void ACSI::setDriveData()
 
   shared_ptr<OutputAssembly> sb = make_shared<OutputAssembly>(oa);
 
+  //TODO: put Attr ID, Assmy ID, and Inst ID in header
+  //0x04 = Object ID
+  //0x70 = 112 Instance
+  //3 - Attr ID
   setSingleAttributeSerializable(0x04, 0x70, 3, sb);
 
   //need to make sure the START drive command changes back to START so that
