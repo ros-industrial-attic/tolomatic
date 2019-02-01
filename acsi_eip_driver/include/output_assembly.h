@@ -51,59 +51,8 @@ typedef enum
 /**
  * Data structure and operators.
  */
+
 class OutputAssembly : public Serializable
-{
-public:
-  EIP_USINT drive_command;
-  EIP_USINT move_select;
-  /**
-   * Size of this message including all data
-   */
-  virtual size_t getLength() const
-  {
-    return 4;
-  }
-
-  /**
-   * Serialize data into the given buffer
-   * @param writer Writer to use for serialization
-   * @return the writer again
-   * @throw std::length_error if the buffer is too small for the header data
-   */
-  virtual Writer& serialize(Writer& writer) const
-  {
-    EIP_UINT reserved = 0;
-    writer.write(drive_command);
-    writer.write(move_select);
-    writer.write(reserved);
-    return writer;
-  }
-
-  /**
-   * Extra length information is not relevant in this context. Same as deserialize(reader)
-   */
-  virtual Reader& deserialize(Reader& reader, size_t length)
-  {
-    deserialize(reader);
-    return reader;
-  }
-
-  /**
-   * Deserialize data from the given reader without length information
-   * @param reader Reader to use for deserialization
-   * @return the reader again
-   * @throw std::length_error if the buffer is overrun while deserializing
-   */
-  virtual Reader& deserialize(Reader& reader)
-  {
-    reader.read(drive_command);
-    reader.read(move_select);
-    reader.skip(sizeof(EIP_UINT));
-    return reader;
-  }
-};
-
-class OutputAssemblyFull : public Serializable
 {
 public:
   EIP_USINT drive_command;

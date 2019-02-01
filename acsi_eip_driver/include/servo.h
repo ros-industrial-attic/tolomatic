@@ -20,7 +20,7 @@
 #include <acsi_eip_driver/acsi_home.h>
 #include <acsi_eip_driver/acsi_moveAbsolute.h>
 #include <acsi_eip_driver/acsi_moveIncremental.h>
-#include <acsi_eip_driver/acsi_moveProfile.h>
+#include <acsi_eip_driver/acsi_setProfile.h>
 #include <acsi_eip_driver/acsi_moveRotary.h>
 #include <acsi_eip_driver/acsi_moveSelect.h>
 #include <acsi_eip_driver/acsi_moveVelocity.h>
@@ -28,12 +28,14 @@
 #include <acsi_eip_driver/acsi_estop.h>
 #include <acsi_eip_driver/acsi_sethome.h>
 
+
 using boost::shared_ptr;
 using eip::Session;
 using eip::socket::Socket;
 
 namespace acsi_eip_driver {
 
+const float IN_POSITION_TOLERANCE = 0.25;
 
 /**
  * Main interface for the Tolomatic stepper controller. 
@@ -66,8 +68,8 @@ public:
   bool moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request  &req,
                    acsi_eip_driver::acsi_moveIncremental::Response &res);
 
-  bool moveProfile(acsi_eip_driver::acsi_moveProfile::Request  &req,
-                   acsi_eip_driver::acsi_moveProfile::Response &res);
+  bool setProfile(acsi_eip_driver::acsi_setProfile::Request  &req,
+                   acsi_eip_driver::acsi_setProfile::Response &res);
 
   bool moveRotary(acsi_eip_driver::acsi_moveRotary::Request  &req,
                    acsi_eip_driver::acsi_moveRotary::Response &res);

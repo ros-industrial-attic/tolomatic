@@ -14,7 +14,6 @@ add_message_files(
   FILES
   acsi_inputs.msg
   acsi_outputs.msg
-  acsi_outputs_full.msg
   acsi_status.msg
 )
 
@@ -25,7 +24,7 @@ add_service_files(
   acsi_home.srv
   acsi_moveAbsolute.srv
   acsi_moveIncremental.srv
-  acsi_moveProfile.srv
+  acsi_setProfile.srv
   acsi_moveSelect.srv
   acsi_moveRotary.srv
   acsi_moveVelocity.srv

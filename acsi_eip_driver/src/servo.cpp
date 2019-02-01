@@ -7,6 +7,7 @@
 
 
 #include <ros/ros.h>
+#include <string>
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
 #include <boost/asio.hpp>
@@ -75,7 +76,7 @@ void ACSI::updateDriveStatus(InputAssembly ia)
       ss.target_position = si.analog_input;
       ss.in_position = false;
     } else if (!ss.moving && ss_last.moving) {
-      if(abs(si.current_position - si.analog_output) <= 0.25) {
+      if(std::abs(si.current_position - si.analog_output) <= float(IN_POSITION_TOLERANCE)) {
         ss.in_position = true;
       }
     }
@@ -91,14 +92,21 @@ void ACSI::setDriveData()
 
   oa.drive_command = so.drive_command;
   oa.move_select = so.move_select;
+  oa.accel = so.accel;
+  oa.decel = so.decel;
+  oa.force = so.force;
+  oa.outputs = so.outputs;
+  oa.postion = so.position;
+  oa.velocity = so.velocity;
+  oa.motion_type = so.motion_type;
 
   shared_ptr<OutputAssembly> sb = make_shared<OutputAssembly>(oa);
 
   //TODO: put Attr ID, Assmy ID, and Inst ID in header
   //0x04 = Object ID
-  //0x70 = 112 Instance
+  //0x71 = 113 Instance
   //3 - Attr ID
-  setSingleAttributeSerializable(0x04, 0x70, 3, sb);
+  setSingleAttributeSerializable(0x04, 0x71, 3, sb);
 
   //need to make sure the START drive command changes back to START so that
   //the next START will work
@@ -120,7 +128,7 @@ bool ACSI::enable(acsi_eip_driver::acsi_enable::Request  &req,
 bool ACSI::moveSelect(acsi_eip_driver::acsi_moveSelect::Request  &req,
                           acsi_eip_driver::acsi_moveSelect::Response &res)
 {
-  ROS_INFO_STREAM("Move select:" + req.select);
+  ROS_INFO_STREAM("Move select: " << req.select);
   if(!ss.host_control && req.select > 0 && req.select <= 16) {
     so.drive_command = START;
     so.move_select = req.select;
@@ -156,6 +164,36 @@ bool ACSI::stop(acsi_eip_driver::acsi_stop::Request  &req,
   }
 }
 
+bool ACSI::setProfile(acsi_eip_driver::acsi_setProfile::Request &req, acsi_eip_driver::acsi_setProfile::Response &res)
+{
+    if(!ss.host_control) {
+        so.velocity = req.velocity;
+        so.accel = req.acceleration;
+        so.decel = req.deceleration;
+        so.force = req.force;
+      return res.success = true;
+    } else {
+      return res.success = false;
+    }
+}
+
+bool ACSI::moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request &req, acsi_eip_driver::acsi_moveVelocity::Response &res)
+{
+    if(!ss.host_control) {
+        if(req.velocity > 0)
+            so.motion_type = VELOCITY_FWD;
+        else if ((req.velocity < 0))
+            so.motion_type = VELOCITY_REV;
+        else {
+            so.motion_type = NO_ACTION;
+        }
+        so.velocity = req.velocity;
+
+      return res.success = true;
+    } else {
+      return res.success = false;
+    }
+}
 //not implimented
 //bool STEPPER::estop(stepper_eip_driver::stepper_estop::Request  &req,
 //                    stepper_eip_driver::stepper_estop::Response &res)
