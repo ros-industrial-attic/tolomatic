@@ -21,15 +21,15 @@ add_service_files(
   FILES
   acsi_enable.srv
   acsi_estop.srv
-  acsi_home.srv
+  acsi_setProfile.srv
+  acsi_setHome.srv
+  acsi_moveStop.srv
+  acsi_moveHome.srv
   acsi_moveAbsolute.srv
   acsi_moveIncremental.srv
-  acsi_setProfile.srv
   acsi_moveSelect.srv
   acsi_moveRotary.srv
   acsi_moveVelocity.srv
-  acsi_sethome.srv
-  acsi_stop.srv
 )
 
 generate_messages(

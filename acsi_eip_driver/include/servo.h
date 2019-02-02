@@ -62,14 +62,20 @@ public:
   bool enable(acsi_eip_driver::acsi_enable::Request  &req,
               acsi_eip_driver::acsi_enable::Response &res);
 
+  bool setHome(acsi_eip_driver::acsi_sethome::Request &req,
+               acsi_eip_driver::acsi_sethome::Response &res);
+
+  bool setProfile(acsi_eip_driver::acsi_setProfile::Request  &req,
+                   acsi_eip_driver::acsi_setProfile::Response &res);
+
+  bool moveStop(acsi_eip_driver::acsi_stop::Request &req,
+            acsi_eip_driver::acsi_stop::Response &res);
+
   bool moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request  &req,
                    acsi_eip_driver::acsi_moveAbsolute::Response &res);
 
   bool moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request  &req,
                    acsi_eip_driver::acsi_moveIncremental::Response &res);
-
-  bool setProfile(acsi_eip_driver::acsi_setProfile::Request  &req,
-                   acsi_eip_driver::acsi_setProfile::Response &res);
 
   bool moveRotary(acsi_eip_driver::acsi_moveRotary::Request  &req,
                    acsi_eip_driver::acsi_moveRotary::Response &res);
@@ -80,17 +86,11 @@ public:
   bool moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request  &req,
                    acsi_eip_driver::acsi_moveVelocity::Response &res);
 
-  bool home(acsi_eip_driver::acsi_home::Request &req,
+  bool moveHome(acsi_eip_driver::acsi_home::Request &req,
             acsi_eip_driver::acsi_home::Response &res);
-
-  bool stop(acsi_eip_driver::acsi_stop::Request &req,
-            acsi_eip_driver::acsi_stop::Response &res);
 
   bool estop(acsi_eip_driver::acsi_estop::Request &req,
              acsi_eip_driver::acsi_estop::Response &res);
-
-  bool setHome(acsi_eip_driver::acsi_sethome::Request &req,
-               acsi_eip_driver::acsi_sethome::Response &res);
 
   //TODO: Debug this
   //void startUDPIO(); //for implicit data; not working

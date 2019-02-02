@@ -125,22 +125,7 @@ bool ACSI::enable(acsi_eip_driver::acsi_enable::Request  &req,
   }
 }
 
-bool ACSI::moveSelect(acsi_eip_driver::acsi_moveSelect::Request  &req,
-                          acsi_eip_driver::acsi_moveSelect::Response &res)
-{
-  ROS_INFO_STREAM("Move select: " << req.select);
-  if(!ss.host_control && req.select > 0 && req.select <= 16) {
-    so.drive_command = START;
-    so.move_select = req.select;
-    return res.success = true;
-  } else {
-    return res.success = false;
-  }
-
-  return true;
-}
-
-bool ACSI::home(acsi_eip_driver::acsi_home::Request  &req,
+bool ACSI::moveHome(acsi_eip_driver::acsi_home::Request  &req,
                    acsi_eip_driver::acsi_home::Response &res)
 {
 
@@ -152,7 +137,7 @@ bool ACSI::home(acsi_eip_driver::acsi_home::Request  &req,
   }
 }
 
-bool ACSI::stop(acsi_eip_driver::acsi_stop::Request  &req,
+bool ACSI::moveStop(acsi_eip_driver::acsi_stop::Request  &req,
                    acsi_eip_driver::acsi_stop::Response &res)
 {
 
@@ -164,7 +149,21 @@ bool ACSI::stop(acsi_eip_driver::acsi_stop::Request  &req,
   }
 }
 
-bool ACSI::setProfile(acsi_eip_driver::acsi_setProfile::Request &req, acsi_eip_driver::acsi_setProfile::Response &res)
+bool ACSI::setHome(acsi_eip_driver::acsi_setHome::Request  &req,
+                      acsi_eip_driver::acsi_setHome::Response &res)
+{
+
+  if(!ss.host_control) {
+    so.drive_command = (req.sethome) ? (STEPPER_DRIVE_COMMAND)HOME_HERE: so.drive_command;
+    return res.success = true;
+  } else {
+    return res.success = false;
+  }
+
+}
+
+bool ACSI::setProfile(acsi_eip_driver::acsi_setProfile::Request &req, 
+                      acsi_eip_driver::acsi_setProfile::Response &res)
 {
     if(!ss.host_control) {
         so.velocity = req.velocity;
@@ -177,7 +176,8 @@ bool ACSI::setProfile(acsi_eip_driver::acsi_setProfile::Request &req, acsi_eip_d
     }
 }
 
-bool ACSI::moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request &req, acsi_eip_driver::acsi_moveVelocity::Response &res)
+bool ACSI::moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request &req, 
+                        acsi_eip_driver::acsi_moveVelocity::Response &res)
 {
     if(!ss.host_control) {
         if(req.velocity > 0)
@@ -194,6 +194,75 @@ bool ACSI::moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request &req, acsi_e
       return res.success = false;
     }
 }
+
+bool moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request  &req,
+                   acsi_eip_driver::acsi_moveAbsolute::Response &res)
+{
+    if(!ss.host_control) {
+        if(req.poition > 0)
+            so.motion_type = ABSOLUTE;
+        else {
+            so.motion_type = NO_ACTION;
+        }
+        so.position = req.position;
+
+      return res.success = true;
+    } else {
+      return res.success = false;
+    }
+}
+
+bool ACSI::moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request  &req,
+                 acsi_eip_driver::acsi_moveIncremental::Response &res)
+{
+    if(!ss.host_control) {
+        if(req.poition > 0)
+            so.motion_type = ABSOLUTE;
+        else {
+            so.motion_type = NO_ACTION;
+        }
+        so.position = req.position;
+
+      return res.success = true;
+    } else {
+      return res.success = false;
+    }
+
+}
+
+bool ACSI::moveRotary(acsi_eip_driver::acsi_moveRotary::Request  &req,
+                 acsi_eip_driver::acsi_moveRotary::Response &res)
+{
+    if(!ss.host_control) {
+        if(req.poition > 0)
+            so.motion_type = ABSOLUTE;
+        else {
+            so.motion_type = NO_ACTION;
+        }
+        so.position = req.position;
+
+      return res.success = true;
+    } else {
+      return res.success = false;
+    }
+}
+
+bool ACSI::moveSelect(acsi_eip_driver::acsi_moveSelect::Request  &req,
+                          acsi_eip_driver::acsi_moveSelect::Response &res)
+{
+  ROS_INFO_STREAM("Move select: " << req.select);
+  if(!ss.host_control && req.select > 0 && req.select <= 16) {
+    so.drive_command = START;
+    so.move_select = req.select;
+    return res.success = true;
+  } else {
+    return res.success = false;
+  }
+
+  return true;
+}
+
+
 //not implimented
 //bool STEPPER::estop(stepper_eip_driver::stepper_estop::Request  &req,
 //                    stepper_eip_driver::stepper_estop::Response &res)
@@ -201,19 +270,6 @@ bool ACSI::moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request &req, acsi_e
 //
 //  if(!ss.host_control) {
 //    so.drive_command = (req.e_stop) ? (STEPPER_DRIVE_COMMAND)ESTOP : so.drive_command;
-//    return res.success = true;
-//  } else {
-//    return res.success = false;
-//  }
-//
-//}
-//
-//bool STEPPER::setHome(stepper_eip_driver::stepper_sethome::Request  &req,
-//                      stepper_eip_driver::stepper_sethome::Response &res)
-//{
-//
-//  if(!ss.host_control) {
-//    so.drive_command = (req.sethome) ? (STEPPER_DRIVE_COMMAND)HOME_HERE: so.drive_command;
 //    return res.success = true;
 //  } else {
 //    return res.success = false;
