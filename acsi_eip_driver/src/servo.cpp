@@ -125,8 +125,8 @@ bool ACSI::enable(acsi_eip_driver::acsi_enable::Request  &req,
   }
 }
 
-bool ACSI::moveHome(acsi_eip_driver::acsi_home::Request  &req,
-                   acsi_eip_driver::acsi_home::Response &res)
+bool ACSI::moveHome(acsi_eip_driver::acsi_moveHome::Request  &req,
+                   acsi_eip_driver::acsi_moveHome::Response &res)
 {
 
   if(!ss.host_control) {
@@ -137,8 +137,8 @@ bool ACSI::moveHome(acsi_eip_driver::acsi_home::Request  &req,
   }
 }
 
-bool ACSI::moveStop(acsi_eip_driver::acsi_stop::Request  &req,
-                   acsi_eip_driver::acsi_stop::Response &res)
+bool ACSI::moveStop(acsi_eip_driver::acsi_moveStop::Request  &req,
+                   acsi_eip_driver::acsi_moveStop::Response &res)
 {
 
   if(!ss.host_control) {
@@ -154,7 +154,7 @@ bool ACSI::setHome(acsi_eip_driver::acsi_setHome::Request  &req,
 {
 
   if(!ss.host_control) {
-    so.drive_command = (req.sethome) ? (STEPPER_DRIVE_COMMAND)HOME_HERE: so.drive_command;
+    so.drive_command = (req.sethome) ? HOME_HERE: so.drive_command;
     return res.success = true;
   } else {
     return res.success = false;
@@ -180,6 +180,7 @@ bool ACSI::moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request &req,
                         acsi_eip_driver::acsi_moveVelocity::Response &res)
 {
     if(!ss.host_control) {
+        so.drive_command = START;
         if(req.velocity > 0)
             so.motion_type = VELOCITY_FWD;
         else if ((req.velocity < 0))
@@ -195,11 +196,12 @@ bool ACSI::moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request &req,
     }
 }
 
-bool moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request  &req,
+bool ACSI::moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request  &req,
                    acsi_eip_driver::acsi_moveAbsolute::Response &res)
 {
     if(!ss.host_control) {
-        if(req.poition > 0)
+        so.drive_command = START;
+        if(req.position > 0)
             so.motion_type = ABSOLUTE;
         else {
             so.motion_type = NO_ACTION;
@@ -216,12 +218,15 @@ bool ACSI::moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request  &req,
                  acsi_eip_driver::acsi_moveIncremental::Response &res)
 {
     if(!ss.host_control) {
-        if(req.poition > 0)
-            so.motion_type = ABSOLUTE;
-        else {
+        so.drive_command = START;
+        if(req.increment > 0)
+            so.motion_type = INC_POSITIVE;
+        else if (req.increment < 0)
+            so.motion_type = INC_NEGATIVE;
+        else
             so.motion_type = NO_ACTION;
-        }
-        so.position = req.position;
+
+        so.position = req.increment;
 
       return res.success = true;
     } else {
@@ -234,12 +239,15 @@ bool ACSI::moveRotary(acsi_eip_driver::acsi_moveRotary::Request  &req,
                  acsi_eip_driver::acsi_moveRotary::Response &res)
 {
     if(!ss.host_control) {
-        if(req.poition > 0)
-            so.motion_type = ABSOLUTE;
-        else {
+        so.drive_command = START;
+        if(req.increment > 0)
+            so.motion_type = INC_POS_ROTARY;
+        else if (req.increment < 0)
+            so.motion_type = INC_NEG_ROTARY;
+        else
             so.motion_type = NO_ACTION;
-        }
-        so.position = req.position;
+
+        so.position = req.increment;
 
       return res.success = true;
     } else {

@@ -17,16 +17,16 @@
 #include <acsi_eip_driver/acsi_status.h>
 
 #include <acsi_eip_driver/acsi_enable.h>
-#include <acsi_eip_driver/acsi_home.h>
+#include <acsi_eip_driver/acsi_moveHome.h>
 #include <acsi_eip_driver/acsi_moveAbsolute.h>
 #include <acsi_eip_driver/acsi_moveIncremental.h>
 #include <acsi_eip_driver/acsi_setProfile.h>
 #include <acsi_eip_driver/acsi_moveRotary.h>
 #include <acsi_eip_driver/acsi_moveSelect.h>
 #include <acsi_eip_driver/acsi_moveVelocity.h>
-#include <acsi_eip_driver/acsi_stop.h>
+#include <acsi_eip_driver/acsi_moveStop.h>
 #include <acsi_eip_driver/acsi_estop.h>
-#include <acsi_eip_driver/acsi_sethome.h>
+#include <acsi_eip_driver/acsi_setHome.h>
 
 
 using boost::shared_ptr;
@@ -62,14 +62,14 @@ public:
   bool enable(acsi_eip_driver::acsi_enable::Request  &req,
               acsi_eip_driver::acsi_enable::Response &res);
 
-  bool setHome(acsi_eip_driver::acsi_sethome::Request &req,
-               acsi_eip_driver::acsi_sethome::Response &res);
+  bool setHome(acsi_eip_driver::acsi_setHome::Request &req,
+               acsi_eip_driver::acsi_setHome::Response &res);
 
   bool setProfile(acsi_eip_driver::acsi_setProfile::Request  &req,
                    acsi_eip_driver::acsi_setProfile::Response &res);
 
-  bool moveStop(acsi_eip_driver::acsi_stop::Request &req,
-            acsi_eip_driver::acsi_stop::Response &res);
+  bool moveStop(acsi_eip_driver::acsi_moveStop::Request &req,
+            acsi_eip_driver::acsi_moveStop::Response &res);
 
   bool moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request  &req,
                    acsi_eip_driver::acsi_moveAbsolute::Response &res);
@@ -86,8 +86,8 @@ public:
   bool moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request  &req,
                    acsi_eip_driver::acsi_moveVelocity::Response &res);
 
-  bool moveHome(acsi_eip_driver::acsi_home::Request &req,
-            acsi_eip_driver::acsi_home::Response &res);
+  bool moveHome(acsi_eip_driver::acsi_moveHome::Request &req,
+            acsi_eip_driver::acsi_moveHome::Response &res);
 
   bool estop(acsi_eip_driver::acsi_estop::Request &req,
              acsi_eip_driver::acsi_estop::Response &res);

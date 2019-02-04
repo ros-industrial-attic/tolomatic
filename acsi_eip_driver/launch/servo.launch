@@ -3,7 +3,7 @@
 
 
 <group ns="drive1">
-    <param name="debug" type="bool" value="false" />
+    <param name="debug" type="bool" value="true" />
     <node pkg="acsi_eip_driver" type="servo_node" name="servo_node" output="log">
     <param name="host" value="$(arg drive1_host)" />
     <param name="default_velocity" value="1" />

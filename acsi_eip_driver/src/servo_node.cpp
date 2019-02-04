@@ -26,10 +26,10 @@ using namespace acsi_eip_driver;
 
 int main(int argc, char *argv[])
 {
-  ros::init(argc, argv, "stepper");
+  ros::init(argc, argv, "servo");
 
   bool debug;
-  ros::param::param<bool>("debug", debug, false);
+  ros::param::param<bool>("debug", debug, true);
   ROS_INFO_STREAM("debug is: " << debug);
   while(debug) {
     sleep(1);
@@ -95,14 +95,20 @@ int main(int argc, char *argv[])
   ros::Publisher servo_pub = nh.advertise<acsi_inputs>("acsi_inputs", 1);
   ros::Publisher status_pub = nh.advertise<acsi_status>("acsi_status", 1);
 
+  //services
   ros::ServiceServer enable_service = nh.advertiseService("enable", &ACSI::enable, &servo);
-  ros::ServiceServer move_service = nh.advertiseService("moveSelect", &ACSI::moveSelect, &servo);
-  ros::ServiceServer home_service = nh.advertiseService("home", &ACSI::home, &servo);
-  ros::ServiceServer stop_service = nh.advertiseService("stop", &ACSI::stop, &servo);
+  ros::ServiceServer moveSelect_service = nh.advertiseService("moveSelect", &ACSI::moveSelect, &servo);
+  ros::ServiceServer moveHome_service = nh.advertiseService("moveHome", &ACSI::moveHome, &servo);
+  ros::ServiceServer moveStop_service = nh.advertiseService("moveStop", &ACSI::moveStop, &servo);
+  ros::ServiceServer moveVelocity_service = nh.advertiseService("moveVelocity", &ACSI::moveVelocity, &servo);
+  ros::ServiceServer moveAbsolute_service = nh.advertiseService("moveAbsolute", &ACSI::moveAbsolute, &servo);
+  ros::ServiceServer moveIncremental_service = nh.advertiseService("moveIncremental", &ACSI::moveIncremental, &servo);
+  ros::ServiceServer moveRotary_service = nh.advertiseService("moveRotary", &ACSI::moveRotary, &servo);
+  ros::ServiceServer setHome_service = nh.advertiseService("setHome", &ACSI::setHome, &servo);
+  ros::ServiceServer setProfile_service = nh.advertiseService("setProfile", &ACSI::setProfile, &servo);
 
   //not implimented
   //ros::ServiceServer estop_service = nh.advertiseService("estop", &STEPPER::estop, &stepper);
-  //ros::ServiceServer sethome_service = nh.advertiseService("setHome", &STEPPER::setHome, &stepper);
 
   while (ros::ok())
   {

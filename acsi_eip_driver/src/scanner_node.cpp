@@ -19,7 +19,7 @@ int main(int argc, char const *argv[])
 {
   if (argc != 2)
   {
-    cout << "Usage: stepper_node [hostname]" << endl;
+    cout << "Usage: scanner_node [hostname]" << endl;
     return 1;
   }
   boost::asio::io_service io_service;
