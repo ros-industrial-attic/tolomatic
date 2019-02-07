@@ -136,7 +136,8 @@ int main(int argc, char *argv[])
         joint_state.name.resize(1);
         joint_state.position.resize(1);
         joint_state.name[0] = joint_name;
-        joint_state.position[0] = stepper.ss.current_position / 1000.0;
+        //TODO: See issue #2
+        joint_state.position[0] = double(stepper.ss.current_position) / 1000.0;
         joint_state_pub.publish(joint_state);
       }
 

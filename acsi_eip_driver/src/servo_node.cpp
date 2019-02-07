@@ -11,6 +11,8 @@ Software License Agreement (BSD)
 #include <ros/ros.h>
 #include <boost/shared_ptr.hpp>
 
+#include <sensor_msgs/JointState.h>
+
 #include "odva_ethernetip/socket/tcp_socket.h"
 #include "odva_ethernetip/socket/udp_socket.h"
 
@@ -49,6 +51,17 @@ int main(int argc, char *argv[])
 
   ROS_INFO_STREAM("Host is: " << host);
   ros::param::param<std::string>("~local_ip", local_ip, "192.168.100.2");
+
+  // optionally publish ROS joint_state messages
+  bool publish_joint_state;
+  string joint_name, joint_states_topic;
+  nh.param<bool>("~publish_joint_state", publish_joint_state, false);
+  if (publish_joint_state)
+  {
+    nh.param<std::string>("~joint_name", joint_name, "x_axis");
+    nh.param<std::string>("~joint_states_topic", joint_states_topic, "/joint_states");
+  }
+
 
   boost::asio::io_service io_service;
   shared_ptr<TCPSocket> socket = shared_ptr<TCPSocket>(new TCPSocket(io_service));
@@ -95,6 +108,15 @@ int main(int argc, char *argv[])
   ros::Publisher servo_pub = nh.advertise<acsi_inputs>("acsi_inputs", 1);
   ros::Publisher status_pub = nh.advertise<acsi_status>("acsi_status", 1);
 
+  // publisher and message for joint state
+  sensor_msgs::JointState joint_state;
+  ros::Publisher joint_state_pub;
+  if (publish_joint_state)
+  {
+    joint_state_pub = nh.advertise<sensor_msgs::JointState>(joint_states_topic, 1);
+  }
+
+
   //services
   ros::ServiceServer enable_service = nh.advertiseService("enable", &ACSI::enable, &servo);
   ros::ServiceServer moveSelect_service = nh.advertiseService("moveSelect", &ACSI::moveSelect, &servo);
@@ -116,6 +138,17 @@ int main(int argc, char *argv[])
     {
       // Collect status from controller, convert to ROS message format.
       servo.updateDriveStatus(servo.getDriveData());
+
+      if (publish_joint_state)
+      {
+        joint_state.header.stamp = ros::Time::now();
+        joint_state.name.resize(1);
+        joint_state.position.resize(1);
+        joint_state.name[0] = joint_name;
+        //TODO: See issue #2
+        joint_state.position[0] = double(servo.ss.current_position) / 1000.0;
+        joint_state_pub.publish(joint_state);
+      }
 
       //publish stepper inputs
       servo_pub.publish(servo.si);
