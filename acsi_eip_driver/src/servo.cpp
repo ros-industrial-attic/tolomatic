@@ -111,7 +111,15 @@ void ACSI::setDriveData()
 
   //need to make sure the START drive command changes back to START so that
   //the next START will work
-  if(so.drive_command == START) so.drive_command = ENABLE;
+  switch(so.drive_command) {
+    case ENABLE    : so.drive_command = ENABLE; break;
+    case START     : so.drive_command = ENABLE; break;
+    case GOHOME    : so.drive_command = ENABLE; break;
+    case ESTOP     : so.drive_command = ESTOP; break;
+    case STOP      : so.drive_command = STOP; break;
+    case HOME_HERE : so.drive_command = ENABLE; break;
+    default: so.drive_command = DISABLE;
+  }
 }
 
 bool ACSI::enable(acsi_eip_driver::acsi_enable::Request  &req,
@@ -268,22 +276,21 @@ bool ACSI::moveSelect(acsi_eip_driver::acsi_moveSelect::Request  &req,
 }
 
 
-//not implimented
-//bool STEPPER::estop(stepper_eip_driver::stepper_estop::Request  &req,
-//                    stepper_eip_driver::stepper_estop::Response &res)
-//{
-//
-//  if(!ss.host_control) {
-//    so.drive_command = (req.e_stop) ? (STEPPER_DRIVE_COMMAND)ESTOP : so.drive_command;
-//    return res.success = true;
-//  } else {
-//    return res.success = false;
-//  }
-//
-//}
-//
-//
-//void STEPPER::startUDPIO()
+bool ACSI::estop(acsi_eip_driver::acsi_estop::Request  &req,
+                    acsi_eip_driver::acsi_estop::Response &res)
+{
+
+  if(!ss.host_control) {
+    so.drive_command = (req.e_stop) ? ESTOP : so.drive_command;
+    return res.success = true;
+  } else {
+    return res.success = false;
+  }
+
+}
+
+
+//void ACSI::startUDPIO()
 //{
 //  EIP_CONNECTION_INFO_T o_to_t, t_to_o;
 //  o_to_t.assembly_id = 0x70;

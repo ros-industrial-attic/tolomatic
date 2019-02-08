@@ -10,10 +10,10 @@
     <param name="host" value="$(arg drive1_host)" />
     <param name="joint_name" value="$(arg joint_name)" />
     <param name="joint_states_topic" value="$(arg joint_states_topic)" />
-    <param name="default_velocity" value="10" />
-    <param name="default_accel" value="10" />
-    <param name="default_decel" value="10" />
-    <param name="default_force" value="10" />
+    <param name="default_velocity" value="20" />
+    <param name="default_accel" value="25" />
+    <param name="default_decel" value="25" />
+    <param name="default_force" value="30" />
     </node>
 </group>
 
