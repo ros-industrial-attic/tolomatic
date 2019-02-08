@@ -42,24 +42,24 @@ int main(int argc, char *argv[])
 
   ros::Rate throttle(10);
 
-  ros::NodeHandle nh;
+  ros::NodeHandle nh("~");
 
 
   // get sensor config from params
   string host, local_ip;
-  ros::param::param<std::string>("~host", host, "192.168.100.10");
-
+  nh.param<std::string>("host", host, "192.168.100.10");
   ROS_INFO_STREAM("Host is: " << host);
-  ros::param::param<std::string>("~local_ip", local_ip, "192.168.100.2");
+
+  nh.param<std::string>("local_ip", local_ip, "192.168.100.2");
 
   // optionally publish ROS joint_state messages
   bool publish_joint_state;
   string joint_name, joint_states_topic;
-  nh.param<bool>("~publish_joint_state", publish_joint_state, false);
+  nh.param<bool>("publish_joint_state", publish_joint_state, false);
   if (publish_joint_state)
   {
-    nh.param<std::string>("~joint_name", joint_name, "x_axis");
-    nh.param<std::string>("~joint_states_topic", joint_states_topic, "/joint_states");
+    nh.param<std::string>("joint_name", joint_name, "drive1");
+    nh.param<std::string>("joint_states_topic", joint_states_topic, "/joint_states");
   }
 
 
@@ -103,6 +103,22 @@ int main(int argc, char *argv[])
     ROS_FATAL_STREAM("Could not start UDP IO: " << ex.what());
     return -1;
   }
+
+  float default_accel;
+  nh.param<float>("default_accel", default_accel, 10.0);
+  servo.so.accel = default_accel;
+
+  float default_decel;
+  nh.param<float>("default_decel", default_decel, 10.0);
+  servo.so.decel = default_decel;
+
+  float default_force;
+  nh.param<float>("default_force", default_force, 10.0);
+  servo.so.force = default_force;
+
+  float default_velocity;
+  nh.param<float>("default_velocity", default_velocity, 10.0);
+  servo.so.velocity = default_velocity;
 
   // publisher for stepper status
   ros::Publisher servo_pub = nh.advertise<acsi_inputs>("acsi_inputs", 1);

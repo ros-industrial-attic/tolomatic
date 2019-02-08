@@ -6,6 +6,7 @@
 */
 
 
+#include <cmath>        // std::abs
 #include <ros/ros.h>
 #include <string>
 #include <boost/shared_ptr.hpp>
@@ -186,9 +187,9 @@ bool ACSI::moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request &req,
         else if ((req.velocity < 0))
             so.motion_type = VELOCITY_REV;
         else {
-            so.motion_type = NO_ACTION;
+            ;
         }
-        so.velocity = req.velocity;
+        so.velocity = std::abs(req.velocity);
 
       return res.success = true;
     } else {
@@ -201,11 +202,7 @@ bool ACSI::moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request  &req,
 {
     if(!ss.host_control) {
         so.drive_command = START;
-        if(req.position > 0)
-            so.motion_type = ABSOLUTE;
-        else {
-            so.motion_type = NO_ACTION;
-        }
+        so.motion_type = ABSOLUTE;
         so.position = req.position;
 
       return res.success = true;
@@ -226,7 +223,7 @@ bool ACSI::moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request  &req,
         else
             so.motion_type = NO_ACTION;
 
-        so.position = req.increment;
+        so.position = std::abs(req.increment);
 
       return res.success = true;
     } else {
@@ -247,7 +244,7 @@ bool ACSI::moveRotary(acsi_eip_driver::acsi_moveRotary::Request  &req,
         else
             so.motion_type = NO_ACTION;
 
-        so.position = req.increment;
+        so.position = std::abs(req.increment);
 
       return res.success = true;
     } else {
