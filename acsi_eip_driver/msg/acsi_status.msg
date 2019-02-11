@@ -6,4 +6,5 @@ bool moving
 bool brake_off
 bool in_position
 float32 target_position
+float32 position_error
 float32 current_position

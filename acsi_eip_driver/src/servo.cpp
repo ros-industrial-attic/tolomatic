@@ -60,6 +60,8 @@ InputAssembly ACSI::getDriveData()
   return ia;
 }
 
+//update the ROS drive status message
+//requires regs are remapped:Remappable Reg1=Commanded Position and Remappable Reg2=Position Error
 void ACSI::updateDriveStatus(InputAssembly ia)
 {
   ss.enabled      = (ia.drive_status & ENABLE) > 0;
@@ -68,20 +70,11 @@ void ACSI::updateDriveStatus(InputAssembly ia)
   ss.host_control = (ia.drive_status & HOST_CTRL) > 0;
   ss.moving       = (ia.drive_status & MOTION) > 0;
   ss.stopped      = (ia.drive_status & SSTOP) > 0;
+  ss.in_position  = (ia.drive_status & IN_POSITION) > 0;
   ss.current_position = ia.current_position;
-
-  //if we just started moving and all is well
-  if(ss.enabled) {
-    if(!ss.stopped && ss.moving && !ss_last.moving) {
-      //revert the drive command to a simple enable
-      ss.target_position = si.analog_input;
-      ss.in_position = false;
-    } else if (!ss.moving && ss_last.moving) {
-      if(std::abs(si.current_position - si.analog_output) <= float(IN_POSITION_TOLERANCE)) {
-        ss.in_position = true;
-      }
-    }
-  }
+  //these 2 require remapping using the Tolomatic Windows configuration software
+  ss.position_error = ia.analog_output;
+  ss.target_position = si.analog_input;
 
   memcpy(&ss_last,&ss, sizeof(ss));
 }
@@ -109,12 +102,12 @@ void ACSI::setDriveData()
   //3 - Attr ID
   setSingleAttributeSerializable(0x04, 0x71, 3, sb);
 
-  //need to make sure the START drive command changes back to START so that
+  //need to make sure the START drive command changes back to ENABLE so that
   //the next START will work
   switch(so.drive_command) {
     case ENABLE    : so.drive_command = ENABLE; break;
     case START     : so.drive_command = ENABLE; break;
-    case GOHOME    : so.drive_command = ENABLE; break;
+    case GOHOME    : so.drive_command = GOHOME; break;
     case ESTOP     : so.drive_command = ESTOP; break;
     case STOP      : so.drive_command = STOP; break;
     case HOME_HERE : so.drive_command = ENABLE; break;
@@ -138,8 +131,9 @@ bool ACSI::moveHome(acsi_eip_driver::acsi_moveHome::Request  &req,
                    acsi_eip_driver::acsi_moveHome::Response &res)
 {
 
-  if(!ss.host_control) {
-    so.drive_command = (req.home) ? GOHOME: so.drive_command;
+  if(!ss.host_control && req.home) {
+    so.drive_command = GOHOME;
+    so.motion_type = HOME;
     return res.success = true;
   } else {
     return res.success = false;

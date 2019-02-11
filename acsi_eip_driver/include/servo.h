@@ -35,7 +35,7 @@ using eip::socket::Socket;
 
 namespace acsi_eip_driver {
 
-const float IN_POSITION_TOLERANCE = 0.25;
+const double IN_POSITION_TOLERANCE = 0.10;
 
 /**
  * Main interface for the Tolomatic stepper controller. 
