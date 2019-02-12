@@ -57,14 +57,14 @@ typedef enum
  */
 class InputAssembly : public Serializable
 {
-public:
-  float current_position;
-  EIP_DWORD drive_status;
-  EIP_DWORD drive_faults;
-  EIP_DWORD digital_input;
-  EIP_DWORD digital_output;
-  float analog_input;
-  float analog_output;
+  public:
+    float current_position;
+    EIP_DWORD drive_status;
+    EIP_DWORD drive_faults;
+    EIP_DWORD digital_input;
+    EIP_DWORD digital_output;
+    float analog_input;
+    float analog_output;
 
   /**
    * Size of this message including all data
@@ -95,7 +95,7 @@ public:
   /**
    * Extra length information is not relevant in this context. Same as deserialize(reader)
    */
-  virtual Reader& deserialize(Reader& reader, size_t length)
+  virtual Reader& deserialize(Reader& reader, __attribute__((unused)) size_t length)
   {
     deserialize(reader);
     return reader;

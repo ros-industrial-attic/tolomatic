@@ -78,6 +78,8 @@ float32 target_position
 float32 current_position
 ```
 
+- joint_states (sensor_msgs/JointState)
+
 ### Advertised Services
 - enable
 ```
@@ -145,10 +147,7 @@ float32 position_error
 float32 current_position
 ```
 
-- sensor_msgs
-```
-JointState joint_states
-```
+- joint_states (sensor_msgs/JointState)
 
 ### Advertised Services
 - enable
@@ -230,5 +229,5 @@ bool stop
 ---
 bool success
 ```
-#Creators
+# Creators
 Bill McCormick - http://swri.org

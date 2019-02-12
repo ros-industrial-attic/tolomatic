@@ -30,19 +30,19 @@ int main(int argc, char *argv[])
 {
   ros::init(argc, argv, "servo");
 
+  ros::NodeHandle nh("~");
+
   bool debug;
-  ros::param::param<bool>("debug", debug, true);
+  nh.param<bool>("debug", debug, true);
   ROS_INFO_STREAM("debug is: " << debug);
   while(debug) {
     sleep(1);
-    ros::param::get("debug", debug);
+    nh.getParam("debug", debug);
   }
 
   ros::Time::init();
 
   ros::Rate throttle(10);
-
-  ros::NodeHandle nh("~");
 
 
   // get sensor config from params
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
   if (publish_joint_state)
   {
     nh.param<std::string>("joint_name", joint_name, "drive1");
-    nh.param<std::string>("joint_states_topic", joint_states_topic, "/joint_states");
+    nh.param<std::string>("joint_states_topic", joint_states_topic, "joint_states");
   }
 
 
@@ -105,15 +105,15 @@ int main(int argc, char *argv[])
   }
 
   float default_accel;
-  nh.param<float>("default_accel", default_accel, 10.0);
+  nh.param<float>("default_accel", default_accel, 100.0);
   servo.so.accel = default_accel;
 
   float default_decel;
-  nh.param<float>("default_decel", default_decel, 10.0);
+  nh.param<float>("default_decel", default_decel, 100.0);
   servo.so.decel = default_decel;
 
   float default_force;
-  nh.param<float>("default_force", default_force, 10.0);
+  nh.param<float>("default_force", default_force, 30.0);
   servo.so.force = default_force;
 
   float default_velocity;
@@ -121,8 +121,8 @@ int main(int argc, char *argv[])
   servo.so.velocity = default_velocity;
 
   // publisher for stepper status
-  ros::Publisher servo_pub = nh.advertise<acsi_inputs>("acsi_inputs", 1);
-  ros::Publisher status_pub = nh.advertise<acsi_status>("acsi_status", 1);
+  ros::Publisher servo_pub = nh.advertise<acsi_inputs>("inputs", 1);
+  ros::Publisher status_pub = nh.advertise<acsi_status>("status", 1);
 
   // publisher and message for joint state
   sensor_msgs::JointState joint_state;

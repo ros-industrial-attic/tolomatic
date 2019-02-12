@@ -54,17 +54,17 @@ typedef enum
 
 class OutputAssembly : public Serializable
 {
-public:
-  EIP_USINT drive_command;
-  EIP_USINT move_select;
-  EIP_UINT reserved;
-  float postion;
-  float velocity;
-  float accel;
-  float decel;
-  float force;
-  EIP_UDINT motion_type;
-  EIP_UDINT outputs;
+  public:
+    EIP_USINT drive_command;
+    EIP_USINT move_select;
+    EIP_UINT reserved;
+    float postion;
+    float velocity;
+    float accel;
+    float decel;
+    float force;
+    EIP_UDINT motion_type;
+    EIP_UDINT outputs;
 
   /**
    * Size of this message including all data
@@ -99,7 +99,7 @@ public:
   /**
    * Extra length information is not relevant in this context. Same as deserialize(reader)
    */
-  virtual Reader& deserialize(Reader& reader, size_t length)
+  virtual Reader& deserialize(Reader& reader, __attribute__((unused)) size_t length)
   {
     deserialize(reader);
     return reader;
