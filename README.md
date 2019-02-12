@@ -1,9 +1,16 @@
-[[_TOC_]]
 # Overview
 ODVA confomrant Ethernet/IP interface drivers for Tolomatic stepper and servo controllers, where the ROS node is implimented as an Ethernet/IP adapter. Drivers depend on [odva_ethernetp]('https://github.com/ros-drivers/odva_ethernetip'), a ROS-ready library implimenting the Ethernet/IP protocol.
 
+Topics named _\*\_inputs_ are a direct echo of interface produced values, while _\*\_status_ topics are derived from elements of these inputs. Note that, in the case of _servo_status_, _target_postion_ and _position_error_ require TMI Network Assembly Remapping of Register 1 (Commanded Postion) and Register 2 (Actual Postion Error). For stepper, default mapping is used.
+
 ## Implimentation Limitations
-The odva_ethernetp driver support of implicit messaging has limitations for multiple devices on the same network, so stepper and ACSI servo controller interface is implimented using explicit messaging only.
+The [odva_ethernetp](https://github.com/ros-drivers/odva_ethernetip) driver support of implicit messaging has limitations for multiple devices on the same network, so stepper and ACSI servo controller interface is implimented using explicit messaging only.
+
+## Reference
+* See config dirs for TMI configuration examples: [stepper](stepper_eip_driver/config) and [servo](acsi_eip_driver/config)
+* For latest docs and TMI software: [Tolomatic Support](https://www.tolomatic.com/info-center/product-support.aspx)
+* Archive docs: [stepper](stepper_eip_driver/doc) and [servo](acsi_eip_driver/doc)
+* [odva_ehternetip](https://github.com/ros-drivers/odva_ethernetip) driver
 
 ## ROS Distro Support
 
@@ -14,7 +21,7 @@ The odva_ethernetp driver support of implicit messaging has limitations for mult
 | Version | [version] | [version] | [version] | [version] |
 
 ## Installation
-'''
+```
 mkdir -p catkin_ws/src
 cd catkin_ws
 catkin init
@@ -25,20 +32,20 @@ wstool update -t src
 catkin build
 source /opt/ros/kinetic/setup.bash
 source devel/setup.bash
-'''
+```
 
 ## Usage
-'''
+```
 roslaunch acsi_eip_driver servo.launch
 roslaunch stepper_eip_driver stepper.launch
-'''
+```
 
 ## Launch Files
 - stepper.launch
 - servo.launch
 
 # Nodes
-## stepper_eip_driver/stepper_node
+## stepper_node
 ### Parameters
 - host: The IP address of the controller
 - local_ip: Local IP used for implicit messaging 
@@ -99,7 +106,7 @@ bool stop
 bool success
 ```
 
-## acsi_eip_driver/servo_node
+## servo_node
 ### Parameters
 - host: The IP address of the controller
 - local_ip: Local IP used for implicit messaging
