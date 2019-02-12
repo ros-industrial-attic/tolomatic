@@ -46,6 +46,7 @@ roslaunch stepper_eip_driver stepper.launch
 
 # Nodes
 ## stepper_node
+The stepper_node uses the compact output assembly, and so requires TMI configuration under _Mode Setup_ for each desired move selection. At some point, the compact output assemply could be replaced by the _full assemply_, allowing for enhanced control features. See the manual for more detailed info.
 ### Parameters
 - host: The IP address of the controller
 - local_ip: Local IP used for implicit messaging 
@@ -107,6 +108,7 @@ bool success
 ```
 
 ## servo_node
+The servo_node uses the full output assembly, where each service (generally) impliments a specific motion type. For service call parameters velocity, postion, and incriment, the parameter sign will control drive direction. See the manual for more detailed info.
 ### Parameters
 - host: The IP address of the controller
 - local_ip: Local IP used for implicit messaging
@@ -190,6 +192,13 @@ bool success
 - moveHome
 ```
 bool home
+---
+bool success
+```
+
+- moveVelocity
+```
+float32 velocity
 ---
 bool success
 ```

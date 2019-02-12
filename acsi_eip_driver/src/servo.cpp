@@ -275,7 +275,7 @@ bool ACSI::estop(acsi_eip_driver::acsi_estop::Request  &req,
 {
 
   if(!ss.host_control) {
-    so.drive_command = (req.e_stop) ? ESTOP : so.drive_command;
+    so.drive_command = (req.estop) ? ESTOP : so.drive_command;
     return res.success = true;
   } else {
     return res.success = false;
