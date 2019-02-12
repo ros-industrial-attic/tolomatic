@@ -135,6 +135,7 @@ int main(int argc, char *argv[])
 
   //services
   ros::ServiceServer enable_service = nh.advertiseService("enable", &ACSI::enable, &servo);
+  ros::ServiceServer estop_service = nh.advertiseService("estop", &ACSI::estop, &servo);
   ros::ServiceServer moveSelect_service = nh.advertiseService("moveSelect", &ACSI::moveSelect, &servo);
   ros::ServiceServer moveHome_service = nh.advertiseService("moveHome", &ACSI::moveHome, &servo);
   ros::ServiceServer moveStop_service = nh.advertiseService("moveStop", &ACSI::moveStop, &servo);

@@ -182,7 +182,7 @@ bool ACSI::setProfile(acsi_eip_driver::acsi_setProfile::Request &req,
 bool ACSI::moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request &req, 
                         acsi_eip_driver::acsi_moveVelocity::Response &res)
 {
-    if(!ss.host_control) {
+    if(!ss.host_control && ss.enabled) {
         so.drive_command = START;
         if(req.velocity > 0)
             so.motion_type = VELOCITY_FWD;
@@ -202,7 +202,7 @@ bool ACSI::moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request &req,
 bool ACSI::moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request  &req,
                    acsi_eip_driver::acsi_moveAbsolute::Response &res)
 {
-    if(!ss.host_control) {
+    if(!ss.host_control && ss.enabled) {
         so.drive_command = START;
         so.motion_type = ABSOLUTE;
         so.position = req.position;
@@ -216,7 +216,7 @@ bool ACSI::moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request  &req,
 bool ACSI::moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request  &req,
                  acsi_eip_driver::acsi_moveIncremental::Response &res)
 {
-    if(!ss.host_control) {
+    if(!ss.host_control && ss.enabled) {
         so.drive_command = START;
         if(req.increment > 0)
             so.motion_type = INC_POSITIVE;
@@ -237,7 +237,7 @@ bool ACSI::moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request  &req,
 bool ACSI::moveRotary(acsi_eip_driver::acsi_moveRotary::Request  &req,
                  acsi_eip_driver::acsi_moveRotary::Response &res)
 {
-    if(!ss.host_control) {
+    if(!ss.host_control && ss.enabled) {
         so.drive_command = START;
         if(req.increment > 0)
             so.motion_type = INC_POS_ROTARY;
@@ -258,7 +258,7 @@ bool ACSI::moveSelect(acsi_eip_driver::acsi_moveSelect::Request  &req,
                           acsi_eip_driver::acsi_moveSelect::Response &res)
 {
   ROS_INFO_STREAM("Move select: " << req.select);
-  if(!ss.host_control && req.select > 0 && req.select <= 16) {
+  if(!ss.host_control  && ss.enabled && req.select > 0 && req.select <= 16) {
     so.drive_command = START;
     so.move_select = req.select;
     return res.success = true;
