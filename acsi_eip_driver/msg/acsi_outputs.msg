@@ -1,3 +1,4 @@
+# Raw data defined in manufactures Output Assembly (Instance 113)
 uint8 drive_command
 uint8 move_select
 float32 position

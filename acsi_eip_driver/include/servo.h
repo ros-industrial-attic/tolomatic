@@ -1,5 +1,28 @@
 /**
-*/
+ * @file servo.h
+ * @brief Tolomatic ACSI servo interface using Ethernet/IP - servo functions class definition.
+ *
+ * @author Bill McCormick <wmccormick@swri.org>
+ * @date Feb 13, 2019
+ * @version 0.1
+ * @bug Implicit messaging not functional
+ *
+ * @copyright Copyright (c) 2019, Southwest Research Institute
+ *
+ * @par License
+ * Software License Agreement (Apache License)
+ * @par
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * @par
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #ifndef ACSI_EIP_DRIVER_H
 #define ACSI_EIP_DRIVER_H
@@ -53,12 +76,13 @@ public:
   {
   }
 
+  //drive interface functions
   InputAssembly getDriveData();
   void setDriveData();
   void servoControlCallback(const acsi_outputs::ConstPtr& oa);
-
   void updateDriveStatus(InputAssembly ia);
 
+  //ROS service callback handler functions
   bool enable(acsi_eip_driver::acsi_enable::Request  &req,
               acsi_eip_driver::acsi_enable::Response &res);
 
@@ -102,7 +126,6 @@ public:
 
 private:
   // data for sending to stepper controller
-
   int connection_num_;
   EIP_UDINT mrc_sequence_num_;
 

@@ -1,3 +1,4 @@
+# Raw data defined in manufactures Input Assembly (Instance 100)
 float32 current_position
 uint32 drive_status
 uint32 drive_faults

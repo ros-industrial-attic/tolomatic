@@ -1,3 +1,5 @@
+#Drive Status from drive_status bits and remapped regs.
+#current_position is unchanged from acsi_inputs
 bool stopped
 bool host_control
 bool homed
