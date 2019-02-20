@@ -1,6 +1,7 @@
 /**
  * @file servo_node.cpp
- * @brief Tolomatic ACSI servo interface using Ethernet/IP - ROS node to publish data & handle service calls.
+ * @brief Tolomatic ACSI servo interface using Ethernet/IP - ROS node to publish
+ *data & handle service calls.
  *
  * @author Bill McCormick <wmccormick@swri.org>
  * @date Feb 13, 2019
@@ -42,7 +43,7 @@ using eip::socket::UDPSocket;
 
 using namespace acsi_eip_driver;
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
   ros::init(argc, argv, "servo");
 
@@ -51,7 +52,8 @@ int main(int argc, char *argv[])
   bool debug;
   nh.param<bool>("debug", debug, true);
   ROS_INFO_STREAM("debug is: " << debug);
-  while(debug) {
+  while (debug)
+  {
     sleep(1);
     nh.getParam("debug", debug);
   }
@@ -59,7 +61,6 @@ int main(int argc, char *argv[])
   ros::Time::init();
 
   ros::Rate throttle(10);
-
 
   // get sensor config from params
   string host, local_ip;
@@ -77,7 +78,6 @@ int main(int argc, char *argv[])
     nh.param<std::string>("joint_name", joint_name, "drive1");
     nh.param<std::string>("joint_states_topic", joint_states_topic, "joint_states");
   }
-
 
   boost::asio::io_service io_service;
   shared_ptr<TCPSocket> socket = shared_ptr<TCPSocket>(new TCPSocket(io_service));
@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
 
   try
   {
-    //get status
+    // get status
   }
   catch (std::invalid_argument& ex)
   {
@@ -110,9 +110,9 @@ int main(int argc, char *argv[])
 
   try
   {
-    //TODO: Setup implicit messaging here
-    //stepper.startUDPIO();
-    //ROS_INFO_STREAM("UDP Started");
+    // TODO: Setup implicit messaging here
+    // stepper.startUDPIO();
+    // ROS_INFO_STREAM("UDP Started");
   }
   catch (std::logic_error& ex)
   {
@@ -148,8 +148,7 @@ int main(int argc, char *argv[])
     joint_state_pub = nh.advertise<sensor_msgs::JointState>(joint_states_topic, 1);
   }
 
-
-  //services
+  // services
   ros::ServiceServer enable_service = nh.advertiseService("enable", &ACSI::enable, &servo);
   ros::ServiceServer estop_service = nh.advertiseService("estop", &ACSI::estop, &servo);
   ros::ServiceServer moveSelect_service = nh.advertiseService("moveSelect", &ACSI::moveSelect, &servo);
@@ -162,8 +161,9 @@ int main(int argc, char *argv[])
   ros::ServiceServer setHome_service = nh.advertiseService("setHome", &ACSI::setHome, &servo);
   ros::ServiceServer setProfile_service = nh.advertiseService("setProfile", &ACSI::setProfile, &servo);
 
-  //not implimented
-  //ros::ServiceServer estop_service = nh.advertiseService("estop", &STEPPER::estop, &stepper);
+  // not implimented
+  // ros::ServiceServer estop_service = nh.advertiseService("estop",
+  // &STEPPER::estop, &stepper);
 
   while (ros::ok())
   {
@@ -178,18 +178,18 @@ int main(int argc, char *argv[])
         joint_state.name.resize(1);
         joint_state.position.resize(1);
         joint_state.name[0] = joint_name;
-        //TODO: See issue #2
+        // TODO: See issue #2
         joint_state.position[0] = double(servo.ss.current_position) / 1000.0;
         joint_state_pub.publish(joint_state);
       }
 
-      //publish stepper inputs
+      // publish stepper inputs
       servo_pub.publish(servo.si);
 
-      //publish stepper status
+      // publish stepper status
       status_pub.publish(servo.ss);
 
-      //set outputs to stepper drive controller
+      // set outputs to stepper drive controller
       servo.setDriveData();
     }
     catch (std::runtime_error& ex)
@@ -201,11 +201,9 @@ int main(int argc, char *argv[])
       ROS_ERROR_STREAM("Problem parsing return data: " << ex.what());
     }
 
-
     ros::spinOnce();
 
     throttle.sleep();
-
   }
 
   servo.closeConnection(0);

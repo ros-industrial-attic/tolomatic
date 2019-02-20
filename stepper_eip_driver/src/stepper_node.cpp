@@ -7,7 +7,6 @@ Software License Agreement (BSD)
 
 */
 
-
 #include <ros/ros.h>
 #include <boost/shared_ptr.hpp>
 
@@ -26,14 +25,15 @@ using eip::socket::UDPSocket;
 
 using namespace stepper_eip_driver;
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
   ros::init(argc, argv, "stepper");
 
   bool debug;
   ros::param::param<bool>("debug", debug, false);
   ROS_INFO_STREAM("debug is: " << debug);
-  while(debug) {
+  while (debug)
+  {
     sleep(1);
     ros::param::get("debug", debug);
   }
@@ -43,7 +43,6 @@ int main(int argc, char *argv[])
   ros::Rate throttle(10);
 
   ros::NodeHandle nh;
-
 
   // get sensor config from params
   string host, local_ip;
@@ -82,7 +81,7 @@ int main(int argc, char *argv[])
 
   try
   {
-    //get status
+    // get status
   }
   catch (std::invalid_argument& ex)
   {
@@ -92,9 +91,9 @@ int main(int argc, char *argv[])
 
   try
   {
-    //TODO: Setup implicit messaging here
-    //stepper.startUDPIO();
-    //ROS_INFO_STREAM("UDP Started");
+    // TODO: Setup implicit messaging here
+    // stepper.startUDPIO();
+    // ROS_INFO_STREAM("UDP Started");
   }
   catch (std::logic_error& ex)
   {
@@ -119,9 +118,11 @@ int main(int argc, char *argv[])
   ros::ServiceServer home_service = nh.advertiseService("home", &STEPPER::home, &stepper);
   ros::ServiceServer stop_service = nh.advertiseService("stop", &STEPPER::stop, &stepper);
 
-  //not implimented
-  //ros::ServiceServer estop_service = nh.advertiseService("estop", &STEPPER::estop, &stepper);
-  //ros::ServiceServer sethome_service = nh.advertiseService("setHome", &STEPPER::setHome, &stepper);
+  // not implimented
+  // ros::ServiceServer estop_service = nh.advertiseService("estop",
+  // &STEPPER::estop, &stepper);
+  // ros::ServiceServer sethome_service = nh.advertiseService("setHome",
+  // &STEPPER::setHome, &stepper);
 
   while (ros::ok())
   {
@@ -136,18 +137,18 @@ int main(int argc, char *argv[])
         joint_state.name.resize(1);
         joint_state.position.resize(1);
         joint_state.name[0] = joint_name;
-        //TODO: See issue #2
+        // TODO: See issue #2
         joint_state.position[0] = double(stepper.ss.current_position) / 1000.0;
         joint_state_pub.publish(joint_state);
       }
 
-      //publish stepper inputs
+      // publish stepper inputs
       stepper_pub.publish(stepper.si);
 
-      //publish stepper status
+      // publish stepper status
       status_pub.publish(stepper.ss);
 
-      //set outputs to stepper drive controller
+      // set outputs to stepper drive controller
       stepper.setDriveData();
     }
     catch (std::runtime_error& ex)
@@ -159,11 +160,9 @@ int main(int argc, char *argv[])
       ROS_ERROR_STREAM("Problem parsing return data: " << ex.what());
     }
 
-
     ros::spinOnce();
 
     throttle.sleep();
-
   }
 
   stepper.closeConnection(0);

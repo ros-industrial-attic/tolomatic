@@ -1,6 +1,7 @@
 /**
  * @file servo.h
- * @brief Tolomatic ACSI servo interface using Ethernet/IP - servo functions class definition.
+ * @brief Tolomatic ACSI servo interface using Ethernet/IP - servo functions
+ *class definition.
  *
  * @author Bill McCormick <wmccormick@swri.org>
  * @date Feb 13, 2019
@@ -51,17 +52,16 @@
 #include <acsi_eip_driver/acsi_estop.h>
 #include <acsi_eip_driver/acsi_setHome.h>
 
-
 using boost::shared_ptr;
 using eip::Session;
 using eip::socket::Socket;
 
-namespace acsi_eip_driver {
-
+namespace acsi_eip_driver
+{
 const double IN_POSITION_TOLERANCE = 0.10;
 
 /**
- * Main interface for the Tolomatic stepper controller. 
+ * Main interface for the Tolomatic stepper controller.
  * Produces methods to access the stepper controller from a high level.
  */
 class ACSI : public Session
@@ -69,55 +69,48 @@ class ACSI : public Session
 public:
   /**
    * Construct a new instance.
-   * @param socket Socket instance to use for communication with the stepper controller
+   * @param socket Socket instance to use for communication with the stepper
+   * controller
    */
   ACSI(shared_ptr<Socket> socket, shared_ptr<Socket> io_socket)
     : Session(socket, io_socket), connection_num_(-1), mrc_sequence_num_(1)
   {
   }
 
-  //drive interface functions
+  // drive interface functions
   InputAssembly getDriveData();
   void setDriveData();
   void servoControlCallback(const acsi_outputs::ConstPtr& oa);
   void updateDriveStatus(InputAssembly ia);
 
-  //ROS service callback handler functions
-  bool enable(acsi_eip_driver::acsi_enable::Request  &req,
-              acsi_eip_driver::acsi_enable::Response &res);
+  // ROS service callback handler functions
+  bool enable(acsi_eip_driver::acsi_enable::Request& req, acsi_eip_driver::acsi_enable::Response& res);
 
-  bool setHome(acsi_eip_driver::acsi_setHome::Request &req,
-               acsi_eip_driver::acsi_setHome::Response &res);
+  bool setHome(acsi_eip_driver::acsi_setHome::Request& req, acsi_eip_driver::acsi_setHome::Response& res);
 
-  bool setProfile(acsi_eip_driver::acsi_setProfile::Request  &req,
-                   acsi_eip_driver::acsi_setProfile::Response &res);
+  bool setProfile(acsi_eip_driver::acsi_setProfile::Request& req, acsi_eip_driver::acsi_setProfile::Response& res);
 
-  bool moveStop(acsi_eip_driver::acsi_moveStop::Request &req,
-            acsi_eip_driver::acsi_moveStop::Response &res);
+  bool moveStop(acsi_eip_driver::acsi_moveStop::Request& req, acsi_eip_driver::acsi_moveStop::Response& res);
 
-  bool moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request  &req,
-                   acsi_eip_driver::acsi_moveAbsolute::Response &res);
+  bool moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request& req,
+                    acsi_eip_driver::acsi_moveAbsolute::Response& res);
 
-  bool moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request  &req,
-                   acsi_eip_driver::acsi_moveIncremental::Response &res);
+  bool moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request& req,
+                       acsi_eip_driver::acsi_moveIncremental::Response& res);
 
-  bool moveRotary(acsi_eip_driver::acsi_moveRotary::Request  &req,
-                   acsi_eip_driver::acsi_moveRotary::Response &res);
+  bool moveRotary(acsi_eip_driver::acsi_moveRotary::Request& req, acsi_eip_driver::acsi_moveRotary::Response& res);
 
-  bool moveSelect(acsi_eip_driver::acsi_moveSelect::Request  &req,
-                   acsi_eip_driver::acsi_moveSelect::Response &res);
+  bool moveSelect(acsi_eip_driver::acsi_moveSelect::Request& req, acsi_eip_driver::acsi_moveSelect::Response& res);
 
-  bool moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request  &req,
-                   acsi_eip_driver::acsi_moveVelocity::Response &res);
+  bool moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request& req,
+                    acsi_eip_driver::acsi_moveVelocity::Response& res);
 
-  bool moveHome(acsi_eip_driver::acsi_moveHome::Request &req,
-            acsi_eip_driver::acsi_moveHome::Response &res);
+  bool moveHome(acsi_eip_driver::acsi_moveHome::Request& req, acsi_eip_driver::acsi_moveHome::Response& res);
 
-  bool estop(acsi_eip_driver::acsi_estop::Request &req,
-             acsi_eip_driver::acsi_estop::Response &res);
+  bool estop(acsi_eip_driver::acsi_estop::Request& req, acsi_eip_driver::acsi_estop::Response& res);
 
-  //TODO: Debug this
-  //void startUDPIO(); //for implicit data; not working
+  // TODO: Debug this
+  // void startUDPIO(); //for implicit data; not working
 
   acsi_inputs si;
   acsi_outputs so;
@@ -128,9 +121,8 @@ private:
   // data for sending to stepper controller
   int connection_num_;
   EIP_UDINT mrc_sequence_num_;
-
 };
 
-} // namespace acsi_eip_driver
+}  // namespace acsi_eip_driver
 
 #endif  // ACSI_EIP_DRIVER_H

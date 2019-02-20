@@ -1,6 +1,7 @@
 /**
  * @file input_assembly.h
- * @brief Tolomatic ACSI servo interface using Ethernet/IP - EIP input assembly definition.
+ * @brief Tolomatic ACSI servo interface using Ethernet/IP - EIP input assembly
+ *definition.
  *
  * @author Bill McCormick <wmccormick@swri.org>
  * @date Feb 13, 2019
@@ -36,27 +37,26 @@ using eip::serialization::Serializable;
 using eip::serialization::Reader;
 using eip::serialization::Writer;
 
-namespace acsi_eip_driver {
-
-//31 30 29 28 | 27 26 25 24 | 23 22 21 20 | 19 18 17 16 | 15 14 13 12 | 11 10 9 8 | 7 6 5 4 | 3 2 1 0 |
-typedef enum
+namespace acsi_eip_driver
 {
+// 31 30 29 28 | 27 26 25 24 | 23 22 21 20 | 19 18 17 16 | 15 14 13 12 | 11 10 9
+// 8 | 7 6 5 4 | 3 2 1 0 |
+typedef enum {
   ENABLED = 0x00000001,
-  HOMED   = 0x00000002,
-  MOTION  = 0x00000004,
-  SSTOP   = 0x00000008,
+  HOMED = 0x00000002,
+  MOTION = 0x00000004,
+  SSTOP = 0x00000008,
   BRAKE_OFF = 0x00100000,
   IN_POSITION = 0x04000000,
   HOST_CTRL = 0x80000000
 } ACSI_STATUS;
 
-typedef enum
-{
+typedef enum {
   POS_LIMIT = 0x00000001,
   NEG_LIMIT = 0x00000002,
   SOFT_STOP = 0x00000004,
   POS_ERROR = 0x00000008,
-  FB_ERROR  = 0x00000010,
+  FB_ERROR = 0x00000010,
   OVER_CURRENT = 0x00000020,
   MOTOR_TEMP = 0x00000040,
   DRIVE_TEMP = 0x00000080,
@@ -74,23 +74,19 @@ typedef enum
  */
 class InputAssembly : public Serializable
 {
-  public:
-    float current_position;
-    EIP_DWORD drive_status;
-    EIP_DWORD drive_faults;
-    EIP_DWORD digital_input;
-    EIP_DWORD digital_output;
-    float analog_input;
-    float analog_output;
+public:
+  float current_position;
+  EIP_DWORD drive_status;
+  EIP_DWORD drive_faults;
+  EIP_DWORD digital_input;
+  EIP_DWORD digital_output;
+  float analog_input;
+  float analog_output;
 
   /**
    * Size of this message including all data
    */
-  virtual size_t getLength() const
-  {
-    return 28;
-  }
-
+  virtual size_t getLength() const { return 28; }
   /**
    * Serialize data into the given buffer
    * @param writer Writer to use for serialization
@@ -110,7 +106,8 @@ class InputAssembly : public Serializable
   }
 
   /**
-   * Extra length information is not relevant in this context. Same as deserialize(reader)
+   * Extra length information is not relevant in this context. Same as
+   * deserialize(reader)
    */
   virtual Reader& deserialize(Reader& reader, __attribute__((unused)) size_t length)
   {
@@ -137,6 +134,6 @@ class InputAssembly : public Serializable
   }
 };
 
-} // namespace omron_os32c_driver
+}  // namespace omron_os32c_driver
 
 #endif  // INPUT_ASSEMBLY_H

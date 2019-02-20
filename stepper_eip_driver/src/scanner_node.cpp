@@ -6,7 +6,6 @@ Software License Agreement (BSD)
 \copyright
 */
 
-
 #include <ros/ros.h>
 
 #include "odva_ethernetip/io_scanner.h"
@@ -15,7 +14,7 @@ using std::cout;
 using std::endl;
 using eip::IOScanner;
 
-int main(int argc, char const *argv[])
+int main(int argc, char const* argv[])
 {
   if (argc != 2)
   {

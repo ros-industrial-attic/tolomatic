@@ -1,6 +1,7 @@
 /**
  * @file servo.cpp
- * @brief Tolomatic ACSI servo interface using Ethernet/IP - servo functions class.
+ * @brief Tolomatic ACSI servo interface using Ethernet/IP - servo functions
+ *class.
  *
  * @author Bill McCormick <wmccormick@swri.org>
  * @date Feb 13, 2019
@@ -24,7 +25,7 @@
  * limitations under the License.
  */
 
-#include <cmath>        // std::abs
+#include <cmath>  // std::abs
 #include <ros/ros.h>
 #include <string>
 #include <boost/shared_ptr.hpp>
@@ -56,15 +57,15 @@ using eip::CPFPacket;
 using eip::SequencedAddressItem;
 using eip::SequencedDataItem;
 
-namespace acsi_eip_driver {
-
+namespace acsi_eip_driver
+{
 InputAssembly ACSI::getDriveData()
 {
   InputAssembly ia;
-  //TODO: put Attr ID, Assmy ID, and Inst ID in header
-  //0x04 = Object ID
-  //0x64 = 100 Instance
-  //3 - Attr ID
+  // TODO: put Attr ID, Assmy ID, and Inst ID in header
+  // 0x04 = Object ID
+  // 0x64 = 100 Instance
+  // 3 - Attr ID
   getSingleAttributeSerializable(0x04, 0x64, 3, ia);
 
   si.current_position = ia.current_position;
@@ -78,26 +79,28 @@ InputAssembly ACSI::getDriveData()
   return ia;
 }
 
-//update the ROS drive status message
-//requires regs are remapped:Remappable Reg1=Commanded Position and Remappable Reg2=Position Error
+// update the ROS drive status message
+// requires regs are remapped:Remappable Reg1=Commanded Position and Remappable
+// Reg2=Position Error
 void ACSI::updateDriveStatus(InputAssembly ia)
 {
-  ss.enabled      = (ia.drive_status & ENABLE) > 0;
-  ss.homed        = (ia.drive_status & HOMED) > 0;
-  ss.brake_off    = (ia.drive_status & BRAKE_OFF) > 0;
+  ss.enabled = (ia.drive_status & ENABLE) > 0;
+  ss.homed = (ia.drive_status & HOMED) > 0;
+  ss.brake_off = (ia.drive_status & BRAKE_OFF) > 0;
   ss.host_control = (ia.drive_status & HOST_CTRL) > 0;
-  ss.moving       = (ia.drive_status & MOTION) > 0;
-  ss.stopped      = (ia.drive_status & SSTOP) > 0;
-  ss.in_position  = (ia.drive_status & IN_POSITION) > 0;
+  ss.moving = (ia.drive_status & MOTION) > 0;
+  ss.stopped = (ia.drive_status & SSTOP) > 0;
+  ss.in_position = (ia.drive_status & IN_POSITION) > 0;
   ss.current_position = ia.current_position;
-  //these 2 require remapping using the Tolomatic Windows configuration software
+  // these 2 require remapping using the Tolomatic Windows configuration
+  // software
   ss.position_error = ia.analog_output;
   ss.target_position = si.analog_input;
 
-  memcpy(&ss_last,&ss, sizeof(ss));
+  memcpy(&ss_last, &ss, sizeof(ss));
 }
 
-//TODO: make this use one of either OutputAssemblies (i.e. Full or not Full)
+// TODO: make this use one of either OutputAssemblies (i.e. Full or not Full)
 void ACSI::setDriveData()
 {
   OutputAssembly oa;
@@ -114,195 +117,225 @@ void ACSI::setDriveData()
 
   shared_ptr<OutputAssembly> sb = make_shared<OutputAssembly>(oa);
 
-  //TODO: put Attr ID, Assmy ID, and Inst ID in header
-  //0x04 = Object ID
-  //0x71 = 113 Instance
-  //3 - Attr ID
+  // TODO: put Attr ID, Assmy ID, and Inst ID in header
+  // 0x04 = Object ID
+  // 0x71 = 113 Instance
+  // 3 - Attr ID
   setSingleAttributeSerializable(0x04, 0x71, 3, sb);
 
-  //need to make sure the START drive command changes back to ENABLE so that
-  //the next START will work
-  switch(so.drive_command) {
-    case ENABLE    : so.drive_command = ENABLE; break;
-    case START     : so.drive_command = ENABLE; break;
-    case GOHOME    : so.drive_command = GOHOME; break;
-    case ESTOP     : so.drive_command = ESTOP; break;
-    case STOP      : so.drive_command = STOP; break;
-    case HOME_HERE : so.drive_command = ENABLE; break;
-    default: so.drive_command = DISABLE;
+  // need to make sure the START drive command changes back to ENABLE so that
+  // the next START will work
+  switch (so.drive_command)
+  {
+    case ENABLE:
+      so.drive_command = ENABLE;
+      break;
+    case START:
+      so.drive_command = ENABLE;
+      break;
+    case GOHOME:
+      so.drive_command = GOHOME;
+      break;
+    case ESTOP:
+      so.drive_command = ESTOP;
+      break;
+    case STOP:
+      so.drive_command = STOP;
+      break;
+    case HOME_HERE:
+      so.drive_command = ENABLE;
+      break;
+    default:
+      so.drive_command = DISABLE;
   }
 }
 
-bool ACSI::enable(acsi_eip_driver::acsi_enable::Request  &req,
-                     acsi_eip_driver::acsi_enable::Response &res)
+bool ACSI::enable(acsi_eip_driver::acsi_enable::Request& req, acsi_eip_driver::acsi_enable::Response& res)
 {
-
-  if(!ss.host_control) {
+  if (!ss.host_control)
+  {
     so.drive_command = (req.enable) ? ENABLE : DISABLE;
     return res.success = true;
-  } else {
+  }
+  else
+  {
     return res.success = false;
   }
 }
 
-bool ACSI::moveHome(acsi_eip_driver::acsi_moveHome::Request  &req,
-                   acsi_eip_driver::acsi_moveHome::Response &res)
+bool ACSI::moveHome(acsi_eip_driver::acsi_moveHome::Request& req, acsi_eip_driver::acsi_moveHome::Response& res)
 {
-
-  if(!ss.host_control && req.home) {
+  if (!ss.host_control && req.home)
+  {
     so.drive_command = GOHOME;
     so.motion_type = HOME;
     return res.success = true;
-  } else {
+  }
+  else
+  {
     return res.success = false;
   }
 }
 
-bool ACSI::moveStop(acsi_eip_driver::acsi_moveStop::Request  &req,
-                   acsi_eip_driver::acsi_moveStop::Response &res)
+bool ACSI::moveStop(acsi_eip_driver::acsi_moveStop::Request& req, acsi_eip_driver::acsi_moveStop::Response& res)
 {
-
-  if(!ss.host_control) {
+  if (!ss.host_control)
+  {
     so.drive_command = (req.stop) ? STOP : so.drive_command;
     return res.success = true;
-  } else {
+  }
+  else
+  {
     return res.success = false;
   }
 }
 
-bool ACSI::setHome(acsi_eip_driver::acsi_setHome::Request  &req,
-                      acsi_eip_driver::acsi_setHome::Response &res)
+bool ACSI::setHome(acsi_eip_driver::acsi_setHome::Request& req, acsi_eip_driver::acsi_setHome::Response& res)
 {
-
-  if(!ss.host_control) {
-    so.drive_command = (req.sethome) ? HOME_HERE: so.drive_command;
+  if (!ss.host_control)
+  {
+    so.drive_command = (req.sethome) ? HOME_HERE : so.drive_command;
     return res.success = true;
-  } else {
+  }
+  else
+  {
     return res.success = false;
   }
-
 }
 
-bool ACSI::setProfile(acsi_eip_driver::acsi_setProfile::Request &req, 
-                      acsi_eip_driver::acsi_setProfile::Response &res)
+bool ACSI::setProfile(acsi_eip_driver::acsi_setProfile::Request& req, acsi_eip_driver::acsi_setProfile::Response& res)
 {
-    if(!ss.host_control) {
-        so.velocity = req.velocity;
-        so.accel = req.acceleration;
-        so.decel = req.deceleration;
-        so.force = req.force;
-      return res.success = true;
-    } else {
-      return res.success = false;
-    }
+  if (!ss.host_control)
+  {
+    so.velocity = req.velocity;
+    so.accel = req.acceleration;
+    so.decel = req.deceleration;
+    so.force = req.force;
+    return res.success = true;
+  }
+  else
+  {
+    return res.success = false;
+  }
 }
 
-bool ACSI::moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request &req, 
-                        acsi_eip_driver::acsi_moveVelocity::Response &res)
+bool ACSI::moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request& req,
+                        acsi_eip_driver::acsi_moveVelocity::Response& res)
 {
-    if(!ss.host_control && ss.enabled) {
-        so.drive_command = START;
-        if(req.velocity > 0)
-            so.motion_type = VELOCITY_FWD;
-        else if ((req.velocity < 0))
-            so.motion_type = VELOCITY_REV;
-        else {
-            ;
-        }
-        so.velocity = std::abs(req.velocity);
-
-      return res.success = true;
-    } else {
-      return res.success = false;
+  if (!ss.host_control && ss.enabled)
+  {
+    so.drive_command = START;
+    if (req.velocity > 0)
+      so.motion_type = VELOCITY_FWD;
+    else if ((req.velocity < 0))
+      so.motion_type = VELOCITY_REV;
+    else
+    {
+      ;
     }
+    so.velocity = std::abs(req.velocity);
+
+    return res.success = true;
+  }
+  else
+  {
+    return res.success = false;
+  }
 }
 
-bool ACSI::moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request  &req,
-                   acsi_eip_driver::acsi_moveAbsolute::Response &res)
+bool ACSI::moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request& req,
+                        acsi_eip_driver::acsi_moveAbsolute::Response& res)
 {
-    if(!ss.host_control && ss.enabled) {
-        so.drive_command = START;
-        so.motion_type = ABSOLUTE;
-        so.position = req.position;
+  if (!ss.host_control && ss.enabled)
+  {
+    so.drive_command = START;
+    so.motion_type = ABSOLUTE;
+    so.position = req.position;
 
-      return res.success = true;
-    } else {
-      return res.success = false;
-    }
+    return res.success = true;
+  }
+  else
+  {
+    return res.success = false;
+  }
 }
 
-bool ACSI::moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request  &req,
-                 acsi_eip_driver::acsi_moveIncremental::Response &res)
+bool ACSI::moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request& req,
+                           acsi_eip_driver::acsi_moveIncremental::Response& res)
 {
-    if(!ss.host_control && ss.enabled) {
-        so.drive_command = START;
-        if(req.increment > 0)
-            so.motion_type = INC_POSITIVE;
-        else if (req.increment < 0)
-            so.motion_type = INC_NEGATIVE;
-        else
-            so.motion_type = NO_ACTION;
+  if (!ss.host_control && ss.enabled)
+  {
+    so.drive_command = START;
+    if (req.increment > 0)
+      so.motion_type = INC_POSITIVE;
+    else if (req.increment < 0)
+      so.motion_type = INC_NEGATIVE;
+    else
+      so.motion_type = NO_ACTION;
 
-        so.position = std::abs(req.increment);
+    so.position = std::abs(req.increment);
 
-      return res.success = true;
-    } else {
-      return res.success = false;
-    }
-
+    return res.success = true;
+  }
+  else
+  {
+    return res.success = false;
+  }
 }
 
-bool ACSI::moveRotary(acsi_eip_driver::acsi_moveRotary::Request  &req,
-                 acsi_eip_driver::acsi_moveRotary::Response &res)
+bool ACSI::moveRotary(acsi_eip_driver::acsi_moveRotary::Request& req, acsi_eip_driver::acsi_moveRotary::Response& res)
 {
-    if(!ss.host_control && ss.enabled) {
-        so.drive_command = START;
-        if(req.increment > 0)
-            so.motion_type = INC_POS_ROTARY;
-        else if (req.increment < 0)
-            so.motion_type = INC_NEG_ROTARY;
-        else
-            so.motion_type = NO_ACTION;
+  if (!ss.host_control && ss.enabled)
+  {
+    so.drive_command = START;
+    if (req.increment > 0)
+      so.motion_type = INC_POS_ROTARY;
+    else if (req.increment < 0)
+      so.motion_type = INC_NEG_ROTARY;
+    else
+      so.motion_type = NO_ACTION;
 
-        so.position = std::abs(req.increment);
+    so.position = std::abs(req.increment);
 
-      return res.success = true;
-    } else {
-      return res.success = false;
-    }
+    return res.success = true;
+  }
+  else
+  {
+    return res.success = false;
+  }
 }
 
-bool ACSI::moveSelect(acsi_eip_driver::acsi_moveSelect::Request  &req,
-                          acsi_eip_driver::acsi_moveSelect::Response &res)
+bool ACSI::moveSelect(acsi_eip_driver::acsi_moveSelect::Request& req, acsi_eip_driver::acsi_moveSelect::Response& res)
 {
   ROS_INFO_STREAM("Move select: " << req.select);
-  if(!ss.host_control  && ss.enabled && req.select > 0 && req.select <= 16) {
+  if (!ss.host_control && ss.enabled && req.select > 0 && req.select <= 16)
+  {
     so.drive_command = START;
     so.move_select = req.select;
     return res.success = true;
-  } else {
+  }
+  else
+  {
     return res.success = false;
   }
 
   return true;
 }
 
-
-bool ACSI::estop(acsi_eip_driver::acsi_estop::Request  &req,
-                    acsi_eip_driver::acsi_estop::Response &res)
+bool ACSI::estop(acsi_eip_driver::acsi_estop::Request& req, acsi_eip_driver::acsi_estop::Response& res)
 {
-
-  if(!ss.host_control) {
+  if (!ss.host_control)
+  {
     so.drive_command = (req.estop) ? ESTOP : so.drive_command;
     return res.success = true;
-  } else {
+  }
+  else
+  {
     return res.success = false;
   }
-
 }
 
-
-//void ACSI::startUDPIO()
+// void ACSI::startUDPIO()
 //{
 //  EIP_CONNECTION_INFO_T o_to_t, t_to_o;
 //  o_to_t.assembly_id = 0x70;
@@ -315,4 +348,4 @@ bool ACSI::estop(acsi_eip_driver::acsi_estop::Request  &req,
 //  connection_num_ = createConnection(o_to_t, t_to_o);
 //}
 
-} // namespace os32c
+}  // namespace os32c
