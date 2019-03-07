@@ -5,6 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
     odva_ethernetip
     roscpp
     std_msgs
+    std_srvs
     message_generation
 )
 
@@ -17,14 +18,15 @@ add_message_files(
   acsi_status.msg
 )
 
+## acsi_enable.srv
+## acsi_estop.srv
+## acsi_moveStop.srv
+## acsi_setHome.srv
+## acsi_moveHome.srv
+
 add_service_files(
   FILES
-  acsi_enable.srv
-  acsi_estop.srv
   acsi_setProfile.srv
-  acsi_setHome.srv
-  acsi_moveStop.srv
-  acsi_moveHome.srv
   acsi_moveAbsolute.srv
   acsi_moveIncremental.srv
   acsi_moveSelect.srv

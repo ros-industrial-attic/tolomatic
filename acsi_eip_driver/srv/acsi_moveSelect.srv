@@ -1,3 +1,4 @@
 uint8 select
 ---
 bool success
+string message

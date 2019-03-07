@@ -49,25 +49,29 @@ int main(int argc, char* argv[])
 
   ros::NodeHandle nh("~");
 
-  bool debug;
-  nh.param<bool>("debug", debug, true);
-  ROS_INFO_STREAM("debug is: " << debug);
-  while (debug)
-  {
-    sleep(1);
-    nh.getParam("debug", debug);
-  }
+  //bool debug;
+  //nh.param<bool>("debug", debug, true);
+  //ROS_INFO_STREAM("debug is: " << debug);
+  //while (debug)
+  //{
+  //  sleep(1);
+  //  nh.getParam("debug", debug);
+  //}
 
   ros::Time::init();
 
-  ros::Rate throttle(10);
+  double throttle_time;
+  nh.param<double>("throttle", throttle_time, 10.0);
+  ros::Rate throttle(throttle_time);
 
   // get sensor config from params
-  string host, local_ip;
+  string host;
   nh.param<std::string>("host", host, "192.168.100.10");
   ROS_INFO_STREAM("Host is: " << host);
 
-  nh.param<std::string>("local_ip", local_ip, "192.168.100.2");
+  //This will be needed for implicit messaging
+  string local_ip;
+  nh.param<std::string>("local_ip", local_ip, "0.0.0.0");
 
   // optionally publish ROS joint_state messages
   bool publish_joint_state;

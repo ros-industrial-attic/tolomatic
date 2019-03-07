@@ -30,6 +30,9 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include "std_srvs/SetBool.h"
+#include "std_srvs/Trigger.h"
+
 #include "odva_ethernetip/session.h"
 #include "odva_ethernetip/socket/socket.h"
 
@@ -40,17 +43,12 @@
 #include <acsi_eip_driver/acsi_outputs.h>
 #include <acsi_eip_driver/acsi_status.h>
 
-#include <acsi_eip_driver/acsi_enable.h>
-#include <acsi_eip_driver/acsi_moveHome.h>
+#include <acsi_eip_driver/acsi_setProfile.h>
 #include <acsi_eip_driver/acsi_moveAbsolute.h>
 #include <acsi_eip_driver/acsi_moveIncremental.h>
-#include <acsi_eip_driver/acsi_setProfile.h>
 #include <acsi_eip_driver/acsi_moveRotary.h>
 #include <acsi_eip_driver/acsi_moveSelect.h>
 #include <acsi_eip_driver/acsi_moveVelocity.h>
-#include <acsi_eip_driver/acsi_moveStop.h>
-#include <acsi_eip_driver/acsi_estop.h>
-#include <acsi_eip_driver/acsi_setHome.h>
 
 using boost::shared_ptr;
 using eip::Session;
@@ -84,13 +82,18 @@ public:
   void updateDriveStatus(InputAssembly ia);
 
   // ROS service callback handler functions
-  bool enable(acsi_eip_driver::acsi_enable::Request& req, acsi_eip_driver::acsi_enable::Response& res);
+  bool enable(std_srvs::SetBool::Request& req, std_srvs::SetBool::Response& res);
 
-  bool setHome(acsi_eip_driver::acsi_setHome::Request& req, acsi_eip_driver::acsi_setHome::Response& res);
+  bool estop(std_srvs::SetBool::Request& req, std_srvs::SetBool::Response& res);
 
-  bool setProfile(acsi_eip_driver::acsi_setProfile::Request& req, acsi_eip_driver::acsi_setProfile::Response& res);
+  bool setHome(std_srvs::Trigger::Request& req, std_srvs::Trigger::Response& res);
 
-  bool moveStop(acsi_eip_driver::acsi_moveStop::Request& req, acsi_eip_driver::acsi_moveStop::Response& res);
+  bool moveHome(std_srvs::Trigger::Request& req, std_srvs::Trigger::Response& res);
+
+  bool moveStop(std_srvs::Trigger::Request& req, std_srvs::Trigger::Response& res);
+
+  bool setProfile(acsi_eip_driver::acsi_setProfile::Request& req,
+                  acsi_eip_driver::acsi_setProfile::Response& res);
 
   bool moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request& req,
                     acsi_eip_driver::acsi_moveAbsolute::Response& res);
@@ -98,16 +101,15 @@ public:
   bool moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request& req,
                        acsi_eip_driver::acsi_moveIncremental::Response& res);
 
-  bool moveRotary(acsi_eip_driver::acsi_moveRotary::Request& req, acsi_eip_driver::acsi_moveRotary::Response& res);
+  bool moveRotary(acsi_eip_driver::acsi_moveRotary::Request& req,
+                  acsi_eip_driver::acsi_moveRotary::Response& res);
 
-  bool moveSelect(acsi_eip_driver::acsi_moveSelect::Request& req, acsi_eip_driver::acsi_moveSelect::Response& res);
+  bool moveSelect(acsi_eip_driver::acsi_moveSelect::Request& req,
+                  acsi_eip_driver::acsi_moveSelect::Response& res);
 
   bool moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request& req,
                     acsi_eip_driver::acsi_moveVelocity::Response& res);
 
-  bool moveHome(acsi_eip_driver::acsi_moveHome::Request& req, acsi_eip_driver::acsi_moveHome::Response& res);
-
-  bool estop(acsi_eip_driver::acsi_estop::Request& req, acsi_eip_driver::acsi_estop::Response& res);
 
   // TODO: Debug this
   // void startUDPIO(); //for implicit data; not working

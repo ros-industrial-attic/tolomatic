@@ -81,16 +81,6 @@ int main(int argc, char* argv[])
 
   try
   {
-    // get status
-  }
-  catch (std::invalid_argument& ex)
-  {
-    ROS_FATAL_STREAM("Invalid arguments in sensor configuration: " << ex.what());
-    return -1;
-  }
-
-  try
-  {
     // TODO: Setup implicit messaging here
     // stepper.startUDPIO();
     // ROS_INFO_STREAM("UDP Started");

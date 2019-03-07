@@ -4,3 +4,4 @@ float32 deceleration
 float32 force
 ---
 bool success
+string message

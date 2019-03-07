@@ -150,60 +150,84 @@ void ACSI::setDriveData()
   }
 }
 
-bool ACSI::enable(acsi_eip_driver::acsi_enable::Request& req, acsi_eip_driver::acsi_enable::Response& res)
+bool ACSI::enable(std_srvs::SetBool::Request& req, std_srvs::SetBool::Response& res)
 {
   if (!ss.host_control)
   {
-    so.drive_command = (req.enable) ? ENABLE : DISABLE;
+    so.drive_command = (req.data) ? ENABLE : DISABLE;
+    res.message = "Drive enabled";
     return res.success = true;
   }
   else
   {
+    res.message = "Cannot command drive";
     return res.success = false;
   }
 }
 
-bool ACSI::moveHome(acsi_eip_driver::acsi_moveHome::Request& req, acsi_eip_driver::acsi_moveHome::Response& res)
+bool ACSI::estop(std_srvs::SetBool::Request& req, std_srvs::SetBool::Response& res)
 {
-  if (!ss.host_control && req.home)
+  if (!ss.host_control)
+  {
+    so.drive_command = (req.data) ? ESTOP : so.drive_command;
+    res.message = "Drive stopped";
+    return res.success = true;
+  }
+  else
+  {
+    res.message = "Cannot command drive";
+    return res.success = false;
+  }
+}
+
+bool ACSI::moveHome(std_srvs::Trigger::Request& req, std_srvs::Trigger::Response& res)
+{
+  if (!ss.host_control)
   {
     so.drive_command = GOHOME;
     so.motion_type = HOME;
+    res.message = "Moving Home";
     return res.success = true;
   }
   else
   {
+    res.message = "Cannot command drive";
     return res.success = false;
   }
 }
 
-bool ACSI::moveStop(acsi_eip_driver::acsi_moveStop::Request& req, acsi_eip_driver::acsi_moveStop::Response& res)
+bool ACSI::moveStop(std_srvs::Trigger::Request& req, std_srvs::Trigger::Response& res)
 {
   if (!ss.host_control)
   {
-    so.drive_command = (req.stop) ? STOP : so.drive_command;
+    so.drive_command = STOP;
+    res.message = "Stopping";
     return res.success = true;
   }
   else
   {
+    res.message = "Cannot command drive";
     return res.success = false;
   }
 }
 
-bool ACSI::setHome(acsi_eip_driver::acsi_setHome::Request& req, acsi_eip_driver::acsi_setHome::Response& res)
+bool ACSI::setHome(std_srvs::Trigger::Request& req, std_srvs::Trigger::Response& res)
 {
   if (!ss.host_control)
   {
-    so.drive_command = (req.sethome) ? HOME_HERE : so.drive_command;
+    so.drive_command = HOME_HERE;
+    res.message = "Set home";
     return res.success = true;
   }
   else
   {
+    res.message = "Cannot command drive";
     return res.success = false;
   }
 }
 
-bool ACSI::setProfile(acsi_eip_driver::acsi_setProfile::Request& req, acsi_eip_driver::acsi_setProfile::Response& res)
+bool ACSI::setProfile(acsi_eip_driver::acsi_setProfile::Request& req,
+                      acsi_eip_driver::acsi_setProfile::Response& res)
 {
   if (!ss.host_control)
   {
@@ -211,10 +235,12 @@ bool ACSI::setProfile(acsi_eip_driver::acsi_setProfile::Request& req, acsi_eip_d
     so.accel = req.acceleration;
     so.decel = req.deceleration;
     so.force = req.force;
+    res.message = "Profile set";
     return res.success = true;
   }
   else
   {
+    res.message = "Cannot command drive";
     return res.success = false;
   }
 }
@@ -226,19 +252,25 @@ bool ACSI::moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request& req,
   {
     so.drive_command = START;
     if (req.velocity > 0)
+    {
+      res.message = "Velocity move forward";
       so.motion_type = VELOCITY_FWD;
+    }
     else if ((req.velocity < 0))
+    {
+      res.message = "Velocity move reverse";
       so.motion_type = VELOCITY_REV;
+    }
     else
     {
-      ;
+      res.message = "Velocity zero";
     }
     so.velocity = std::abs(req.velocity);
-
     return res.success = true;
   }
   else
   {
+    res.message = "Cannot command drive";
     return res.success = false;
   }
 }
@@ -252,10 +284,12 @@ bool ACSI::moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request& req,
     so.motion_type = ABSOLUTE;
     so.position = req.position;
 
+    res.message = "Move abolute";
     return res.success = true;
   }
   else
   {
+    res.message = "Cannot command drive";
     return res.success = false;
   }
 }
@@ -267,33 +301,52 @@ bool ACSI::moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request& req,
   {
     so.drive_command = START;
     if (req.increment > 0)
+    {
+      res.message = "Incremental move forward";
       so.motion_type = INC_POSITIVE;
+    }
     else if (req.increment < 0)
+    {
+      res.message = "Incremental move reverse";
       so.motion_type = INC_NEGATIVE;
+    }
     else
+    {
+      res.message = "Incremental move no action";
       so.motion_type = NO_ACTION;
+    }
 
     so.position = std::abs(req.increment);
-
     return res.success = true;
   }
   else
   {
+    res.message = "Cannot command drive";
     return res.success = false;
   }
 }
 
-bool ACSI::moveRotary(acsi_eip_driver::acsi_moveRotary::Request& req, acsi_eip_driver::acsi_moveRotary::Response& res)
+bool ACSI::moveRotary(acsi_eip_driver::acsi_moveRotary::Request& req,
+                      acsi_eip_driver::acsi_moveRotary::Response& res)
 {
   if (!ss.host_control && ss.enabled)
   {
     so.drive_command = START;
     if (req.increment > 0)
+    {
+      res.message = "Rotary move positive";
       so.motion_type = INC_POS_ROTARY;
+    }
     else if (req.increment < 0)
+    {
+      res.message = "Rotary move negative";
       so.motion_type = INC_NEG_ROTARY;
+    }
     else
+    {
+      res.message = "Rotary move no action";
       so.motion_type = NO_ACTION;
+    }
 
     so.position = std::abs(req.increment);
 
@@ -301,38 +354,29 @@ bool ACSI::moveRotary(acsi_eip_driver::acsi_moveRotary::Request& req, acsi_eip_d
   }
   else
   {
+    res.message = "Cannot command drive";
     return res.success = false;
   }
 }
 
-bool ACSI::moveSelect(acsi_eip_driver::acsi_moveSelect::Request& req, acsi_eip_driver::acsi_moveSelect::Response& res)
+bool ACSI::moveSelect(acsi_eip_driver::acsi_moveSelect::Request& req,
+                      acsi_eip_driver::acsi_moveSelect::Response& res)
 {
   ROS_INFO_STREAM("Move select: " << req.select);
   if (!ss.host_control && ss.enabled && req.select > 0 && req.select <= 16)
   {
     so.drive_command = START;
     so.move_select = req.select;
+    res.message = "Saved profile move";
     return res.success = true;
   }
   else
   {
+    res.message = "Cannot command drive";
     return res.success = false;
   }
 
   return true;
-}
-
-bool ACSI::estop(acsi_eip_driver::acsi_estop::Request& req, acsi_eip_driver::acsi_estop::Response& res)
-{
-  if (!ss.host_control)
-  {
-    so.drive_command = (req.estop) ? ESTOP : so.drive_command;
-    return res.success = true;
-  }
-  else
-  {
-    return res.success = false;
-  }
 }
 
 // void ACSI::startUDPIO()

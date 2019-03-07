@@ -3,7 +3,7 @@ ODVA confomrant Ethernet/IP interface drivers for Tolomatic stepper and servo co
 
 Topics named _\*\_inputs_ are a direct echo of interface produced values, while _\*\_status_ topics are derived from elements of these inputs. Note that, in the case of _servo_status_, _target_postion_ and _position_error_ require TMI Network Assembly Remapping of Register 1 (Commanded Postion) and Register 2 (Actual Postion Error). For stepper, default mapping is used.
 
-## Implimentation Limitations
+## Implementation Limitations
 The [odva_ethernetp](https://github.com/ros-drivers/odva_ethernetip) driver support of implicit messaging has limitations for multiple devices on the same network, so stepper and ACSI servo controller interface is implimented using explicit messaging only.
 
 ## Reference
