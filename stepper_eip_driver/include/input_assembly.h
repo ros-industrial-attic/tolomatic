@@ -19,14 +19,13 @@ using eip::serialization::Serializable;
 using eip::serialization::Reader;
 using eip::serialization::Writer;
 
-namespace stepper_eip_driver {
-
-typedef enum
+namespace stepper_eip_driver
 {
+typedef enum {
   ENABLED = 0x00000001,
-  HOMED   = 0x00000002,
-  MOTION  = 0x00000004,
-  SSTOP   = 0x00000008,
+  HOMED = 0x00000002,
+  MOTION = 0x00000004,
+  SSTOP = 0x00000008,
   BRAKE_OFF = 0x10000000,
   HOST_CTRL = 0x80000000
 } STEPPER_STATUS;
@@ -48,11 +47,7 @@ public:
   /**
    * Size of this message including all data
    */
-  virtual size_t getLength() const
-  {
-    return 28;
-  }
-
+  virtual size_t getLength() const { return 28; }
   /**
    * Serialize data into the given buffer
    * @param writer Writer to use for serialization
@@ -72,7 +67,8 @@ public:
   }
 
   /**
-   * Extra length information is not relevant in this context. Same as deserialize(reader)
+   * Extra length information is not relevant in this context. Same as
+   * deserialize(reader)
    */
   virtual Reader& deserialize(Reader& reader, size_t length)
   {
@@ -99,6 +95,6 @@ public:
   }
 };
 
-} // namespace omron_os32c_driver
+}  // namespace omron_os32c_driver
 
 #endif  // INPUT_ASSEMBLY_H

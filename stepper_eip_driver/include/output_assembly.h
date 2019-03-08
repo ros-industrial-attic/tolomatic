@@ -19,27 +19,19 @@ using eip::serialization::Serializable;
 using eip::serialization::Reader;
 using eip::serialization::Writer;
 
-namespace stepper_eip_driver {
-
-typedef enum
+namespace stepper_eip_driver
 {
-  DISABLE   = 0,
-  ENABLE    = 1,
-  START     = 3,
-  GOHOME    = 5,
-  ESTOP     = 8,
-  STOP      = 17,
+typedef enum {
+  DISABLE = 0,
+  ENABLE = 1,
+  START = 3,
+  GOHOME = 5,
+  ESTOP = 8,
+  STOP = 17,
   HOME_HERE = 21
 } STEPPER_DRIVE_COMMAND;
 
-typedef enum
-{
-  HOME        = 0,
-  LEFT,BOTTOM = 1,
-  CENTER      = 2,
-  RIGHT,TOP   = 3
-} MOVE_PROFILE;
-
+typedef enum { HOME = 0, LEFT, BOTTOM = 1, CENTER = 2, RIGHT, TOP = 3 } MOVE_PROFILE;
 
 /**
  * Data structure and operators.
@@ -52,11 +44,7 @@ public:
   /**
    * Size of this message including all data
    */
-  virtual size_t getLength() const
-  {
-    return 4;
-  }
-
+  virtual size_t getLength() const { return 4; }
   /**
    * Serialize data into the given buffer
    * @param writer Writer to use for serialization
@@ -73,7 +61,8 @@ public:
   }
 
   /**
-   * Extra length information is not relevant in this context. Same as deserialize(reader)
+   * Extra length information is not relevant in this context. Same as
+   * deserialize(reader)
    */
   virtual Reader& deserialize(Reader& reader, size_t length)
   {
@@ -96,6 +85,6 @@ public:
   }
 };
 
-} // namespace omron_os32c_driver
+}  // namespace omron_os32c_driver
 
 #endif  // OUTPUT_ASSEMBLY_H

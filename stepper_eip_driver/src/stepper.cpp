@@ -5,7 +5,6 @@
 \copyright
 */
 
-
 #include <ros/ros.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
@@ -36,8 +35,8 @@ using eip::CPFPacket;
 using eip::SequencedAddressItem;
 using eip::SequencedDataItem;
 
-namespace stepper_eip_driver {
-
+namespace stepper_eip_driver
+{
 InputAssembly STEPPER::getDriveData()
 {
   InputAssembly ia;
@@ -56,30 +55,34 @@ InputAssembly STEPPER::getDriveData()
 
 void STEPPER::updateDriveStatus(InputAssembly ia)
 {
-  ss.enabled      = (ia.drive_status & ENABLE) > 0;
-  ss.homed        = (ia.drive_status & HOMED) > 0;
-  ss.brake_off    = (ia.drive_status & BRAKE_OFF) > 0;
+  ss.enabled = (ia.drive_status & ENABLE) > 0;
+  ss.homed = (ia.drive_status & HOMED) > 0;
+  ss.brake_off = (ia.drive_status & BRAKE_OFF) > 0;
   ss.host_control = (ia.drive_status & HOST_CTRL) > 0;
-  ss.moving       = (ia.drive_status & MOTION) > 0;
-  ss.stopped      = (ia.drive_status & SSTOP) > 0;
+  ss.moving = (ia.drive_status & MOTION) > 0;
+  ss.stopped = (ia.drive_status & SSTOP) > 0;
   ss.current_position = ia.current_position;
 
-  //if we just started moving and all is well
-  if(ss.enabled) {
-    if(!ss.stopped && ss.moving && !ss_last.moving) {
-      //revert the drive command to a simple enable
+  // if we just started moving and all is well
+  if (ss.enabled)
+  {
+    if (!ss.stopped && ss.moving && !ss_last.moving)
+    {
+      // revert the drive command to a simple enable
       ss.target_position = si.analog_input;
       ss.in_position = false;
-    } else if (!ss.moving && ss_last.moving) {
-      if(abs(si.current_position - si.analog_output) <= 0.25) {
+    }
+    else if (!ss.moving && ss_last.moving)
+    {
+      if (abs(si.current_position - si.analog_output) <= 0.25)
+      {
         ss.in_position = true;
       }
     }
   }
 
-  memcpy(&ss_last,&ss, sizeof(ss));
+  memcpy(&ss_last, &ss, sizeof(ss));
 }
-
 
 void STEPPER::setDriveData()
 {
@@ -92,69 +95,78 @@ void STEPPER::setDriveData()
 
   setSingleAttributeSerializable(0x04, 0x70, 3, sb);
 
-  //need to make sure the START drive command changes back to START so that
-  //the next START will work
-  if(so.drive_command == START) so.drive_command = ENABLE;
+  // need to make sure the START drive command changes back to START so that
+  // the next START will work
+  if (so.drive_command == START)
+    so.drive_command = ENABLE;
 }
 
-bool STEPPER::enable(stepper_eip_driver::stepper_enable::Request  &req,
-                     stepper_eip_driver::stepper_enable::Response &res)
+bool STEPPER::enable(stepper_eip_driver::stepper_enable::Request& req,
+                     stepper_eip_driver::stepper_enable::Response& res)
 {
-
-  if(!ss.host_control) {
+  if (!ss.host_control)
+  {
     so.drive_command = (req.enable) ? ENABLE : DISABLE;
     return res.success = true;
-  } else {
+  }
+  else
+  {
     return res.success = false;
   }
 }
 
-bool STEPPER::moveProfile(stepper_eip_driver::stepper_moveProfile::Request  &req,
-                          stepper_eip_driver::stepper_moveProfile::Response &res)
+bool STEPPER::moveProfile(stepper_eip_driver::stepper_moveProfile::Request& req,
+                          stepper_eip_driver::stepper_moveProfile::Response& res)
 {
   ROS_INFO_STREAM("Move profile:" + req.profile);
-  if(!ss.host_control && req.profile > 0 && req.profile < 16) {
+  if (!ss.host_control && req.profile > 0 && req.profile < 16)
+  {
     so.drive_command = START;
     so.move_select = req.profile;
     return res.success = true;
-  } else {
+  }
+  else
+  {
     return res.success = false;
   }
 
   return true;
 }
 
-bool STEPPER::home(stepper_eip_driver::stepper_home::Request  &req,
-                   stepper_eip_driver::stepper_home::Response &res)
+bool STEPPER::home(stepper_eip_driver::stepper_home::Request& req, stepper_eip_driver::stepper_home::Response& res)
 {
-
-  if(!ss.host_control) {
-    so.drive_command = (req.home) ? GOHOME: so.drive_command;
+  if (!ss.host_control)
+  {
+    so.drive_command = (req.home) ? GOHOME : so.drive_command;
     return res.success = true;
-  } else {
+  }
+  else
+  {
     return res.success = false;
   }
 }
 
-bool STEPPER::stop(stepper_eip_driver::stepper_stop::Request  &req,
-                   stepper_eip_driver::stepper_stop::Response &res)
+bool STEPPER::stop(stepper_eip_driver::stepper_stop::Request& req, stepper_eip_driver::stepper_stop::Response& res)
 {
-
-  if(!ss.host_control) {
+  if (!ss.host_control)
+  {
     so.drive_command = (req.stop) ? STOP : so.drive_command;
     return res.success = true;
-  } else {
+  }
+  else
+  {
     return res.success = false;
   }
 }
 
-//not implimented
-//bool STEPPER::estop(stepper_eip_driver::stepper_estop::Request  &req,
+// not implimented
+// bool STEPPER::estop(stepper_eip_driver::stepper_estop::Request  &req,
 //                    stepper_eip_driver::stepper_estop::Response &res)
 //{
 //
 //  if(!ss.host_control) {
-//    so.drive_command = (req.e_stop) ? (STEPPER_DRIVE_COMMAND)ESTOP : so.drive_command;
+//    so.drive_command = (req.e_stop) ? (STEPPER_DRIVE_COMMAND)ESTOP :
+//    so.drive_command;
 //    return res.success = true;
 //  } else {
 //    return res.success = false;
@@ -162,12 +174,13 @@ bool STEPPER::stop(stepper_eip_driver::stepper_stop::Request  &req,
 //
 //}
 //
-//bool STEPPER::setHome(stepper_eip_driver::stepper_sethome::Request  &req,
+// bool STEPPER::setHome(stepper_eip_driver::stepper_sethome::Request  &req,
 //                      stepper_eip_driver::stepper_sethome::Response &res)
 //{
 //
 //  if(!ss.host_control) {
-//    so.drive_command = (req.sethome) ? (STEPPER_DRIVE_COMMAND)HOME_HERE: so.drive_command;
+//    so.drive_command = (req.sethome) ? (STEPPER_DRIVE_COMMAND)HOME_HERE:
+//    so.drive_command;
 //    return res.success = true;
 //  } else {
 //    return res.success = false;
@@ -176,7 +189,7 @@ bool STEPPER::stop(stepper_eip_driver::stepper_stop::Request  &req,
 //}
 //
 //
-//void STEPPER::startUDPIO()
+// void STEPPER::startUDPIO()
 //{
 //  EIP_CONNECTION_INFO_T o_to_t, t_to_o;
 //  o_to_t.assembly_id = 0x70;
@@ -189,4 +202,4 @@ bool STEPPER::stop(stepper_eip_driver::stepper_stop::Request  &req,
 //  connection_num_ = createConnection(o_to_t, t_to_o);
 //}
 
-} // namespace os32c
+}  // namespace os32c

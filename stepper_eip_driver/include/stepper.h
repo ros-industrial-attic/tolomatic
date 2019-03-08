@@ -21,7 +21,7 @@
 #include <stepper_eip_driver/stepper_moveProfile.h>
 #include <stepper_eip_driver/stepper_stop.h>
 
-//not impliemnted
+// not impliemnted
 //#include <stepper_eip_driver/stepper_estop.h>
 //#include <stepper_eip_driver/stepper_sethome.h>
 
@@ -29,11 +29,10 @@ using boost::shared_ptr;
 using eip::Session;
 using eip::socket::Socket;
 
-namespace stepper_eip_driver {
-
-
+namespace stepper_eip_driver
+{
 /**
- * Main interface for the Tolomatic stepper controller. 
+ * Main interface for the Tolomatic stepper controller.
  * Produces methods to access the stepper controller from a high level.
  */
 class STEPPER : public Session
@@ -41,7 +40,8 @@ class STEPPER : public Session
 public:
   /**
    * Construct a new instance.
-   * @param socket Socket instance to use for communication with the stepper controller
+   * @param socket Socket instance to use for communication with the stepper
+   * controller
    */
   STEPPER(shared_ptr<Socket> socket, shared_ptr<Socket> io_socket)
     : Session(socket, io_socket), connection_num_(-1), mrc_sequence_num_(1)
@@ -54,27 +54,24 @@ public:
 
   void updateDriveStatus(InputAssembly ia);
 
-  bool enable(stepper_eip_driver::stepper_enable::Request  &req,
-              stepper_eip_driver::stepper_enable::Response &res);
+  bool enable(stepper_eip_driver::stepper_enable::Request& req, stepper_eip_driver::stepper_enable::Response& res);
 
-  bool moveProfile(stepper_eip_driver::stepper_moveProfile::Request  &req,
-                   stepper_eip_driver::stepper_moveProfile::Response &res);
+  bool moveProfile(stepper_eip_driver::stepper_moveProfile::Request& req,
+                   stepper_eip_driver::stepper_moveProfile::Response& res);
 
-  bool home(stepper_eip_driver::stepper_home::Request &req,
-            stepper_eip_driver::stepper_home::Response &res);
+  bool home(stepper_eip_driver::stepper_home::Request& req, stepper_eip_driver::stepper_home::Response& res);
 
-  bool stop(stepper_eip_driver::stepper_stop::Request &req,
-            stepper_eip_driver::stepper_stop::Response &res);
+  bool stop(stepper_eip_driver::stepper_stop::Request& req, stepper_eip_driver::stepper_stop::Response& res);
 
-  //not implimented
-  //bool estop(stepper_eip_driver::stepper_estop::Request &req,
+  // not implimented
+  // bool estop(stepper_eip_driver::stepper_estop::Request &req,
   //           stepper_eip_driver::stepper_estop::Response &res);
   //
-  //bool setHome(stepper_eip_driver::stepper_sethome::Request &req,
+  // bool setHome(stepper_eip_driver::stepper_sethome::Request &req,
   //             stepper_eip_driver::stepper_sethome::Response &res);
 
-  //TODO: Debug this
-  //void startUDPIO(); //for implicit data; not working
+  // TODO: Debug this
+  // void startUDPIO(); //for implicit data; not working
 
   stepper_inputs si;
   stepper_outputs so;
@@ -86,9 +83,8 @@ private:
 
   int connection_num_;
   EIP_UDINT mrc_sequence_num_;
-
 };
 
-} // namespace eip_driver
+}  // namespace eip_driver
 
 #endif  // EIP_DRIVER_H

@@ -1,0 +1,19 @@
+<launch>
+<arg name="drive1_host" default="192.168.100.10" />
+<arg name="joint_name" default="drive1" />
+<arg name="joint_states_topic" default="joint_states" />
+<arg name="publish_joint_states" default="false" />
+
+<node pkg="acsi_eip_driver" type="servo_node" name="$(arg joint_name)_node" output="log">
+    <param name="debug" type="bool" value="false" />
+    <param name="host" value="$(arg drive1_host)" />
+    <param name="publish_joint_state" value="$(arg publish_joint_states)" />
+    <param name="joint_name" value="$(arg joint_name)" />
+    <param name="joint_states_topic" value="$(arg joint_states_topic)" />
+    <param name="default_velocity" value="24.169" />
+    <param name="default_accel" value="966.77" />
+    <param name="default_decel" value="966.77" />
+    <param name="default_force" value="100" />
+</node>
+
+</launch>

@@ -1,0 +1,1006 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DriveActuatorMotorAssembly xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <HardwareResetRequired>false</HardwareResetRequired>
+  <ConfiguredUserUnitGroup>SI</ConfiguredUserUnitGroup>
+  <ConfiguredActuatorType>Tolomatic</ConfiguredActuatorType>
+  <ConfiguredMotorType>Tolomatic</ConfiguredMotorType>
+  <TolomaticActuator>
+    <MaxSpeedSIUnits>762.0</MaxSpeedSIUnits>
+    <ModelName>MXE-P</ModelName>
+    <Size>25</Size>
+    <NutScrewConfiguration>SN02</NutScrewConfiguration>
+    <TurnsPerInch Min="0" Max="0">2.0000</TurnsPerInch>
+    <StrokeUnits>SK</StrokeUnits>
+    <Stroke Min="-1000.0" Max="1000.0" DecimalPlaces="3">558.8000</Stroke>
+    <MotorMount>LMI</MotorMount>
+    <MotorReduction>1</MotorReduction>
+    <MotorOption>AMS1C2A1</MotorOption>
+    <IsRotary>false</IsRotary>
+  </TolomaticActuator>
+  <OtherActuator>
+    <ModelName />
+    <Description />
+    <Stroke Max="832281.8" Min="0" DecimalPlaces="3">
+      <Value>0.00</Value>
+      <SystemValue>0.00</SystemValue>
+    </Stroke>
+    <RatioDistance Max="832281.8" Min="0" DecimalPlaces="3">
+      <Value>0.0</Value>
+      <SystemValue>0.0</SystemValue>
+    </RatioDistance>
+    <RatioRevolutions Max="32767" Min="1" DecimalPlaces="0">
+      <Value>1.0</Value>
+    </RatioRevolutions>
+    <IsRotary>false</IsRotary>
+  </OtherActuator>
+  <StepperMotor>
+    <MaxHoldingCurrentPercent_>100.0</MaxHoldingCurrentPercent_>
+    <MotorModel>AMS1C2A1</MotorModel>
+    <Description>NEMA 23 STEPPER W/ ENC</Description>
+    <DegreesPerStep Min="0" Max="0">1.8</DegreesPerStep>
+    <PartNumber>0</PartNumber>
+    <GearReduction>
+      <IsModified>false</IsModified>
+      <Numerator>1</Numerator>
+      <Denominator>1</Denominator>
+    </GearReduction>
+    <Microstep>0</Microstep>
+    <Resistance>0.3900</Resistance>
+    <Inductance>1.5300</Inductance>
+    <Inertia>0.1312</Inertia>
+    <MaxRPM>2000</MaxRPM>
+    <MaxContinuousCurrent>5.0000</MaxContinuousCurrent>
+    <MaxHoldingCurrentPercent>100.0</MaxHoldingCurrentPercent>
+    <MaxTorque>20.6250</MaxTorque>
+    <HasEncoder>true</HasEncoder>
+    <HasBrake>false</HasBrake>
+    <EncoderLinesPerRev>500</EncoderLinesPerRev>
+  </StepperMotor>
+  <ServoMotor>
+    <HardwareResetRequired>false</HardwareResetRequired>
+    <MotorModel />
+    <Description />
+    <NumberOfPoles>8</NumberOfPoles>
+    <Ke>0</Ke>
+    <Kt>0</Kt>
+    <Resistance>0</Resistance>
+    <Inductance>0</Inductance>
+    <Inertia>0</Inertia>
+    <MaxRPM>0</MaxRPM>
+    <GearReduction>
+      <IsModified>true</IsModified>
+      <Numerator>1</Numerator>
+      <Denominator>1</Denominator>
+    </GearReduction>
+    <ContinuousCurrent>0</ContinuousCurrent>
+    <PeakCurrent>0</PeakCurrent>
+    <ContinuousTorque>0</ContinuousTorque>
+    <PeakTorque>0</PeakTorque>
+    <HasEncoder>true</HasEncoder>
+    <EncoderOffset>0</EncoderOffset>
+    <EncoderLinesPerRev>500</EncoderLinesPerRev>
+    <EncoderHallOffset>0</EncoderHallOffset>
+    <EncoderGateConfiguration>0</EncoderGateConfiguration>
+    <HasBrake>false</HasBrake>
+    <PartNumber>0</PartNumber>
+    <Fpi Min="0" Max="0">0</Fpi>
+    <Fii Min="0" Max="0">0</Fii>
+    <Fpv Min="0" Max="0">0</Fpv>
+    <Fiv Min="0" Max="0">0</Fiv>
+    <Fpp Min="0" Max="0">0</Fpp>
+    <Fip Min="0" Max="0">0</Fip>
+    <JRatio Min="1" Max="10">0</JRatio>
+    <Vff>0</Vff>
+    <PositionErrorSumMax>100</PositionErrorSumMax>
+    <VelocityErrorSumMax>100</VelocityErrorSumMax>
+    <LowDragPercent>100</LowDragPercent>
+    <BWVelFreq>100</BWVelFreq>
+    <BWVelRes>1</BWVelRes>
+    <EncoderOffsetDegrees>0</EncoderOffsetDegrees>
+  </ServoMotor>
+  <Motor>
+    <MaxHoldingCurrentPercent_>100.0</MaxHoldingCurrentPercent_>
+    <MotorModel>AMS1C2A1</MotorModel>
+    <Description>NEMA 23 STEPPER W/ ENC</Description>
+    <DegreesPerStep Min="0" Max="0">1.8</DegreesPerStep>
+    <PartNumber>0</PartNumber>
+    <GearReduction>
+      <IsModified>false</IsModified>
+      <Numerator>1</Numerator>
+      <Denominator>1</Denominator>
+    </GearReduction>
+    <Microstep>0</Microstep>
+    <Resistance>0.3900</Resistance>
+    <Inductance>1.5300</Inductance>
+    <Inertia>0.1312</Inertia>
+    <MaxRPM>2000</MaxRPM>
+    <MaxContinuousCurrent>5.0000</MaxContinuousCurrent>
+    <MaxHoldingCurrentPercent>100.0</MaxHoldingCurrentPercent>
+    <MaxTorque>20.6250</MaxTorque>
+    <HasEncoder>true</HasEncoder>
+    <HasBrake>false</HasBrake>
+    <EncoderLinesPerRev>500</EncoderLinesPerRev>
+  </Motor>
+  <MotorReverse>false</MotorReverse>
+  <Drive>
+    <Name>YAXIS</Name>
+    <Version>1.8.0.0</Version>
+    <DriveModel>ST1048ED</DriveModel>
+    <StatusFlags>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Drive Enabled</Name>
+        <Mask>1</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Drive Homed</Name>
+        <Mask>2</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>false</EnabledState>
+        <Name>Motion Complete</Name>
+        <Mask>4</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Software Stop</Name>
+        <Mask>8</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Stop Motion Input</Name>
+        <Mask>8388608</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Ethernet Active</Name>
+        <Mask>8192</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>false</EnabledState>
+        <Name>Brake Enabled</Name>
+        <Mask>1048576</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Drive Host In control</Name>
+        <Mask>-2147483648</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Indexer Active</Name>
+        <Mask>16777216</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Indexer Paused</Name>
+        <Mask>33554432</Mask>
+      </FlagState>
+    </StatusFlags>
+    <SafetyFaultFlags>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Positive Limit</Name>
+        <Mask>1</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Negative Limit</Name>
+        <Mask>2</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Software Stop</Name>
+        <Mask>4</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Position Error</Name>
+        <Mask>8</Mask>
+      </FlagState>
+    </SafetyFaultFlags>
+    <CriticalFaultFlags>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Over Current</Name>
+        <Mask>32</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Drive Overtemp</Name>
+        <Mask>128</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Over Voltage</Name>
+        <Mask>256</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Under Voltage</Name>
+        <Mask>512</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Flash Error</Name>
+        <Mask>1024</Mask>
+      </FlagState>
+      <FlagState>
+        <EnabledState>true</EnabledState>
+        <Name>Watchdog Reset</Name>
+        <Mask>8192</Mask>
+      </FlagState>
+    </CriticalFaultFlags>
+    <ModeSelectType>NetworkControlled</ModeSelectType>
+    <CurrentACSNetworkType>EthernetIP</CurrentACSNetworkType>
+    <AnalogInputParameterType>0</AnalogInputParameterType>
+    <AnalogIOUnits>Voltage</AnalogIOUnits>
+    <AnalogCalMode>0</AnalogCalMode>
+    <AIO_VMIN>0</AIO_VMIN>
+    <AIO_VMAX>10.0</AIO_VMAX>
+    <AIO_CMIN>4</AIO_CMIN>
+    <AIO_CMAX>20</AIO_CMAX>
+    <PeakCurrentMax>0</PeakCurrentMax>
+    <ContinuousCurrentMax>2</ContinuousCurrentMax>
+    <BusVoltage>48</BusVoltage>
+    <IOConfiguration>
+      <DigitalInputDebounce Max="29" Min="1" DecimalPlaces="1">
+        <Value>6</Value>
+        <SystemValue>0.006</SystemValue>
+      </DigitalInputDebounce>
+      <IndexerOnStartup>false</IndexerOnStartup>
+      <PneumaticMoveAfterHome>false</PneumaticMoveAfterHome>
+      <DigIn1>NotConfigured</DigIn1>
+      <DigIn2>NotConfigured</DigIn2>
+      <DigIn3>NotConfigured</DigIn3>
+      <DigIn4>NotConfigured</DigIn4>
+      <DigIn5>NotConfigured</DigIn5>
+      <DigIn6>NotConfigured</DigIn6>
+      <DigIn7>NotConfigured</DigIn7>
+      <DigIn8>NotConfigured</DigIn8>
+      <DigOut1>NotConfigured</DigOut1>
+      <DigOut2>NotConfigured</DigOut2>
+      <DigOut3>NotConfigured</DigOut3>
+      <DigOut4>NotConfigured</DigOut4>
+    </IOConfiguration>
+    <HomeSettings>
+      <Method>HomeToHardStop</Method>
+      <Direction>HomeDirectionNegative</Direction>
+      <VelocityToStopOrLimit Max="181.9910" Min="0" DecimalPlaces="3">
+        <Value>12.7000</Value>
+        <SystemValue>12.7000</SystemValue>
+      </VelocityToStopOrLimit>
+      <VelocityToOffset Max="181.9910" Min="0" DecimalPlaces="3">
+        <Value>25.4000</Value>
+        <SystemValue>25.4000</SystemValue>
+      </VelocityToOffset>
+      <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+        <Value>127.0000</Value>
+        <SystemValue>127.0000</SystemValue>
+      </Accel>
+      <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+        <Value>127.0000</Value>
+        <SystemValue>127.0000</SystemValue>
+      </Decel>
+      <Offset Max="558.8000" Min="0" DecimalPlaces="3">
+        <Value>1.0000</Value>
+        <SystemValue>1.0000</SystemValue>
+      </Offset>
+      <Force>40.0000</Force>
+      <AutomaticallyHomeOnPowerUp>false</AutomaticallyHomeOnPowerUp>
+    </HomeSettings>
+    <FaultSettings>
+      <PositiveLimitSwitchFaultEnabled>false</PositiveLimitSwitchFaultEnabled>
+      <PositiveLimitSwitchFaultAction>StopMotion</PositiveLimitSwitchFaultAction>
+      <NegativeLimitSwitchFaultEnabled>false</NegativeLimitSwitchFaultEnabled>
+      <NegativeLimitSwitchFaultAction>StopMotion</NegativeLimitSwitchFaultAction>
+      <PositionErrorFaultEnabled>true</PositionErrorFaultEnabled>
+      <PositionErrorFaultAction>StopMotion</PositionErrorFaultAction>
+      <EStopFaultEnabled>true</EStopFaultEnabled>
+      <EStopFaultAction>StopMotion</EStopFaultAction>
+      <StallDetectionEnabled>false</StallDetectionEnabled>
+      <StallDetectionAction>StopMotion</StallDetectionAction>
+      <I2TFaultEnabled>true</I2TFaultEnabled>
+      <I2TFaultAction>DisableMotor</I2TFaultAction>
+      <VelocityErrorFaultEnabled>false</VelocityErrorFaultEnabled>
+      <VelocityErrorFaultAction>StopMotion</VelocityErrorFaultAction>
+    </FaultSettings>
+    <SafetyAndMotionSettings>
+      <InPositionCriteria>
+        <Position Max="558.8000" Min="0" DecimalPlaces="3">
+          <Value>4.0000</Value>
+          <SystemValue>4.0000</SystemValue>
+        </Position>
+        <SettleTime Max="31104000000" Min="0" DecimalPlaces="1">
+          <Value>100</Value>
+          <SystemValue>0.1</SystemValue>
+        </SettleTime>
+        <ForceSettleTime Max="31104000000" Min="0" DecimalPlaces="1">
+          <Value>100</Value>
+          <SystemValue>0.1</SystemValue>
+        </ForceSettleTime>
+        <EndpointCorrection>false</EndpointCorrection>
+      </InPositionCriteria>
+      <PositionError Max="558.8000" Min="0" DecimalPlaces="3">
+        <Value>5.0040</Value>
+        <SystemValue>5.0040</SystemValue>
+      </PositionError>
+      <MotionLimits>
+        <MaximumVelocity Max="423.33333333333333333333333356" Min="0" DecimalPlaces="3">
+          <Value>181.9910</Value>
+          <SystemValue>181.9910</SystemValue>
+        </MaximumVelocity>
+        <MaximumAccel Max="16933.333333333333333333333342" Min="0" DecimalPlaces="2">
+          <Value>1778.0000</Value>
+          <SystemValue>1778.0000</SystemValue>
+        </MaximumAccel>
+        <MaximumDecel Max="16933.333333333333333333333342" Min="0" DecimalPlaces="2">
+          <Value>1778.0000</Value>
+          <SystemValue>1778.0000</SystemValue>
+        </MaximumDecel>
+      </MotionLimits>
+      <CurrentLimits>
+        <PeakCurrentLimit Max="5.0000" Min="0.5000" DecimalPlaces="3">
+          <Value>5.0000</Value>
+        </PeakCurrentLimit>
+        <ContinuousCurrentLimit Max="1000.0" Min="0.0" DecimalPlaces="3">
+          <Value>0.0</Value>
+        </ContinuousCurrentLimit>
+        <HoldingCurrent>2.0000</HoldingCurrent>
+        <PeakCurrentDuration Max="10000" Min="200" DecimalPlaces="1">
+          <Value>1000</Value>
+          <SystemValue>1</SystemValue>
+        </PeakCurrentDuration>
+        <CurrentLimit Max="5.0000" Min="0.5000" DecimalPlaces="3">
+          <Value>5.0000</Value>
+        </CurrentLimit>
+      </CurrentLimits>
+      <PositiveNegativeLimits>
+        <SWPositiveLimit Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+          <Value>557.7970</Value>
+          <SystemValue>557.7970</SystemValue>
+        </SWPositiveLimit>
+        <ZonePositiveLimit Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+          <Value>0.0000</Value>
+          <SystemValue>0.0000</SystemValue>
+        </ZonePositiveLimit>
+        <ZoneNegativeLimit Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+          <Value>0.0000</Value>
+          <SystemValue>0.0000</SystemValue>
+        </ZoneNegativeLimit>
+        <SWNegativeLimit Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+          <Value>-1.0000</Value>
+          <SystemValue>-1.0000</SystemValue>
+        </SWNegativeLimit>
+        <EcoMode>false</EcoMode>
+      </PositiveNegativeLimits>
+      <VelocityError Max="181.9910" Min="0" DecimalPlaces="3">
+        <Value>10</Value>
+        <SystemValue>10</SystemValue>
+      </VelocityError>
+    </SafetyAndMotionSettings>
+    <ModeSetupRecordList>
+      <ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>1</Num>
+          <Label>HOME</Label>
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>40.0000</Value>
+            <SystemValue>40.0000</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>254.0000</Value>
+            <SystemValue>254.0000</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>254.0000</Value>
+            <SystemValue>254.0000</SystemValue>
+          </Decel>
+          <ForcePercent>100.0000</ForcePercent>
+        </ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>2</Num>
+          <Label>BOTTOM</Label>
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>90.8175</Value>
+            <SystemValue>90.8175</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>40.0000</Value>
+            <SystemValue>40.0000</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>254.0000</Value>
+            <SystemValue>254.0000</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>254.0000</Value>
+            <SystemValue>254.0000</SystemValue>
+          </Decel>
+          <ForcePercent>100.0000</ForcePercent>
+        </ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>3</Num>
+          <Label>CENTER</Label>
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>282.6384</Value>
+            <SystemValue>282.6384</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>40.0000</Value>
+            <SystemValue>40.0000</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>254.0000</Value>
+            <SystemValue>254.0000</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>254.0000</Value>
+            <SystemValue>254.0000</SystemValue>
+          </Decel>
+          <ForcePercent>100.0000</ForcePercent>
+        </ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>4</Num>
+          <Label>TOP</Label>
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>557.7840</Value>
+            <SystemValue>557.7840</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>40.0000</Value>
+            <SystemValue>40.0000</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>254.0000</Value>
+            <SystemValue>254.0000</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>254.0000</Value>
+            <SystemValue>254.0000</SystemValue>
+          </Decel>
+          <ForcePercent>100.0000</ForcePercent>
+        </ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>5</Num>
+          <Label />
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Decel>
+          <ForcePercent>100</ForcePercent>
+        </ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>6</Num>
+          <Label />
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Decel>
+          <ForcePercent>100</ForcePercent>
+        </ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>7</Num>
+          <Label />
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Decel>
+          <ForcePercent>100</ForcePercent>
+        </ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>8</Num>
+          <Label />
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Decel>
+          <ForcePercent>100</ForcePercent>
+        </ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>9</Num>
+          <Label />
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Decel>
+          <ForcePercent>100</ForcePercent>
+        </ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>10</Num>
+          <Label />
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Decel>
+          <ForcePercent>100</ForcePercent>
+        </ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>11</Num>
+          <Label />
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Decel>
+          <ForcePercent>100</ForcePercent>
+        </ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>12</Num>
+          <Label />
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Decel>
+          <ForcePercent>100</ForcePercent>
+        </ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>13</Num>
+          <Label />
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Decel>
+          <ForcePercent>100</ForcePercent>
+        </ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>14</Num>
+          <Label />
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Decel>
+          <ForcePercent>100</ForcePercent>
+        </ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>15</Num>
+          <Label />
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Decel>
+          <ForcePercent>100</ForcePercent>
+        </ModeSetupRecord>
+        <ModeSetupRecord>
+          <Num>16</Num>
+          <Label />
+          <Type>Absolute</Type>
+          <Distance Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Distance>
+          <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Velocity>
+          <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Accel>
+          <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+            <Value>0.0</Value>
+            <SystemValue>0.0</SystemValue>
+          </Decel>
+          <ForcePercent>100</ForcePercent>
+        </ModeSetupRecord>
+      </ModeSetupRecord>
+      <numberOfModeSetupRecords>16</numberOfModeSetupRecords>
+    </ModeSetupRecordList>
+    <IndexerSetupRecordList>
+      <ModeSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>1</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>1</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>2</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>2</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>3</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>3</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>4</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>4</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>5</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>5</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>6</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>6</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>7</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>7</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>8</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>8</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>9</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>9</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>10</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>10</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>11</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>11</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>12</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>12</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>13</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>13</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>14</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>14</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>15</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>15</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+        <IndexerSetupRecord>
+          <TableNum>16</TableNum>
+          <PositionPointer>0</PositionPointer>
+          <NextIndexerTableIndex>16</NextIndexerTableIndex>
+          <MinimumCycles>0</MinimumCycles>
+        </IndexerSetupRecord>
+      </ModeSetupRecord>
+    </IndexerSetupRecordList>
+    <MotionSequencer>
+      <Continuous>false</Continuous>
+      <NextPosition>0</NextPosition>
+      <CurrPosition>0</CurrPosition>
+      <SequenceList>
+        <int>-1</int>
+        <int>-1</int>
+        <int>-1</int>
+        <int>-1</int>
+        <int>-1</int>
+        <int>-1</int>
+        <int>-1</int>
+        <int>-1</int>
+        <int>-1</int>
+        <int>-1</int>
+        <int>-1</int>
+        <int>-1</int>
+        <int>-1</int>
+        <int>-1</int>
+        <int>-1</int>
+        <int>-1</int>
+      </SequenceList>
+    </MotionSequencer>
+    <AnalogInputSettings>
+      <InputUnits>Voltage</InputUnits>
+      <InputVoltageTestMin>2.0000</InputVoltageTestMin>
+      <InputVoltageTestMax>8.0000</InputVoltageTestMax>
+      <DeadbandVoltage>0.0500</DeadbandVoltage>
+      <InputCurrentTestMin>2.0000</InputCurrentTestMin>
+      <InputCurrentTestMax>8.0000</InputCurrentTestMax>
+      <DeadbandCurrent>0.0500</DeadbandCurrent>
+      <PositionMin Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+        <Value>0.0</Value>
+        <SystemValue>0.0</SystemValue>
+      </PositionMin>
+      <PositionMax Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+        <Value>0.0</Value>
+        <SystemValue>0.0</SystemValue>
+      </PositionMax>
+      <Velocity Max="181.9910" Min="0" DecimalPlaces="3">
+        <Value>0.0</Value>
+        <SystemValue>0.0</SystemValue>
+      </Velocity>
+      <Accel Max="1778.0000" Min="0" DecimalPlaces="2">
+        <Value>0.0</Value>
+        <SystemValue>0.0</SystemValue>
+      </Accel>
+      <Decel Max="1778.0000" Min="0" DecimalPlaces="2">
+        <Value>0.0</Value>
+        <SystemValue>0.0</SystemValue>
+      </Decel>
+      <Force>100</Force>
+      <VelocityMin Max="181.9910" Min="-181.9910" DecimalPlaces="3">
+        <Value>0.0</Value>
+        <SystemValue>0.0</SystemValue>
+      </VelocityMin>
+      <VelocityMax Max="181.9910" Min="-181.9910" DecimalPlaces="3">
+        <Value>0.0</Value>
+        <SystemValue>0.0</SystemValue>
+      </VelocityMax>
+      <MeasuredInputVoltageMin>2.0000</MeasuredInputVoltageMin>
+      <MeasuredInputVoltageMax>8.0000</MeasuredInputVoltageMax>
+      <MeasuredInputCurrentMin>2.0000</MeasuredInputCurrentMin>
+      <MeasuredInputCurrentMax>8.0000</MeasuredInputCurrentMax>
+      <AnalogPositionUpdateRate>50</AnalogPositionUpdateRate>
+      <AnalogInputFilter>6</AnalogInputFilter>
+    </AnalogInputSettings>
+    <AnalogOutputSettings>
+      <OutputUnits>Voltage</OutputUnits>
+      <OutputVoltage>0.0000</OutputVoltage>
+      <OutputVoltageTestMin>2.0000</OutputVoltageTestMin>
+      <OutputVoltageTestMax>8.0000</OutputVoltageTestMax>
+      <MeasuredOutputVoltageMin>2.0000</MeasuredOutputVoltageMin>
+      <MeasuredOutputVoltageMax>8.0000</MeasuredOutputVoltageMax>
+      <OutputCurrent>0.0000</OutputCurrent>
+      <OutputCurrentTestMin>2.0000</OutputCurrentTestMin>
+      <OutputCurrentTestMax>8.0000</OutputCurrentTestMax>
+      <MeasuredOutputCurrentMin>2.0000</MeasuredOutputCurrentMin>
+      <MeasuredOutputCurrentMax>8.0000</MeasuredOutputCurrentMax>
+    </AnalogOutputSettings>
+    <EthernetSettings>
+      <UDPSockEnabled>true</UDPSockEnabled>
+      <DHCPEnabled>False</DHCPEnabled>
+      <NVMEnabled>true</NVMEnabled>
+      <HostName />
+      <IPAddr>192.168.0.12</IPAddr>
+      <IPGateway>192.168.0.12</IPGateway>
+      <IPMask>255.255.255.0</IPMask>
+      <DNS1>192.168.0.1</DNS1>
+      <DNS2>192.168.0.1</DNS2>
+      <LinkConfig>AutoNegotiate</LinkConfig>
+      <NetworkInputRegister1>POS</NetworkInputRegister1>
+      <NetworkInputRegister2>CPOS</NetworkInputRegister2>
+    </EthernetSettings>
+    <BrakeSettings>
+      <BrakeMaxDelay Max="1000" Min="0" DecimalPlaces="3">
+        <Value>20.0</Value>
+        <SystemValue>0.0200</SystemValue>
+      </BrakeMaxDelay>
+      <BrakeEnableResponseDelay Max="1000" Min="0" DecimalPlaces="3">
+        <Value>40.0</Value>
+        <SystemValue>0.0400</SystemValue>
+      </BrakeEnableResponseDelay>
+      <BrakeDisableResponseDelay Max="1000" Min="0" DecimalPlaces="3">
+        <Value>40.0</Value>
+        <SystemValue>0.0400</SystemValue>
+      </BrakeDisableResponseDelay>
+      <BrakeSubsystemEnable>false</BrakeSubsystemEnable>
+      <BrakeMode>ACTIVE_LOW</BrakeMode>
+      <BrakeMaxVelocity Max="5" Min="0" DecimalPlaces="3">
+        <Value>1.0030</Value>
+        <SystemValue>1.0030</SystemValue>
+      </BrakeMaxVelocity>
+      <BrakeOutputNetworkControl>false</BrakeOutputNetworkControl>
+    </BrakeSettings>
+    <RS485Settings>
+      <ModbusID>0</ModbusID>
+      <ModbusBaud>0</ModbusBaud>
+    </RS485Settings>
+  </Drive>
+  <MotionManager>
+    <MoveType>Absolute</MoveType>
+    <RequestedPosition Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+      <Value>0</Value>
+      <SystemValue>0</SystemValue>
+    </RequestedPosition>
+    <IncrementalMoveDelta Max="558.8000" Min="0" DecimalPlaces="3">
+      <Value>12.70</Value>
+      <SystemValue>12.70</SystemValue>
+    </IncrementalMoveDelta>
+    <AbsMoveRequestedPosition Max="557.8000" Min="-1.0000" DecimalPlaces="3">
+      <Value>0</Value>
+      <SystemValue>0</SystemValue>
+    </AbsMoveRequestedPosition>
+    <RequestedVelocity Max="181.9910" Min="0" DecimalPlaces="3">
+      <Value>25.4</Value>
+      <SystemValue>25.4</SystemValue>
+    </RequestedVelocity>
+    <Acceleration Max="1778.0000" Min="0" DecimalPlaces="2">
+      <Value>254</Value>
+      <SystemValue>254</SystemValue>
+    </Acceleration>
+    <Deceleration Max="1778.0000" Min="0" DecimalPlaces="2">
+      <Value>254</Value>
+      <SystemValue>254</SystemValue>
+    </Deceleration>
+    <ForcePercent>100</ForcePercent>
+    <JogVelocity Max="0" Min="0" DecimalPlaces="3">
+      <Value>25.4</Value>
+      <SystemValue>25.4</SystemValue>
+    </JogVelocity>
+    <JogAcceleration Max="0" Min="0" DecimalPlaces="2">
+      <Value>254</Value>
+      <SystemValue>254</SystemValue>
+    </JogAcceleration>
+    <JogDeceleration Max="0" Min="0" DecimalPlaces="2">
+      <Value>254</Value>
+      <SystemValue>254</SystemValue>
+    </JogDeceleration>
+    <JogForcePercent>100</JogForcePercent>
+  </MotionManager>
+  <Stroke Max="1000.0" Min="-1000.0" DecimalPlaces="3">
+    <Value>558.8000</Value>
+    <SystemValue>558.8000</SystemValue>
+  </Stroke>
+  <TurnsPerMM>0.0787401574803149606299212598</TurnsPerMM>
+</DriveActuatorMotorAssembly>
