@@ -125,132 +125,145 @@ void ACSI::setDriveData()
 
   // need to make sure the START drive command changes back to ENABLE so that
   // the next START will work
-  switch (so.drive_command)
-  {
-    case ENABLE:
-      so.drive_command = ENABLE;
-      break;
-    case START:
-      so.drive_command = ENABLE;
-      break;
-    case GOHOME:
-      so.drive_command = GOHOME;
-      break;
-    case ESTOP:
-      so.drive_command = ESTOP;
-      break;
-    case STOP:
-      so.drive_command = STOP;
-      break;
-    case HOME_HERE:
-      so.drive_command = ENABLE;
-      break;
-    default:
-      so.drive_command = DISABLE;
-  }
+  if(so.drive_command & ESTOP)
+    so.drive_command = ESTOP;
+  else if (so.drive_command & ENABLE)
+    so.drive_command = ENABLE;
+  else
+    so.drive_command = DISABLE;
+
 }
 
 bool ACSI::enable(std_srvs::SetBool::Request& req, std_srvs::SetBool::Response& res)
 {
-  if (!ss.host_control)
+  if (ss.host_control)
   {
-    so.drive_command = (req.data) ? ENABLE : DISABLE;
-    res.message = "Drive enabled";
-    return res.success = true;
+    res.message = "Cannot enable Ethernet/IP";
+    res.success = false;
+  }
+
+  if(req.data) {
+    so.drive_command = so.drive_command | ENABLE;
+    res.message = "Drive enable";
   }
   else
   {
-    res.message = "Cannot command drive";
-    return res.success = false;
+    so.drive_command = so.drive_command & (DISABLE | ESTOP);
+    res.message = "Drive disable";
   }
+
+  res.success = true;
+
+  return true;
 }
 
 bool ACSI::estop(std_srvs::SetBool::Request& req, std_srvs::SetBool::Response& res)
 {
-  if (!ss.host_control)
+  if (ss.host_control)
   {
-    so.drive_command = (req.data) ? ESTOP : so.drive_command;
-    res.message = "Drive stopped";
-    return res.success = true;
+    res.message = "Cannot enable Ethernet/IP";
+    res.success = false;
   }
   else
   {
-    res.message = "Cannot command drive";
-    return res.success = false;
+    so.drive_command = (req.data) ? ESTOP | so.drive_command: ~ESTOP & so.drive_command;
+    res.message = "Drive e-stopped";
+    res.success = true;
   }
+
+  return true;
 }
 
 bool ACSI::moveHome(std_srvs::Trigger::Request& req, std_srvs::Trigger::Response& res)
 {
-  if (!ss.host_control)
+  if (ss.host_control)
   {
-    so.drive_command = GOHOME;
-    so.motion_type = HOME;
-    res.message = "Moving Home";
-    return res.success = true;
+    res.message = "Cannot enable Ethernet/IP";
+    res.success = false;
   }
   else
   {
-    res.message = "Cannot command drive";
-    return res.success = false;
+    so.drive_command = GOHOME | so.drive_command;
+    so.motion_type = HOME;
+    res.message = "Moving Home";
+    res.success = true;
   }
+
+  return true;
 }
 
 bool ACSI::moveStop(std_srvs::Trigger::Request& req, std_srvs::Trigger::Response& res)
 {
-  if (!ss.host_control)
+  if (ss.host_control)
   {
-    so.drive_command = STOP;
-    res.message = "Stopping";
-    return res.success = true;
+    res.message = "Cannot enable Ethernet/IP";
+    res.success = false;
   }
   else
   {
-    res.message = "Cannot command drive";
-    return res.success = false;
+    so.drive_command = STOP | so.drive_command;
+    res.message = "Stopping";
+    res.success = true;
   }
+
+  return true;
 }
 
 bool ACSI::setHome(std_srvs::Trigger::Request& req, std_srvs::Trigger::Response& res)
 {
-  if (!ss.host_control)
+  if (ss.host_control)
   {
-    so.drive_command = HOME_HERE;
-    res.message = "Set home";
-    return res.success = true;
+    res.message = "Cannot enable Ethernet/IP";
+    res.success = false;
   }
   else
   {
-    res.message = "Cannot command drive";
-    return res.success = false;
+    so.drive_command = HOME_HERE | so.drive_command;
+    res.message = "Set home";
+    res.success = true;
   }
+
+  return true;
 }
 
 bool ACSI::setProfile(acsi_eip_driver::acsi_setProfile::Request& req,
                       acsi_eip_driver::acsi_setProfile::Response& res)
 {
-  if (!ss.host_control)
+  if (ss.host_control)
+  {
+    res.message = "Cannot enable Ethernet/IP";
+    res.success = false;
+  }
+  else
   {
     so.velocity = req.velocity;
     so.accel = req.acceleration;
     so.decel = req.deceleration;
     so.force = req.force;
     res.message = "Profile set";
-    return res.success = true;
+    res.success = true;
   }
-  else
-  {
-    res.message = "Cannot command drive";
-    return res.success = false;
-  }
+
+  return true;
 }
 
 bool ACSI::moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request& req,
                         acsi_eip_driver::acsi_moveVelocity::Response& res)
 {
-  if (!ss.host_control && ss.enabled)
+  if (ss.host_control)
   {
-    so.drive_command = START;
+    res.message = "Cannot enable Ethernet/IP";
+    res.success = false;
+  }
+  else if (!ss.enabled)
+  {
+    res.message = "Drive not enabled";
+    res.success = false;
+  }
+  else
+  {
+    so.drive_command = START | so.drive_command;
+
     if (req.velocity > 0)
     {
       res.message = "Velocity move forward";
@@ -262,44 +275,58 @@ bool ACSI::moveVelocity(acsi_eip_driver::acsi_moveVelocity::Request& req,
       so.motion_type = VELOCITY_REV;
     }
     else
-    {
       res.message = "Velocity zero";
-    }
+
     so.velocity = std::abs(req.velocity);
-    return res.success = true;
+    res.success = true;
   }
-  else
-  {
-    res.message = "Cannot command drive";
-    return res.success = false;
-  }
+
+  return true;
 }
 
 bool ACSI::moveAbsolute(acsi_eip_driver::acsi_moveAbsolute::Request& req,
                         acsi_eip_driver::acsi_moveAbsolute::Response& res)
 {
-  if (!ss.host_control && ss.enabled)
+  if (ss.host_control)
   {
-    so.drive_command = START;
+    res.message = "Cannot enable Ethernet/IP";
+    res.success = false;
+  }
+  else if (!ss.enabled)
+  {
+    res.message = "Drive not enabled";
+    res.success = false;
+  }
+  else
+  {
+    so.drive_command = START | so.drive_command;
     so.motion_type = ABSOLUTE;
     so.position = req.position;
 
     res.message = "Move abolute";
-    return res.success = true;
+    res.success = true;
   }
-  else
-  {
-    res.message = "Cannot command drive";
-    return res.success = false;
-  }
+
+  return true;
 }
 
 bool ACSI::moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request& req,
                            acsi_eip_driver::acsi_moveIncremental::Response& res)
 {
-  if (!ss.host_control && ss.enabled)
+  if (ss.host_control)
   {
-    so.drive_command = START;
+    res.message = "Cannot enable Ethernet/IP";
+    res.success = false;
+  }
+  else if (!ss.enabled)
+  {
+    res.message = "Drive not enabled";
+    res.success = false;
+  }
+  else
+  {
+    so.drive_command = START | so.drive_command;
+
     if (req.increment > 0)
     {
       res.message = "Incremental move forward";
@@ -317,21 +344,29 @@ bool ACSI::moveIncremental(acsi_eip_driver::acsi_moveIncremental::Request& req,
     }
 
     so.position = std::abs(req.increment);
-    return res.success = true;
+    res.success = true;
   }
-  else
-  {
-    res.message = "Cannot command drive";
-    return res.success = false;
-  }
+
+  return true;
 }
 
 bool ACSI::moveRotary(acsi_eip_driver::acsi_moveRotary::Request& req,
                       acsi_eip_driver::acsi_moveRotary::Response& res)
 {
-  if (!ss.host_control && ss.enabled)
+  if (ss.host_control)
   {
-    so.drive_command = START;
+    res.message = "Cannot enable Ethernet/IP";
+    res.success = false;
+  }
+  else if (!ss.enabled)
+  {
+    res.message = "Drive not enabled";
+    res.success = false;
+  }
+  else
+  {
+    so.drive_command = START | so.drive_command;
+
     if (req.increment > 0)
     {
       res.message = "Rotary move positive";
@@ -349,31 +384,34 @@ bool ACSI::moveRotary(acsi_eip_driver::acsi_moveRotary::Request& req,
     }
 
     so.position = std::abs(req.increment);
+    res.success = true;
+  }
 
-    return res.success = true;
-  }
-  else
-  {
-    res.message = "Cannot command drive";
-    return res.success = false;
-  }
+  return true;
 }
 
 bool ACSI::moveSelect(acsi_eip_driver::acsi_moveSelect::Request& req,
                       acsi_eip_driver::acsi_moveSelect::Response& res)
 {
-  ROS_INFO_STREAM("Move select: " << req.select);
-  if (!ss.host_control && ss.enabled && req.select > 0 && req.select <= 16)
+  if (ss.host_control) {
+    res.message = "Cannot enable Ethernet/IP";
+    res.success = false;
+  }
+  else if (!ss.enabled) {
+    res.message = "Drive not enabled";
+    res.success = false;
+  }
+  else if (req.select <= 0 || req.select > 16)
   {
-    so.drive_command = START;
-    so.move_select = req.select;
-    res.message = "Saved profile move";
-    return res.success = true;
+    res.message = "Bad motion profile";
+    res.success = false;
   }
   else
   {
-    res.message = "Cannot command drive";
-    return res.success = false;
+    so.drive_command = START | so.drive_command;
+    so.move_select = req.select;
+    res.message = "Saved profile move";
+    res.success = true;
   }
 
   return true;

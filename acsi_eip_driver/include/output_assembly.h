@@ -60,18 +60,18 @@ typedef enum {
   FORCE = 9,            // Press to Force (% current) (see manual for complete description)
   INC_POS_ROTARY = 11,  // Moves in the positive direction the distance specified
                         // by Target 0 Position at the defined motion profile.
-  // If position is commanded past the maximum distance, current postion is
-  // reset
+                        // If position is commanded past the maximum distance, current postion is
+                        // reset
   INC_NEG_ROTARY = 12,  // Moves in the negative direction the distance specified
                         // by Target 0 Position at the defined motion profile.
-  // If position is commanded past the maximum distance, current postion is
-  // reset
-  VELOCITY_FWD = 13,  // Starts a velocity move in positive direction at the
-                      // profile velocity and acceleration. When complete,
-                      // postion is cleared and un-homed.
-  VELOCITY_REV = 14   // Starts a velocity move in negative direction at the
-                      // profile velocity and acceleration. When complete, postion
-                      // is cleared and un-homed.
+                        // If position is commanded past the maximum distance, current postion is
+                        // reset
+  VELOCITY_FWD = 13,    // Starts a velocity move in positive direction at the
+                        // profile velocity and acceleration. When complete,
+                        // postion is cleared and un-homed.
+  VELOCITY_REV = 14     // Starts a velocity move in negative direction at the
+                        // profile velocity and acceleration. When complete, postion
+                        // is cleared and un-homed.
 } ACSI_MOTION_TYPE;
 
 /**
