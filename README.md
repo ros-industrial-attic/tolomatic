@@ -1,10 +1,10 @@
 # Overview
-ODVA confomrant Ethernet/IP interface drivers for Tolomatic stepper and servo controllers, where the ROS node is implimented as an Ethernet/IP adapter. Drivers depend on [odva_ethernetp]('https://github.com/ros-drivers/odva_ethernetip'), a ROS-ready library implimenting the Ethernet/IP protocol.
+ODVA conformant Ethernet/IP interface drivers for Tolomatic stepper and servo controllers, where the ROS node is implemented as an Ethernet/IP adapter. Drivers depend on [odva_ethernetp]('https://github.com/ros-drivers/odva_ethernetip'), a ROS-ready library implementing the Ethernet/IP protocol.
 
-Topics named _\*\_inputs_ are a direct echo of interface produced values, while _\*\_status_ topics are derived from elements of these inputs. Note that, in the case of _servo_status_, _target_postion_ and _position_error_ require TMI Network Assembly Remapping of Register 1 (Commanded Postion) and Register 2 (Actual Postion Error). For stepper, default mapping is used.
+Topics named _\*\_inputs_ are a direct echo of interface produced values, while _\*\_status_ topics are derived from elements of these inputs. Note that, in the case of _servo_status_, _target_position_ and _position_error_ require TMI Network Assembly Remapping of Register 1 (Commanded Position) and Register 2 (Actual Position Error). For stepper, default mapping is used.
 
 ## Implementation Limitations
-The [odva_ethernetp](https://github.com/ros-drivers/odva_ethernetip) driver support of implicit messaging has limitations for multiple devices on the same network, so stepper and ACSI servo controller interface is implimented using explicit messaging only.
+The [odva_ethernetp](https://github.com/ros-drivers/odva_ethernetip) driver support of implicit messaging has limitations for multiple devices on the same network, so stepper and ACSI servo controller interface is implemented using explicit messaging only.
 
 ## Reference
 * See config dirs for TMI configuration examples: [stepper](stepper_eip_driver/config) and [servo](acsi_eip_driver/config)
@@ -25,7 +25,7 @@ The [odva_ethernetp](https://github.com/ros-drivers/odva_ethernetip) driver supp
 mkdir -p catkin_ws/src
 cd catkin_ws
 catkin init
-git clone https://github.com/wpmccormick/tolomatic.git src/tolomatic
+git clone https://github.com/ros-industrial/tolomatic.git
 wstool init src
 wstool merge -t src src/tolomatic/.rosinstall
 wstool update -t src
@@ -46,7 +46,7 @@ roslaunch stepper_eip_driver stepper.launch
 
 # Nodes
 ## stepper_node
-The stepper_node uses the compact output assembly, and so requires TMI configuration under _Mode Setup_ for each desired move selection. At some point, the compact output assemply could be replaced by the _full assemply_, allowing for enhanced control features. See the manual for more detailed info.
+The stepper_node uses the compact output assembly, and so requires TMI configuration under _Mode Setup_ for each desired move selection. At some point, the compact output assembly could be replaced by the _full assembly_, allowing for enhanced control features. See the manual for more detailed info.
 ### Parameters
 - host: The IP address of the controller
 - local_ip: Local IP used for implicit messaging 
@@ -110,7 +110,7 @@ bool success
 ```
 
 ## servo_node
-The servo_node uses the full output assembly, where each service (generally) impliments a specific motion type. For service call parameters velocity, postion, and incriment, the parameter sign will control drive direction. See the manual for more detailed info.
+The servo_node uses the full output assembly, where each service (generally) implements a specific motion type. For service call parameters velocity, position, and increment, the parameter sign will control drive direction. See the manual for more detailed info.
 ### Parameters
 - host: The IP address of the controller
 - local_ip: Local IP used for implicit messaging
