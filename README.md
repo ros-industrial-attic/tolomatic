@@ -1,5 +1,5 @@
 # Overview
-ODVA confomrant Ethernet/IP interface drivers for Tolomatic stepper and servo controllers, where the ROS node is implimented as an Ethernet/IP adapter. Drivers depend on [odva_ethernetp]('https://github.com/ros-drivers/odva_ethernetip'), a ROS-ready library implimenting the Ethernet/IP protocol.
+ODVA conformant Ethernet/IP interface drivers for Tolomatic stepper and servo controllers, where the ROS node is implemented as an Ethernet/IP adapter. Drivers depend on [odva_ethernetp](https://github.com/ros-drivers/odva_ethernetip), a ROS-ready library implementing the Ethernet/IP protocol.
 
 Topics named _\*\_inputs_ are a direct echo of interface produced values, while _\*\_status_ topics are derived from elements of these inputs. Note that, in the case of _servo_status_, _target_postion_ and _position_error_ require TMI Network Assembly Remapping of Register 1 (Commanded Postion) and Register 2 (Actual Postion Error). For stepper, default mapping is used.
 
